@@ -22,6 +22,7 @@ The extra `nn` installs PyTorch, which `learned.py` needs. `requirements-py313.l
 - `src/latent_equivariance/homology.py`: relative cubical homology, signed actions, orbit and twisted complexes, index maps and reconstruction.
 - `src/latent_equivariance/certificates.py`: geometric block families and sampled residual checks on nonperiodic two-dimensional grids.
 - `src/latent_equivariance/learned.py`: group-averaged networks and float64 box enclosures.
+- `examples/`: dynamics, saved numerical results, figure reproduction, and interfaces for equivariant learning. See [the example commands](examples/README.md) and [the EMLP handoff](examples/emlp_handoff.md).
 
 ## Tests
 

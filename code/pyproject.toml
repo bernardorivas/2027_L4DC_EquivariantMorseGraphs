@@ -17,6 +17,10 @@ dependencies = [
 nn = [
     "torch",
 ]
+examples = [
+    "graphviz",
+    "pillow",
+]
 dev = [
     "pytest",
     "sympy",
