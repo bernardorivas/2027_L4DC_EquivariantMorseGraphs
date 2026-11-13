@@ -1,0 +1,23 @@
+{
+  "repository": "https://github.com/bernardorivas/latent-equivariant",
+  "revision": "21acca6b792f0082546fd40438613345701e7c0b",
+  "checkout": "vendor/latent-equivariant",
+  "examples": "code/examples",
+  "checked_on": "2026-11-12",
+  "files": {
+    "code/examples/check_systems.py": "f9ec4f9aae93125ab16cab208fcaef888ff99c07ef43e3061f7d9151dacb5f1f",
+    "code/examples/exact_enclosures.py": "7c8d4aff525970d951139b0506810733edda1230e907530d6f415206d280b77b",
+    "code/examples/figure_style.py": "cb58bf136881f91d0e241a04f345a660e146e8fa3702ed7486cfceaa2d38753f",
+    "code/examples/o3_geometry.py": "42ca2f0dd2b3f48fc7728a974dc00f35058dfbc6b108f7dc173e063941f60a71",
+    "code/examples/render.py": "5f5031b1ed98f17b592f6889249cbf0a0cdfdec626ea6445c870c70ceec72658",
+    "code/examples/render_o3.py": "56404a43341b736837d776749b2feed85f934a22f5a81d5c1a93f5aa73780006",
+    "code/examples/render_sphere_flow.py": "fb1b2fc9505d6101b27d1e6b3e968468d8da8f38c25eba74ff20a9df9a65cb83",
+    "code/examples/render_sphere_morse.py": "46fba029f86090913bf7734ff90d498f70f5e25d1927a46545ca96b0cb96c845",
+    "code/examples/replay.py": "0158e4f98a0b240b71459632aca860496e124101fb63ff460d4842634023815f",
+    "code/examples/sphere_geometry.py": "66a0fd3dc5a1679cadff787c487b39c91817c38a3d5f199dce518b59e84b77d3",
+    "code/examples/systems.py": "59395d7c84dc157577d38b7c7d06bc7ccddf224df2e6c5ff1bb3471f1eda44b6",
+    "code/examples/layout.json": "0fd9a08cec206d18b121793cd924553f1344d9e406dc984d25149f21ab2d06c9",
+    "code/examples/data/manifest.json": "e8d4edee2a4d19855d7bc6edeba6940337bb157a6b51afa055a4c51063d80235"
+  },
+  "scope": "Explicit enclosures recomputed; fitted supplied enclosures replayed through CMGDB. Original fit parameters and training routine are not supplied."
+}

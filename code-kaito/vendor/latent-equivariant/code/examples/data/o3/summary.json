@@ -1,0 +1,556 @@
+{
+  "cmgdb_version": "1.5.3+fork.7",
+  "runs": {
+    "explicit": {
+      "source_run": "explicit",
+      "inputs_sha256": {
+        "native-phase.npz": "e8d7141ae2da2300cba0fc5dc5281dc38437ad7e807827dcaaafa4e4eb641a43",
+        "native-results.json": "835095dbe936f4987ba20a66438dbcb217f960e4d7645b45e84c0c5e48687aa4",
+        "native-morse-graph.dot": "7a8d847a996966c2a46c804c187b50bcbd98ec4171307f59f03b2a669bedbb20"
+      },
+      "grid_shape": [
+        128,
+        128
+      ],
+      "domain_lower": [
+        -1.5,
+        0.0
+      ],
+      "domain_upper": [
+        1.5,
+        1.5
+      ],
+      "morse_nodes": {
+        "0": "A-",
+        "1": "A+",
+        "2": "C",
+        "3": "extra 3",
+        "4": "O"
+      },
+      "edges": [
+        [
+          2,
+          0
+        ],
+        [
+          2,
+          1
+        ],
+        [
+          3,
+          2
+        ],
+        [
+          4,
+          3
+        ]
+      ],
+      "anchors": {
+        "O": {
+          "coordinates": [
+            0.0,
+            0.0
+          ],
+          "closed_containing_cells": [
+            2730,
+            8192
+          ],
+          "closed_containing_morse_nodes": [
+            4
+          ],
+          "nonrecurrent_containing_cells": []
+        },
+        "C": {
+          "coordinates": [
+            0.0,
+            1.0
+          ],
+          "closed_containing_cells": [
+            7099,
+            12561
+          ],
+          "closed_containing_morse_nodes": [
+            2
+          ],
+          "nonrecurrent_containing_cells": []
+        },
+        "A+": {
+          "coordinates": [
+            1.0,
+            0.0
+          ],
+          "closed_containing_cells": [
+            10376
+          ],
+          "closed_containing_morse_nodes": [
+            1
+          ],
+          "nonrecurrent_containing_cells": []
+        },
+        "A-": {
+          "coordinates": [
+            -1.0,
+            0.0
+          ],
+          "closed_containing_cells": [
+            546
+          ],
+          "closed_containing_morse_nodes": [
+            0
+          ],
+          "nonrecurrent_containing_cells": []
+        }
+      },
+      "path_source": 4,
+      "path_target": 2,
+      "path_box_hull": [
+        -0.0234375,
+        0.0,
+        0.0234375,
+        1.0078125
+      ],
+      "image_cover_hull": [
+        -1.0546875,
+        0.0,
+        1.0546875,
+        1.04296875
+      ],
+      "strict_unresolved_a_span": [
+        -0.0234375,
+        0.0234375
+      ],
+      "counts": {
+        "full_window": {
+          "cells": 16384,
+          "singleton": {
+            "A+": 8064,
+            "A-": 8064,
+            "multiple Morse nodes": 256
+          },
+          "order_before_collapse": {
+            "A+": 8076,
+            "A-": 8076,
+            "C": 2,
+            "O": 2,
+            "extra 3": 2,
+            "multiple sinks": 226
+          },
+          "order_labels": {
+            "A+": 8076,
+            "A-": 8076,
+            "C": 228,
+            "O": 2,
+            "extra 3": 2
+          },
+          "order_only_sink_cells": 24,
+          "cells_reaching_both_sinks": 256,
+          "path_cells": 172,
+          "transient_path_cells": 166,
+          "unclassified_after_path": 84
+        },
+        "figure_window": {
+          "cells": 16384,
+          "singleton": {
+            "A+": 8064,
+            "A-": 8064,
+            "multiple Morse nodes": 256
+          },
+          "order_before_collapse": {
+            "A+": 8076,
+            "A-": 8076,
+            "C": 2,
+            "O": 2,
+            "extra 3": 2,
+            "multiple sinks": 226
+          },
+          "order_labels": {
+            "A+": 8076,
+            "A-": 8076,
+            "C": 228,
+            "O": 2,
+            "extra 3": 2
+          },
+          "order_only_sink_cells": 24,
+          "cells_reaching_both_sinks": 256,
+          "path_cells": 172,
+          "transient_path_cells": 166,
+          "unclassified_after_path": 84
+        },
+        "touches_a_zero": {
+          "cells": 256,
+          "singleton": {
+            "multiple Morse nodes": 256
+          },
+          "order_before_collapse": {
+            "A+": 12,
+            "A-": 12,
+            "C": 2,
+            "O": 2,
+            "extra 3": 2,
+            "multiple sinks": 226
+          },
+          "order_labels": {
+            "A+": 12,
+            "A-": 12,
+            "C": 228,
+            "O": 2,
+            "extra 3": 2
+          },
+          "order_only_sink_cells": 24,
+          "cells_reaching_both_sinks": 256,
+          "path_cells": 172,
+          "transient_path_cells": 166,
+          "unclassified_after_path": 84
+        },
+        "away_from_a_zero": {
+          "cells": 16128,
+          "singleton": {
+            "A+": 8064,
+            "A-": 8064
+          },
+          "order_before_collapse": {
+            "A+": 8064,
+            "A-": 8064
+          },
+          "order_labels": {
+            "A+": 8064,
+            "A-": 8064
+          },
+          "order_only_sink_cells": 0,
+          "cells_reaching_both_sinks": 0,
+          "path_cells": 0,
+          "transient_path_cells": 0,
+          "unclassified_after_path": 0
+        },
+        "one_step_image": {
+          "cells": 6338,
+          "singleton": {
+            "A+": 3080,
+            "A-": 3080,
+            "multiple Morse nodes": 178
+          },
+          "order_before_collapse": {
+            "A+": 3090,
+            "A-": 3090,
+            "C": 2,
+            "O": 2,
+            "extra 3": 2,
+            "multiple sinks": 152
+          },
+          "order_labels": {
+            "A+": 3090,
+            "A-": 3090,
+            "C": 154,
+            "O": 2,
+            "extra 3": 2
+          },
+          "order_only_sink_cells": 20,
+          "cells_reaching_both_sinks": 178,
+          "path_cells": 172,
+          "transient_path_cells": 166,
+          "unclassified_after_path": 6
+        },
+        "one_step_image_in_figure": {
+          "cells": 6338,
+          "singleton": {
+            "A+": 3080,
+            "A-": 3080,
+            "multiple Morse nodes": 178
+          },
+          "order_before_collapse": {
+            "A+": 3090,
+            "A-": 3090,
+            "C": 2,
+            "O": 2,
+            "extra 3": 2,
+            "multiple sinks": 152
+          },
+          "order_labels": {
+            "A+": 3090,
+            "A-": 3090,
+            "C": 154,
+            "O": 2,
+            "extra 3": 2
+          },
+          "order_only_sink_cells": 20,
+          "cells_reaching_both_sinks": 178,
+          "path_cells": 172,
+          "transient_path_cells": 166,
+          "unclassified_after_path": 6
+        }
+      }
+    },
+    "fitted": {
+      "source_run": "fitted",
+      "inputs_sha256": {
+        "native-phase.npz": "99b91ff03006ee1d5172a45c61f55e10de0a84cdba7b59ade4be997dfe363446",
+        "native-results.json": "f68f7441c91358113772898008ff6255d86342e26b64cd18f152d8cc7b2e9713",
+        "native-morse-graph.dot": "ef675c655a60c4ed90d7d6262b962e3173a92ae19fa51469e35c96f1186e5bcc"
+      },
+      "grid_shape": [
+        128,
+        128
+      ],
+      "domain_lower": [
+        -1.5,
+        0.0
+      ],
+      "domain_upper": [
+        1.5,
+        1.5
+      ],
+      "morse_nodes": {
+        "0": "A-",
+        "1": "A+",
+        "2": "C",
+        "3": "O"
+      },
+      "edges": [
+        [
+          2,
+          0
+        ],
+        [
+          2,
+          1
+        ],
+        [
+          3,
+          2
+        ]
+      ],
+      "anchors": {
+        "O": {
+          "coordinates": [
+            0.0,
+            0.0
+          ],
+          "closed_containing_cells": [
+            2730,
+            8192
+          ],
+          "closed_containing_morse_nodes": [
+            3
+          ]
+        },
+        "C": {
+          "coordinates": [
+            0.0,
+            0.9551773079567111
+          ],
+          "closed_containing_cells": [
+            7083,
+            12545
+          ],
+          "closed_containing_morse_nodes": [
+            2
+          ]
+        },
+        "A+": {
+          "coordinates": [
+            1.089383249856941,
+            0.0
+          ],
+          "closed_containing_cells": [
+            10408
+          ],
+          "closed_containing_morse_nodes": [
+            1
+          ]
+        },
+        "A-": {
+          "coordinates": [
+            -1.089383249856941,
+            0.0
+          ],
+          "closed_containing_cells": [
+            514
+          ],
+          "closed_containing_morse_nodes": [
+            0
+          ]
+        }
+      },
+      "path_source": 3,
+      "path_target": 2,
+      "path_box_hull": [
+        -0.0234375,
+        0.0,
+        0.0234375,
+        0.9609375
+      ],
+      "image_cover_hull": [
+        -1.125,
+        0.0,
+        1.125,
+        0.99609375
+      ],
+      "strict_unresolved_a_span": [
+        -0.0234375,
+        0.0234375
+      ],
+      "counts": {
+        "full_window": {
+          "cells": 16384,
+          "singleton": {
+            "A+": 8064,
+            "A-": 8064,
+            "multiple Morse nodes": 256
+          },
+          "order_before_collapse": {
+            "A+": 8071,
+            "A-": 8071,
+            "C": 2,
+            "O": 2,
+            "multiple sinks": 238
+          },
+          "order_labels": {
+            "A+": 8071,
+            "A-": 8071,
+            "C": 240,
+            "O": 2
+          },
+          "order_only_sink_cells": 14,
+          "cells_reaching_both_sinks": 256,
+          "path_cells": 164,
+          "transient_path_cells": 160,
+          "unclassified_after_path": 92
+        },
+        "figure_window": {
+          "cells": 16384,
+          "singleton": {
+            "A+": 8064,
+            "A-": 8064,
+            "multiple Morse nodes": 256
+          },
+          "order_before_collapse": {
+            "A+": 8071,
+            "A-": 8071,
+            "C": 2,
+            "O": 2,
+            "multiple sinks": 238
+          },
+          "order_labels": {
+            "A+": 8071,
+            "A-": 8071,
+            "C": 240,
+            "O": 2
+          },
+          "order_only_sink_cells": 14,
+          "cells_reaching_both_sinks": 256,
+          "path_cells": 164,
+          "transient_path_cells": 160,
+          "unclassified_after_path": 92
+        },
+        "touches_a_zero": {
+          "cells": 256,
+          "singleton": {
+            "multiple Morse nodes": 256
+          },
+          "order_before_collapse": {
+            "A+": 7,
+            "A-": 7,
+            "C": 2,
+            "O": 2,
+            "multiple sinks": 238
+          },
+          "order_labels": {
+            "A+": 7,
+            "A-": 7,
+            "C": 240,
+            "O": 2
+          },
+          "order_only_sink_cells": 14,
+          "cells_reaching_both_sinks": 256,
+          "path_cells": 164,
+          "transient_path_cells": 160,
+          "unclassified_after_path": 92
+        },
+        "away_from_a_zero": {
+          "cells": 16128,
+          "singleton": {
+            "A+": 8064,
+            "A-": 8064
+          },
+          "order_before_collapse": {
+            "A+": 8064,
+            "A-": 8064
+          },
+          "order_labels": {
+            "A+": 8064,
+            "A-": 8064
+          },
+          "order_only_sink_cells": 0,
+          "cells_reaching_both_sinks": 0,
+          "path_cells": 0,
+          "transient_path_cells": 0,
+          "unclassified_after_path": 0
+        },
+        "one_step_image": {
+          "cells": 6592,
+          "singleton": {
+            "A+": 3211,
+            "A-": 3211,
+            "multiple Morse nodes": 170
+          },
+          "order_before_collapse": {
+            "A+": 3216,
+            "A-": 3216,
+            "C": 2,
+            "O": 2,
+            "multiple sinks": 156
+          },
+          "order_labels": {
+            "A+": 3216,
+            "A-": 3216,
+            "C": 158,
+            "O": 2
+          },
+          "order_only_sink_cells": 10,
+          "cells_reaching_both_sinks": 170,
+          "path_cells": 164,
+          "transient_path_cells": 160,
+          "unclassified_after_path": 6
+        },
+        "one_step_image_in_figure": {
+          "cells": 6592,
+          "singleton": {
+            "A+": 3211,
+            "A-": 3211,
+            "multiple Morse nodes": 170
+          },
+          "order_before_collapse": {
+            "A+": 3216,
+            "A-": 3216,
+            "C": 2,
+            "O": 2,
+            "multiple sinks": 156
+          },
+          "order_labels": {
+            "A+": 3216,
+            "A-": 3216,
+            "C": 158,
+            "O": 2
+          },
+          "order_only_sink_cells": 10,
+          "cells_reaching_both_sinks": 170,
+          "path_cells": 164,
+          "transient_path_cells": 160,
+          "unclassified_after_path": 6
+        }
+      }
+    }
+  },
+  "matched_grid": {
+    "box_widths": [
+      0.0234375,
+      0.01171875
+    ],
+    "identical_cell_order": true,
+    "subdivision_depth": [
+      14,
+      14,
+      14
+    ]
+  }
+}
