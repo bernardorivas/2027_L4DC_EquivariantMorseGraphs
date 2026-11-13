@@ -1,0 +1,29 @@
+{
+  "section_points": 66049,
+  "latent_distance_threshold": 0.004,
+  "physical_distance_threshold": 0.05,
+  "sampled_near_collision_candidates": 0,
+  "near_collision_pairs": [],
+  "raw_encoder_output_range_along_radius": [
+    0.0038031604618016246,
+    0.0032576855715493735
+  ],
+  "input_representation_packing_error": 2.627311768144125e-08,
+  "input_representation_packing_tolerance": 2e-06,
+  "best_diagonal_coordinate_gains": [
+    1.220919166915443,
+    0.8201844767001363
+  ],
+  "rms_deviation_from_diagonal_coordinate_change": 0.0008688046493219696,
+  "sampled_encoder_gain_ranges": [
+    [
+      1.2203061383584968,
+      1.221328476995389
+    ],
+    [
+      0.8190531724045069,
+      0.8222846157721171
+    ]
+  ],
+  "evidence_status": "sampled diagnostic, not proof of global orbit separation"
+}

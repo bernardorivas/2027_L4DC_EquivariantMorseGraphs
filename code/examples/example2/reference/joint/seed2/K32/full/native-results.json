@@ -1,0 +1,126 @@
+{
+  "grid_shape": [
+    32,
+    32
+  ],
+  "domain_lower": [
+    -2.0,
+    0.0
+  ],
+  "domain_upper": [
+    2.0,
+    2.0
+  ],
+  "nodes": [
+    {
+      "node": 0,
+      "cell_ids": [
+        40
+      ],
+      "cells": 1,
+      "annotations": [
+        "x-1",
+        "0",
+        "0"
+      ],
+      "active_cells": 1,
+      "can_reach_unsampled_cell": false,
+      "hull": [
+        -1.25,
+        0.0,
+        -1.125,
+        0.0625
+      ]
+    },
+    {
+      "node": 1,
+      "cell_ids": [
+        642
+      ],
+      "cells": 1,
+      "annotations": [
+        "x-1",
+        "0",
+        "0"
+      ],
+      "active_cells": 1,
+      "can_reach_unsampled_cell": false,
+      "hull": [
+        1.125,
+        0.0,
+        1.25,
+        0.0625
+      ]
+    },
+    {
+      "node": 2,
+      "cell_ids": [
+        250,
+        251,
+        592,
+        593
+      ],
+      "cells": 4,
+      "annotations": [
+        "0",
+        "x-1",
+        "0"
+      ],
+      "active_cells": 4,
+      "can_reach_unsampled_cell": false,
+      "hull": [
+        -0.125,
+        0.75,
+        0.125,
+        0.875
+      ]
+    },
+    {
+      "node": 3,
+      "cell_ids": [
+        170,
+        512
+      ],
+      "cells": 2,
+      "annotations": [
+        "0",
+        "0",
+        "0"
+      ],
+      "active_cells": 2,
+      "can_reach_unsampled_cell": false,
+      "hull": [
+        -0.125,
+        0.0,
+        0.125,
+        0.0625
+      ]
+    }
+  ],
+  "edges": [
+    [
+      2,
+      0
+    ],
+    [
+      2,
+      1
+    ],
+    [
+      3,
+      2
+    ]
+  ],
+  "raw_native_node_count": 4,
+  "image_status": "sampled hulls, 5 by 5 points/cell, padding 1e-10; not validated",
+  "occupancy_restricted": false,
+  "coefficient_field": 5,
+  "annotation_space": "quotient coordinates only",
+  "active_cells": 600,
+  "inactive_cells": 424,
+  "known_to_unsampled_edges": 0,
+  "known_sources_with_unsampled_targets": 0,
+  "occupancy_rule": "at least one encoded training/validation trajectory sample in the closed cell",
+  "unknown_boundary": "full frozen learned map",
+  "evidence_status": "numerical approximation"
+}

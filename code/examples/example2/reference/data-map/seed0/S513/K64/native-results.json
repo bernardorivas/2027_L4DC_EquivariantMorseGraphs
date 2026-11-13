@@ -1,0 +1,168 @@
+{
+  "grid_shape": [
+    64,
+    64
+  ],
+  "domain_lower": [
+    -2.0,
+    0.0
+  ],
+  "domain_upper": [
+    2.0,
+    2.0
+  ],
+  "nodes": [
+    {
+      "node": 0,
+      "cell_ids": [
+        160
+      ],
+      "cells": 1,
+      "annotations": [
+        "x-1",
+        "0",
+        "0"
+      ],
+      "active_cells": 1,
+      "can_reach_unsampled_cell": false,
+      "hull": [
+        -1.25,
+        0.0,
+        -1.1875,
+        0.03125
+      ]
+    },
+    {
+      "node": 1,
+      "cell_ids": [
+        2570
+      ],
+      "cells": 1,
+      "annotations": [
+        "x-1",
+        "0",
+        "0"
+      ],
+      "active_cells": 1,
+      "can_reach_unsampled_cell": false,
+      "hull": [
+        1.1875,
+        0.0,
+        1.25,
+        0.03125
+      ]
+    },
+    {
+      "node": 2,
+      "cell_ids": [
+        1006,
+        2372
+      ],
+      "cells": 2,
+      "annotations": [],
+      "active_cells": 2,
+      "can_reach_unsampled_cell": false,
+      "hull": [
+        -0.0625,
+        0.8125,
+        0.0625,
+        0.84375
+      ]
+    },
+    {
+      "node": 3,
+      "cell_ids": [
+        1003,
+        2369
+      ],
+      "cells": 2,
+      "annotations": [
+        "0",
+        "0",
+        "0"
+      ],
+      "active_cells": 2,
+      "can_reach_unsampled_cell": false,
+      "hull": [
+        -0.0625,
+        0.78125,
+        0.0625,
+        0.8125
+      ]
+    },
+    {
+      "node": 4,
+      "cell_ids": [
+        682,
+        2048
+      ],
+      "cells": 2,
+      "annotations": [
+        "0",
+        "0",
+        "0"
+      ],
+      "active_cells": 2,
+      "can_reach_unsampled_cell": false,
+      "hull": [
+        -0.0625,
+        0.0,
+        0.0625,
+        0.03125
+      ]
+    }
+  ],
+  "edges": [
+    [
+      2,
+      0
+    ],
+    [
+      2,
+      1
+    ],
+    [
+      3,
+      2
+    ],
+    [
+      4,
+      3
+    ]
+  ],
+  "raw_native_node_count": 5,
+  "image_status": "sampled images of encoded physical sources; not validated",
+  "occupancy_restricted": true,
+  "coefficient_field": 5,
+  "annotation_space": "quotient coordinates only",
+  "active_cells": 2400,
+  "inactive_cells": 1696,
+  "known_to_unsampled_edges": 0,
+  "known_sources_with_unsampled_targets": 0,
+  "occupancy_rule": "at least one encoded physical-section source sample in the closed cell",
+  "unknown_boundary": "BoxMapData map_empty=outside; no interpolation or domain padding",
+  "evidence_status": "numerical approximation",
+  "construction": {
+    "method": "CMGDB.BoxMapData",
+    "pairs": "(E(x), f(E(x)))",
+    "source_section_size": 513,
+    "source_pairs": 263173,
+    "physical_domain": [
+      [
+        -1.5,
+        0.0
+      ],
+      [
+        1.5,
+        1.5
+      ]
+    ],
+    "source_recipe": "uniform physical orbit section plus four physical equilibrium-orbit controls",
+    "map_empty": "outside",
+    "domain_padding": false,
+    "padding": false,
+    "learned_map_evaluations_outside_encoded_sources": 0,
+    "encoded_sources_sha256": "b4b1b5d4ef5884f64e1e3b9c3ef806f9685a4344b20d6eb8ef072cc6685d71a0",
+    "learned_images_sha256": "2c136963a94690514d4b190619a49580374da08fd9bdc380eaef552a26aa4b7f"
+  }
+}

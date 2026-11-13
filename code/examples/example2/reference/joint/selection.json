@@ -1,0 +1,18 @@
+{
+  "criterion": "lowest validation loss, selected before CMGDB",
+  "selected_seed": 1,
+  "ranking": [
+    {
+      "seed": 1,
+      "validation": 5.3541442189061356e-05
+    },
+    {
+      "seed": 0,
+      "validation": 5.9913462095417236e-05
+    },
+    {
+      "seed": 2,
+      "validation": 0.00010134052425748436
+    }
+  ]
+}

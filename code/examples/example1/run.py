@@ -8,28 +8,8 @@ import sys
 HERE = Path(__file__).resolve().parent
 sys.path.insert(0, str(HERE.parent))
 
-from common.workflow import digest, new_output, read, require_environment, run_module, verify_inputs, write
-
-
-def compare_metrics(expected, actual, location=""):
-    """Compare the reported numerical diagnostics, including validation loss."""
-    import numpy as np
-    checked = 0
-    for key, value in expected.items():
-        label = f"{location}/{key}"
-        if isinstance(value, dict):
-            checked += compare_metrics(value, actual[key], label)
-        elif isinstance(value, list):
-            if len(value) != len(actual[key]):
-                raise ValueError(f"Diagnostic length mismatch at {label}")
-            checked += compare_metrics(dict(enumerate(value)), dict(enumerate(actual[key])), label)
-        elif isinstance(value, (float, int)) and not isinstance(value, bool):
-            if not np.isclose(value, actual[key], rtol=1e-6, atol=1e-9):
-                raise ValueError(f"Diagnostic mismatch at {label}: {value} versus {actual[key]}")
-            checked += 1
-        elif value != actual[key]:
-            raise ValueError(f"Diagnostic mismatch at {label}")
-    return checked
+from common.workflow import (compare_metrics, digest, new_output, read, require_environment,
+                             run_module, verify_inputs, write)
 
 
 def joint(args):

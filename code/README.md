@@ -24,9 +24,9 @@ python examples/example1/run.py replay --out outputs/example1-replay
 python examples/example1/run.py train --out outputs/example1-new-fit
 ```
 
-Replay loads the bundled data and checkpoint and checks against the saved result. Training fits a new model with the supplied data and configuration. Both produce diagnostics, native graph outputs, and a comparison PDF. The [example index](examples/README.md) lists the commands available for Examples 2 and 3. Each example README states its mathematical setup, data format, expected results, and numerical limitations.
+Replay loads the bundled data and checkpoint and checks against the saved result. Training fits a new model with the supplied data and configuration. Both produce diagnostics, native graph outputs, and PDF reports. Example 2 uses the same `replay` and `train` commands and adds native `CMGDB.BoxMapData` construction from encoded physical sources, sampling-density comparisons, numerical regions of attraction, and physical inverse images. Its latent grid is fixed at $64\times64$, with empty cells left unavailable, and its report is `results.pdf`. The [example index](examples/README.md) lists the commands available for all three examples. Each README states its mathematical setup, data format, expected results, and numerical limitations.
 
-Use a new output directory for every run. `outputs/` is ignored by Git, and supplied data and references stay unchanged. Reference inputs have SHA-256 manifests. Example 1 keeps the new joint interval fit and the older manuscript fit in separate reference directories.
+Use a new output directory for every run. `outputs/` is ignored by Git, and supplied data and references stay unchanged. Reference inputs have SHA-256 manifests. Examples 1 and 2 keep their new joint fits and older manuscript fits in separate reference directories.
 
 ## Library and tests
 

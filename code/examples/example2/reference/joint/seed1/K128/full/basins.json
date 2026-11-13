@@ -1,0 +1,44 @@
+{
+  "method": "CMGDB.MorseSingletonReachability, MorseReachabilityMasks, and MorseDirectedPathCells",
+  "sink_nodes": {
+    "A-": 0,
+    "A+": 2
+  },
+  "origin_node": 5,
+  "saddle_node": 4,
+  "grid": 128,
+  "counts": {
+    "full_grid": {
+      "cells": 16384,
+      "minus": 1020,
+      "plus": 1028,
+      "unresolved": 4983,
+      "unknown": 749,
+      "unsupported": 9353,
+      "path_cells": 106
+    },
+    "active": {
+      "cells": 7031,
+      "minus": 1020,
+      "plus": 1028,
+      "unresolved": 4983,
+      "unknown": 749,
+      "unsupported": 0,
+      "path_cells": 106
+    },
+    "image_cover": {
+      "cells": 3630,
+      "minus": 35,
+      "plus": 32,
+      "unresolved": 3563,
+      "unknown": 575,
+      "unsupported": 0,
+      "path_cells": 106
+    }
+  },
+  "criterion": "the only reachable Morse node is that sink, and no unsupported cell is reachable",
+  "image_cover": "cells with an incoming native cell-graph edge, restricted to active cells for learned panels",
+  "phase_sha256": "9f63b27a612aa8b865461609f324c461f44dfbe9f7a28c2d56111e719fa09f0d",
+  "forward_invariance_of_safe_basin_cells_checked": true,
+  "evidence_status": "exact finite-graph reachability; learned box images and domain coverage remain numerical"
+}

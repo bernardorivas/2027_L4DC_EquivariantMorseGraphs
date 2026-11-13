@@ -1,0 +1,94 @@
+{
+  "seed": 0,
+  "source_size": 513,
+  "source_pairs": 263173,
+  "grid": 64,
+  "nodes": 5,
+  "edges": [
+    [
+      2,
+      0
+    ],
+    [
+      2,
+      1
+    ],
+    [
+      3,
+      2
+    ],
+    [
+      4,
+      3
+    ]
+  ],
+  "annotations": [
+    [
+      "x-1",
+      "0",
+      "0"
+    ],
+    [
+      "x-1",
+      "0",
+      "0"
+    ],
+    [],
+    [
+      "0",
+      "0",
+      "0"
+    ],
+    [
+      "0",
+      "0",
+      "0"
+    ]
+  ],
+  "supported_cells": 2400,
+  "unsupported_cells": 1696,
+  "minimum_sources_per_supported_cell": 15,
+  "median_sources_per_supported_cell": 117.0,
+  "known_to_unsampled_edges": 0,
+  "basins_available": true,
+  "basin_counts": {
+    "full_grid": {
+      "cells": 4096,
+      "minus": 1160,
+      "plus": 1160,
+      "unresolved": 80,
+      "unknown": 0,
+      "unsupported": 1696,
+      "path_cells": 54
+    },
+    "active": {
+      "cells": 2400,
+      "minus": 1160,
+      "plus": 1160,
+      "unresolved": 80,
+      "unknown": 0,
+      "unsupported": 0,
+      "path_cells": 54
+    },
+    "image_cover": {
+      "cells": 927,
+      "minus": 435,
+      "plus": 438,
+      "unresolved": 54,
+      "unknown": 0,
+      "unsupported": 0,
+      "path_cells": 54
+    }
+  },
+  "replay": {
+    "available": false
+  },
+  "change_from_previous_density": {
+    "nested_sample_image_inclusion_checked": true,
+    "new_supported_cells": 0,
+    "added_transition_edges": 921,
+    "same_morse_cells_edges_and_annotations": true,
+    "minimum_sources_per_supported_cell": 15,
+    "changed_signed_basin_cells": 0
+  }
+}

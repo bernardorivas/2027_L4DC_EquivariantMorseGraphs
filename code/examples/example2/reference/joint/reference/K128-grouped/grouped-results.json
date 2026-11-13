@@ -1,0 +1,94 @@
+{
+  "grid_shape": [
+    128,
+    128
+  ],
+  "nodes": [
+    {
+      "node": 0,
+      "original_nodes": [
+        0
+      ],
+      "cell_ids": [
+        546
+      ],
+      "cells": 1,
+      "annotations": [
+        "x-1",
+        "0",
+        "0"
+      ]
+    },
+    {
+      "node": 1,
+      "original_nodes": [
+        1
+      ],
+      "cell_ids": [
+        10376
+      ],
+      "cells": 1,
+      "annotations": [
+        "x-1",
+        "0",
+        "0"
+      ]
+    },
+    {
+      "node": 2,
+      "original_nodes": [
+        2,
+        3
+      ],
+      "cell_ids": [
+        7098,
+        7099,
+        12560,
+        12561
+      ],
+      "cells": 4,
+      "annotations": [
+        "0",
+        "x-1",
+        "0"
+      ]
+    },
+    {
+      "node": 3,
+      "original_nodes": [
+        4
+      ],
+      "cell_ids": [
+        2730,
+        8192
+      ],
+      "cells": 2,
+      "annotations": [
+        "0",
+        "0",
+        "0"
+      ]
+    }
+  ],
+  "edges": [
+    [
+      2,
+      0
+    ],
+    [
+      2,
+      1
+    ],
+    [
+      3,
+      2
+    ]
+  ],
+  "grouped_native_nodes": [
+    2,
+    3
+  ],
+  "annotation_space": "quotient",
+  "raw_native_node_count": 5,
+  "explanation": "native directed-path cells and their recomputed index; empty-invariant-set component grouped only for display"
+}

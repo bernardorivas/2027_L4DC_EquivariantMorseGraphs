@@ -78,3 +78,24 @@ def manuscript_run(example, destination):
     run_module("common.paper_replay", "--example", example, "--out", out / "computation", "--recompute-explicit")
     run_module("common.paper_figures", "--example", example, "--data", out / "computation", "--out", out / "figures")
     print(f"Completed manuscript replay: {out}", flush=True)
+
+
+def compare_metrics(expected, actual, location=""):
+    """Check nested numerical diagnostics with the shared replay tolerances."""
+    import numpy as np
+    checked = 0
+    for key, value in expected.items():
+        label = f"{location}/{key}"
+        if isinstance(value, dict):
+            checked += compare_metrics(value, actual[key], label)
+        elif isinstance(value, list):
+            if len(value) != len(actual[key]):
+                raise ValueError(f"Diagnostic length mismatch at {label}")
+            checked += compare_metrics(dict(enumerate(value)), dict(enumerate(actual[key])), label)
+        elif isinstance(value, (float, int)) and not isinstance(value, bool):
+            if not np.isclose(value, actual[key], rtol=1e-6, atol=1e-9):
+                raise ValueError(f"Diagnostic mismatch at {label}: {value} versus {actual[key]}")
+            checked += 1
+        elif value != actual[key]:
+            raise ValueError(f"Diagnostic mismatch at {label}")
+    return checked

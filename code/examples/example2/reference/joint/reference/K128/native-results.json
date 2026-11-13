@@ -1,0 +1,149 @@
+{
+  "grid_shape": [
+    128,
+    128
+  ],
+  "domain_lower": [
+    -1.5,
+    0.0
+  ],
+  "domain_upper": [
+    1.5,
+    1.5
+  ],
+  "nodes": [
+    {
+      "node": 0,
+      "cell_ids": [
+        546
+      ],
+      "cells": 1,
+      "annotations": [
+        "x-1",
+        "0",
+        "0"
+      ],
+      "active_cells": 1,
+      "can_reach_unsampled_cell": false,
+      "hull": [
+        -1.0078125,
+        0.0,
+        -0.984375,
+        0.01171875
+      ]
+    },
+    {
+      "node": 1,
+      "cell_ids": [
+        10376
+      ],
+      "cells": 1,
+      "annotations": [
+        "x-1",
+        "0",
+        "0"
+      ],
+      "active_cells": 1,
+      "can_reach_unsampled_cell": false,
+      "hull": [
+        0.984375,
+        0.0,
+        1.0078125,
+        0.01171875
+      ]
+    },
+    {
+      "node": 2,
+      "cell_ids": [
+        7099,
+        12561
+      ],
+      "cells": 2,
+      "annotations": [
+        "0",
+        "x-1",
+        "0"
+      ],
+      "active_cells": 2,
+      "can_reach_unsampled_cell": false,
+      "hull": [
+        -0.0234375,
+        0.99609375,
+        0.0234375,
+        1.0078125
+      ]
+    },
+    {
+      "node": 3,
+      "cell_ids": [
+        7098,
+        12560
+      ],
+      "cells": 2,
+      "annotations": [
+        "0",
+        "0",
+        "0"
+      ],
+      "active_cells": 2,
+      "can_reach_unsampled_cell": false,
+      "hull": [
+        -0.0234375,
+        0.984375,
+        0.0234375,
+        0.99609375
+      ]
+    },
+    {
+      "node": 4,
+      "cell_ids": [
+        2730,
+        8192
+      ],
+      "cells": 2,
+      "annotations": [
+        "0",
+        "0",
+        "0"
+      ],
+      "active_cells": 2,
+      "can_reach_unsampled_cell": false,
+      "hull": [
+        -0.0234375,
+        0.0,
+        0.0234375,
+        0.01171875
+      ]
+    }
+  ],
+  "edges": [
+    [
+      2,
+      0
+    ],
+    [
+      2,
+      1
+    ],
+    [
+      3,
+      2
+    ],
+    [
+      4,
+      3
+    ]
+  ],
+  "raw_native_node_count": 5,
+  "image_status": "exact rational squared comparisons for radical endpoints",
+  "occupancy_restricted": false,
+  "coefficient_field": 5,
+  "annotation_space": "quotient coordinates only",
+  "active_cells": 16384,
+  "inactive_cells": 0,
+  "known_to_unsampled_edges": 0,
+  "known_sources_with_unsampled_targets": 0,
+  "occupancy_rule": "at least one encoded training/validation trajectory sample in the closed cell",
+  "unknown_boundary": "full frozen learned map",
+  "evidence_status": "exact reference box images; native induced-map limitations apply"
+}

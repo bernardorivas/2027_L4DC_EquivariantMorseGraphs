@@ -15,7 +15,7 @@ Run this from `code/`. It loads the exact data and saved weights for the joint i
 | Folder | Physical system | Available work |
 |---|---|---|
 | [example1](code/examples/example1/README.md) | SO(2) flow on the sphere | Checked checkpoint replay, joint training, and separate reproduction of the older manuscript panels |
-| [example2](code/examples/example2/README.md) | O(3) flow on a subset of R4 | Saved manuscript computations and panels, plus physical data generation |
+| [example2](code/examples/example2/README.md) | O(3) flow on a subset of R4 | Joint learning and checked BoxMapData replay at 64 x 64, physical sampling comparisons, numerical basins and physical preimages, and data generation |
 | [example3](code/examples/example3/README.md) | Reduced attitude control | Reference thrust-axis quotient calculations and full-plant data generation |
 
 The READMEs identify the actual dataset, representations, learned maps, and time steps. Each workflow writes to a new directory in `code/outputs/`. Input data and frozen references have separate locations. Fresh training results can differ from saved checkpoints, so compare both numerical errors and actual native graphs.

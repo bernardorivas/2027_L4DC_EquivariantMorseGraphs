@@ -1,0 +1,69 @@
+{
+  "seed": 1,
+  "steps": 20000,
+  "width": 32,
+  "layers": 2,
+  "batch": 512,
+  "best_step": 19900,
+  "best_validation": 5.3541442189061356e-05,
+  "seconds": 1452.6453459579934,
+  "parameter_changes": {
+    "encoder": 3.3079610388985086,
+    "decoder": 1.2285535844473607,
+    "dynamics": 6.476135592763093
+  },
+  "parameters": {
+    "encoder": 11874,
+    "decoder": 1218,
+    "dynamics": 1218
+  },
+  "encoder_representation": "T(0)+V -> 2*T(0)",
+  "encoder_hidden_representation": "16*T(0)+16*V",
+  "decoder_and_dynamics_hidden_representation": "32*T(0)",
+  "prescribed_geometry": {
+    "orbit_skip": "(a,norm(v))",
+    "encoder_gain_log_bound": 0.2,
+    "decoder_gain_log_bound": 0.35,
+    "time_gain_log_bound": 3.0,
+    "latent_lower": [
+      -2.0,
+      0.0
+    ],
+    "latent_upper": [
+      2.0,
+      2.0
+    ],
+    "decoder_clip": [
+      [
+        -1.5,
+        0.0
+      ],
+      [
+        1.5,
+        1.5
+      ]
+    ],
+    "time_output": "2*tanh(z*exp(3*tanh(network(z/2)))/2)",
+    "scalar_sign_and_radial_zero_preserved": true,
+    "learned_object": "coordinate change on the known orbit space; not discovery of the quotient"
+  },
+  "training": "joint, three unit-weight squared Euclidean losses",
+  "time_step": 1.0986122886681098,
+  "versions": {
+    "emlp": "1.0.3",
+    "objax": "1.8.0",
+    "jax": "0.4.38",
+    "numpy": "2.3.5",
+    "scipy": "1.15.3",
+    "cmgdb": "1.5.3+fork.7"
+  },
+  "weights_sha256": "dd10ad17adb837cd6d82c738323babf75d170e8e1be2bb4b64e10825fe21c357",
+  "source_sha256": "0ec444f4c46fedfc1090058f201b9894d8a95b178e13163f37170ed0edcda958",
+  "original_weights_sha256": "f0cdab571dea26911501358c4d65287bad8a520806327d0d5d8316e583c9c613",
+  "weights_format": "numeric-ordered-v1",
+  "recipe": {
+    "encoder_gain_log_bound": 0.2,
+    "decoder_gain_log_bound": 0.35,
+    "time_gain_log_bound": 3.0
+  }
+}
