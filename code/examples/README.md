@@ -1,46 +1,42 @@
 # Examples
 
-The sphere and O(3) examples include the numerical inputs and plotting code for their twelve figure panels. The third example is reduced attitude control on the sphere. The model interfaces and the EMLP fitting workflow are described in [emlp_handoff.md](emlp_handoff.md).
+The numbered folders follow the order of the three examples in the manuscript. Start with the [installation and environment check](../README.md#setup). Run every command below from `code/` with that environment activated. Each command requires a new output directory under `outputs/`.
 
-Run the commands below from `code/`. Install Python dependencies and CMGDB as described in [../README.md](../README.md), then install the plotting dependencies with `.venv313/bin/pip install -e ".[examples]"`. Rendering also requires Graphviz (`dot`) and Poppler (`pdftoppm` and `pdfinfo`).
+| Folder | Model | Available workflows |
+|---|---|---|
+| [example1](example1/README.md) | SO(2) flow on the sphere | Replay the joint interval fit; train a new joint fit; reproduce the older manuscript panels |
+| [example2](example2/README.md) | O(3) flow on a subset of R4 | Reproduce the supplied manuscript computations and panels; generate physical trajectories |
+| [example3](example3/README.md) | Reduced attitude control | Compute the reference thrust-axis quotient graphs; generate full-plant trajectories |
 
-## Figures
-
-```bash
-.venv313/bin/python examples/render.py --out examples/output
-```
-
-The output has `sphere/flow/`, `sphere/morse/`, and `o3/` directories containing six sphere panels and six O(3) panels. Use `--example sphere` or `--example o3` to select one example. `layout.json` contains the printed widths used to set graph strokes.
-
-## Computations
+## Start with Example 1
 
 ```bash
-.venv313/bin/python examples/replay.py --out examples/runs
-.venv313/bin/python examples/render.py --data examples/runs --out examples/output-replayed
+python examples/example1/run.py replay --out outputs/example1-replay
 ```
 
-This runs CMGDB on the supplied image enclosures and checks the resulting cells, graph edges, and quotient index annotations against the supplied results. For O(3), it also recomputes the single-sink regions, directed-path cells, one-step image cover, and the index of the grouped saddle region. The explicit O(3) grid has five native components, and its displayed graph groups the empty component with the saddle. The fitted grid has four native components.
+This loads the supplied data and weights, recomputes the diagnostics and native CMGDB results, checks them against the frozen reference, and writes `outputs/example1-replay/sphere-emlp-comparison.pdf`. The report includes all three seeds. Seed 1 is selected by validation loss.
 
-To recompute the explicit image enclosures before running CMGDB:
+To train new models with the same data and settings:
 
 ```bash
-.venv313/bin/python examples/replay.py --recompute-explicit --out examples/runs-explicit
+python examples/example1/run.py train --out outputs/example1-new-fit
 ```
 
-The sphere enclosures use the separated height equation with rational bounds for its exponential factor. The O(3) enclosures use exact coordinate extrema and rational square comparisons. The command checks that these image enclosures agree bit for bit with the supplied arrays. The learned columns use the supplied fitted image enclosures. Fitting new models and constructing their enclosures are separate steps in [emlp_handoff.md](emlp_handoff.md).
+Replay checks an existing learned map. Training fits a new one and reports its agreement or disagreement with the supplied fit. A different graph from a new training run is a numerical result, not by itself an installation failure. The Example 1 README gives the expected metrics and graph counts for each seed.
 
-CMGDB quotient annotations use coefficients in the field with five elements. The O(3) original-space graph uses the analytic index formulas. The renderer checks the quotient graph against the expected order and annotations before drawing it.
+## Other examples
+
+```bash
+python examples/example2/run.py replay --out outputs/example2-replay
+python examples/example3/run.py replay --out outputs/example3-reference
+```
+
+Example 2 includes the saved manuscript fit and its image enclosures. Its new joint-training workflow is not included. Example 3 includes a reference calculation for the thrust-axis subsystem at zero angular-velocity error; a full-plant learned checkpoint is not included. Their READMEs specify the available data commands and the scope of each result.
 
 ## Files
 
-| File or directory | Contents |
-|---|---|
-| `systems.py` | Dynamics, state sampling, observations, and symmetry actions for the three examples |
-| `render.py` | Figure generation from supplied or replayed results |
-| `replay.py` | Native CMGDB computations and comparisons |
-| `exact_enclosures.py` | Explicit sphere and O(3) image enclosures |
-| `data/sphere/` | The 128-cell explicit and fitted height-quotient results, vertex images, and callback intervals |
-| `data/o3/` | The matched 128 by 128 quotient grids, box images, Morse graphs, and displayed regions |
-| `data/manifest.json` | SHA-256 checksums of the supplied numerical inputs |
+Each example has its own README and `run.py`. Example 1 also has editable training settings in `config.json`, a fixed numerical dataset in `data/`, and immutable saved experiments in `reference/`. Its `reference/joint/` and `reference/manuscript/` directories identify different learned models. Input manifests record SHA-256 checksums. All new results go to the requested output directory, which is ignored by Git.
 
-The scripts resolve input paths relative to their own directory and accept `--data` for another compatible result directory. The data manifest is checked before plotting or replaying. The supplied data directory is read-only input to both commands. Replay requires a new output directory and CMGDB `1.5.3+fork.7`.
+`common/` contains the physical simulators, exact reference enclosures, native replay helpers, geometry, and figure style. It is shared implementation; use the numbered entry points for normal runs. `check.py` checks the pinned environment and the physical systems.
+
+Native quotient annotations, original-space index reconstruction, and transfer to the physical dynamics have separate justifications. Sampled learned image hulls and sampled residuals are numerical diagnostics rather than mathematical certificates.

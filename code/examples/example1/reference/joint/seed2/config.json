@@ -1,0 +1,36 @@
+{
+  "seed": 2,
+  "width": 32,
+  "layers": 2,
+  "steps": 20000,
+  "batch": 512,
+  "training": "joint orbit reconstruction, orbit prediction, and latent consistency",
+  "physical_input_coordinates": 3,
+  "latent_coordinates": 1,
+  "encoder_shift_bound": 0.35,
+  "decoder_shift_bound": 0.35,
+  "time_shift_bound": 1.4,
+  "best_step": 19900,
+  "best_validation": 0.0005021959936718259,
+  "seconds": 75.71579604200087,
+  "parameter_changes": {
+    "encoder": 6.021497174370703,
+    "decoder": 4.456871182166823,
+    "dynamics": 6.876809216835114
+  },
+  "parameters": {
+    "encoder": 1217,
+    "decoder": 1153,
+    "dynamics": 1153
+  },
+  "versions": {
+    "emlp": "1.0.3",
+    "objax": "1.8.0",
+    "jax": "0.4.38",
+    "numpy": "2.3.5",
+    "scipy": "1.15.3",
+    "cmgdb": "1.5.3+fork.7"
+  },
+  "hidden": "scalar",
+  "weights_format": "numeric-ordered-v1"
+}

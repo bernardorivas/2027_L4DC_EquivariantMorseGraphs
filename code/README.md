@@ -1,33 +1,44 @@
-# latent_equivariance
+# Python code
 
-Equivariant outer approximations, Conley index reconstruction from the orbit space, and equivariant encoders for latent dynamics.
+The numbered examples share one Python 3.13 environment with EMLP, native CMGDB, and the plotting dependencies. The source package also provides equivariant grids, graph lifting, and cellular homology.
 
 ## Setup
 
-CMGDB is the fork `github.com/bernardorivas/CMGDB`, whose release wheels cover CPython 3.11-3.13 on macOS arm64 and manylinux x86_64.
+Install Python 3.13, Graphviz (`dot`), and Poppler (`pdftoppm` and `pdfinfo`). The reference numerical environment is CPU with JAX float64; the example commands configure it automatically. From this `code/` directory:
 
 ```bash
-python3.13 -m venv .venv313
-.venv313/bin/pip install -e ".[dev,nn]"
-.venv313/bin/pip install cmgdb==1.5.3+fork.7 \
-  --find-links https://github.com/bernardorivas/CMGDB/releases/expanded_assets/v1.5.3%2Bfork.7
+python3.13 -m venv .venv
+source .venv/bin/activate
+python -m pip install -r requirements.txt -e .
+python examples/check.py
 ```
 
-The extra `nn` installs PyTorch, which `learned.py` needs. `requirements-py313.lock.txt` records the exact versions in use. On other platforms, build CMGDB from source as described in the fork's README (a C++17 compiler and Boost 1.66 or later).
+[requirements.txt](requirements.txt) pins the shared environment, including EMLP 1.0.3, Objax 1.8.0, JAX/JAXlib 0.4.38, NumPy 2.3.5, SciPy 1.15.3, and CMGDB 1.5.3+fork.7. It includes the link to the CMGDB fork release wheels. The checked reference platform is macOS arm64 with Python 3.13.18. The CMGDB release also supplies CPython 3.13 manylinux x86_64 wheels; other platforms require a compatible build from the fork.
 
-## Contents
+The environment check exercises EMLP optimization, sampled invariance, native CMGDB, physical flow composition and equivariance, representation packing, and the reduced-attitude reference map. It exits with an error if a required numerical version or plotting executable is missing. Keep the complete output when diagnosing a setup difference.
 
-- `src/latent_equivariance/equivariant_grid.py`: equivariant uniform grids and float64 box images on cell representatives.
-- `src/latent_equivariance/equivariant_graph.py`: quotient digraphs with voltages, recurrent components, and the full lifted order.
-- `src/latent_equivariance/homology.py`: relative cubical homology, signed actions, orbit and twisted complexes, index maps and reconstruction.
-- `src/latent_equivariance/certificates.py`: geometric block families and sampled residual checks on nonperiodic two-dimensional grids.
-- `src/latent_equivariance/learned.py`: group-averaged networks and float64 box enclosures.
-- `examples/`: dynamics, saved numerical results, figure reproduction, and interfaces for equivariant learning. See [the example commands](examples/README.md) and [the EMLP handoff](examples/emlp_handoff.md).
-
-## Tests
+## Run an example
 
 ```bash
-.venv313/bin/python -m pytest
+python examples/example1/run.py replay --out outputs/example1-replay
+python examples/example1/run.py train --out outputs/example1-new-fit
 ```
 
-The homology tests that need CMGDB are skipped when it is not installed; `tests/test_learned.py` needs PyTorch. `python tests/test_homology.py [OUTPUT]` also writes the expected and computed value of every homology check to a JSON file.
+Replay loads the bundled data and checkpoint and checks against the saved result. Training fits a new model with the supplied data and configuration. Both produce diagnostics, native graph outputs, and a comparison PDF. The [example index](examples/README.md) lists the commands available for Examples 2 and 3. Each example README states its mathematical setup, data format, expected results, and numerical limitations.
+
+Use a new output directory for every run. `outputs/` is ignored by Git, and supplied data and references stay unchanged. Reference inputs have SHA-256 manifests. Example 1 keeps the new joint interval fit and the older manuscript fit in separate reference directories.
+
+## Library and tests
+
+- `src/latent_equivariance/equivariant_grid.py`: equivariant uniform grids and box images on cell representatives.
+- `src/latent_equivariance/equivariant_graph.py`: quotient graphs, group labels, stabilizers, and lifted order.
+- `src/latent_equivariance/homology.py`: relative cubical homology, signed actions, orbit and twisted complexes, index maps, and reconstruction.
+- `src/latent_equivariance/certificates.py`: geometric blocks and sampled residual checks.
+- `src/latent_equivariance/learned.py`: PyTorch components used by the library tests.
+
+```bash
+python -m pytest
+python tests/test_homology.py homology-results.json
+```
+
+PyTorch is optional for the numbered examples. Install the `nn` extra to run its library tests with `python -m pip install -e ".[nn]"`. Check the pytest skip report. The examples use Objax EMLP.

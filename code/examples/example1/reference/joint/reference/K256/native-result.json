@@ -1,0 +1,110 @@
+{
+  "uniform_depth": 8,
+  "map_graph_vertex_count": 256,
+  "nodes": [
+    {
+      "node": 0,
+      "cell_indices": [
+        76
+      ],
+      "boxes": [
+        [
+          -0.40625,
+          -0.3984375
+        ]
+      ],
+      "native_annotations": [
+        "x-1",
+        "0"
+      ]
+    },
+    {
+      "node": 1,
+      "cell_indices": [
+        0
+      ],
+      "boxes": [
+        [
+          -1.0,
+          -0.9921875
+        ]
+      ],
+      "native_annotations": [
+        "0",
+        "0"
+      ]
+    },
+    {
+      "node": 2,
+      "cell_indices": [
+        179
+      ],
+      "boxes": [
+        [
+          0.3984375,
+          0.40625
+        ]
+      ],
+      "native_annotations": [
+        "x-1",
+        "0"
+      ]
+    },
+    {
+      "node": 3,
+      "cell_indices": [
+        127,
+        128
+      ],
+      "boxes": [
+        [
+          -0.0078125,
+          0.0
+        ],
+        [
+          0.0,
+          0.0078125
+        ]
+      ],
+      "native_annotations": [
+        "0",
+        "x-1"
+      ]
+    },
+    {
+      "node": 4,
+      "cell_indices": [
+        255
+      ],
+      "boxes": [
+        [
+          0.9921875,
+          1.0
+        ]
+      ],
+      "native_annotations": [
+        "0",
+        "0"
+      ]
+    }
+  ],
+  "edges": [
+    [
+      1,
+      0
+    ],
+    [
+      3,
+      0
+    ],
+    [
+      3,
+      2
+    ],
+    [
+      4,
+      2
+    ]
+  ],
+  "image_status": "explicit rational endpoint enclosures"
+}

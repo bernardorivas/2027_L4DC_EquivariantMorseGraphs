@@ -1,0 +1,18 @@
+{
+  "criterion": "lowest validation objective",
+  "selected_seed": 1,
+  "ranking": [
+    {
+      "seed": 1,
+      "validation": 5.195927564228197e-05
+    },
+    {
+      "seed": 0,
+      "validation": 0.00031254177740004045
+    },
+    {
+      "seed": 2,
+      "validation": 0.0005021959936718259
+    }
+  ]
+}

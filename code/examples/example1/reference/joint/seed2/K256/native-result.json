@@ -1,0 +1,125 @@
+{
+  "uniform_depth": 8,
+  "map_graph_vertex_count": 256,
+  "nodes": [
+    {
+      "node": 0,
+      "cell_indices": [
+        40
+      ],
+      "boxes": [
+        [
+          -0.6875,
+          -0.6796875
+        ]
+      ],
+      "native_annotations": [
+        "x-1",
+        "0"
+      ]
+    },
+    {
+      "node": 1,
+      "cell_indices": [
+        0
+      ],
+      "boxes": [
+        [
+          -1.0,
+          -0.9921875
+        ]
+      ],
+      "native_annotations": [
+        "0",
+        "0"
+      ]
+    },
+    {
+      "node": 2,
+      "cell_indices": [
+        75
+      ],
+      "boxes": [
+        [
+          -0.4140625,
+          -0.40625
+        ]
+      ],
+      "native_annotations": [
+        "0",
+        "0"
+      ]
+    },
+    {
+      "node": 3,
+      "cell_indices": [
+        131
+      ],
+      "boxes": [
+        [
+          0.0234375,
+          0.03125
+        ]
+      ],
+      "native_annotations": [
+        "x-1",
+        "0"
+      ]
+    },
+    {
+      "node": 4,
+      "cell_indices": [
+        76
+      ],
+      "boxes": [
+        [
+          -0.40625,
+          -0.3984375
+        ]
+      ],
+      "native_annotations": [
+        "0",
+        "x-1"
+      ]
+    },
+    {
+      "node": 5,
+      "cell_indices": [
+        255
+      ],
+      "boxes": [
+        [
+          0.9921875,
+          1.0
+        ]
+      ],
+      "native_annotations": [
+        "0",
+        "0"
+      ]
+    }
+  ],
+  "edges": [
+    [
+      1,
+      0
+    ],
+    [
+      2,
+      0
+    ],
+    [
+      4,
+      2
+    ],
+    [
+      4,
+      3
+    ],
+    [
+      5,
+      3
+    ]
+  ],
+  "image_status": "sampled image hulls, 65 points per cell, padding 1e-10; not validated"
+}

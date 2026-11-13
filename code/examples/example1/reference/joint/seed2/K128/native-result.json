@@ -1,0 +1,145 @@
+{
+  "uniform_depth": 7,
+  "map_graph_vertex_count": 128,
+  "nodes": [
+    {
+      "node": 0,
+      "cell_indices": [
+        20
+      ],
+      "boxes": [
+        [
+          -0.6875,
+          -0.671875
+        ]
+      ],
+      "native_annotations": [
+        "x-1",
+        "0"
+      ]
+    },
+    {
+      "node": 1,
+      "cell_indices": [
+        0
+      ],
+      "boxes": [
+        [
+          -1.0,
+          -0.984375
+        ]
+      ],
+      "native_annotations": [
+        "0",
+        "0"
+      ]
+    },
+    {
+      "node": 2,
+      "cell_indices": [
+        37
+      ],
+      "boxes": [
+        [
+          -0.421875,
+          -0.40625
+        ]
+      ],
+      "native_annotations": [
+        "0",
+        "0"
+      ]
+    },
+    {
+      "node": 3,
+      "cell_indices": [
+        65
+      ],
+      "boxes": [
+        [
+          0.015625,
+          0.03125
+        ]
+      ],
+      "native_annotations": [
+        "x-1",
+        "0"
+      ]
+    },
+    {
+      "node": 4,
+      "cell_indices": [
+        38
+      ],
+      "boxes": [
+        [
+          -0.40625,
+          -0.390625
+        ]
+      ],
+      "native_annotations": [
+        "0",
+        "x-1"
+      ]
+    },
+    {
+      "node": 5,
+      "cell_indices": [
+        66
+      ],
+      "boxes": [
+        [
+          0.03125,
+          0.046875
+        ]
+      ],
+      "native_annotations": [
+        "0",
+        "0"
+      ]
+    },
+    {
+      "node": 6,
+      "cell_indices": [
+        127
+      ],
+      "boxes": [
+        [
+          0.984375,
+          1.0
+        ]
+      ],
+      "native_annotations": [
+        "0",
+        "0"
+      ]
+    }
+  ],
+  "edges": [
+    [
+      1,
+      0
+    ],
+    [
+      2,
+      0
+    ],
+    [
+      4,
+      2
+    ],
+    [
+      4,
+      3
+    ],
+    [
+      5,
+      3
+    ],
+    [
+      6,
+      5
+    ]
+  ],
+  "image_status": "sampled image hulls, 65 points per cell, padding 1e-10; not validated"
+}

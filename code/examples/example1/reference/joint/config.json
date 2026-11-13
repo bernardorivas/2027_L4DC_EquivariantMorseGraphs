@@ -1,0 +1,31 @@
+{
+  "experiment": "joint-interval-v1",
+  "seeds": [0, 1, 2],
+  "training": {
+    "width": 32,
+    "layers": 2,
+    "hidden": "scalar",
+    "steps": 20000,
+    "batch": 512,
+    "learning_rate_start": 0.002,
+    "learning_rate_end": 0.0001,
+    "validate_every": 100
+  },
+  "recipe": {
+    "encoder_shift_bound": 0.35,
+    "decoder_shift_bound": 0.35,
+    "time_shift_bound": 1.4,
+    "orbit_log_weight": 0.03,
+    "consistency_log_weight": 0.08,
+    "ordering_weight": 0.1,
+    "ordering_minimum_slope": 0.2,
+    "ordering_points": 65,
+    "ordering_domain": [-0.999, 0.999]
+  },
+  "analysis": {
+    "depths": [6, 7, 8],
+    "image_samples": 65,
+    "time_map_iterates": 10,
+    "image_padding": 1e-10
+  }
+}

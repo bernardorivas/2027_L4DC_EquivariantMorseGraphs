@@ -9,3 +9,6 @@ figures/*.png
 figures/*.pdf
 !figures/.gitkeep
 .venv313/
+.venv-emlp-cmgdb/
+.venv313-emlp/
+outputs/

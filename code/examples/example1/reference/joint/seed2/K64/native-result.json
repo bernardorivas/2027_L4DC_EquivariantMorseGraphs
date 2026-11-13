@@ -1,0 +1,145 @@
+{
+  "uniform_depth": 6,
+  "map_graph_vertex_count": 64,
+  "nodes": [
+    {
+      "node": 0,
+      "cell_indices": [
+        10
+      ],
+      "boxes": [
+        [
+          -0.6875,
+          -0.65625
+        ]
+      ],
+      "native_annotations": [
+        "x-1",
+        "0"
+      ]
+    },
+    {
+      "node": 1,
+      "cell_indices": [
+        0
+      ],
+      "boxes": [
+        [
+          -1.0,
+          -0.96875
+        ]
+      ],
+      "native_annotations": [
+        "0",
+        "0"
+      ]
+    },
+    {
+      "node": 2,
+      "cell_indices": [
+        18
+      ],
+      "boxes": [
+        [
+          -0.4375,
+          -0.40625
+        ]
+      ],
+      "native_annotations": [
+        "0",
+        "0"
+      ]
+    },
+    {
+      "node": 3,
+      "cell_indices": [
+        32
+      ],
+      "boxes": [
+        [
+          0.0,
+          0.03125
+        ]
+      ],
+      "native_annotations": [
+        "x-1",
+        "0"
+      ]
+    },
+    {
+      "node": 4,
+      "cell_indices": [
+        19
+      ],
+      "boxes": [
+        [
+          -0.40625,
+          -0.375
+        ]
+      ],
+      "native_annotations": [
+        "0",
+        "x-1"
+      ]
+    },
+    {
+      "node": 5,
+      "cell_indices": [
+        33
+      ],
+      "boxes": [
+        [
+          0.03125,
+          0.0625
+        ]
+      ],
+      "native_annotations": [
+        "0",
+        "0"
+      ]
+    },
+    {
+      "node": 6,
+      "cell_indices": [
+        63
+      ],
+      "boxes": [
+        [
+          0.96875,
+          1.0
+        ]
+      ],
+      "native_annotations": [
+        "0",
+        "0"
+      ]
+    }
+  ],
+  "edges": [
+    [
+      1,
+      0
+    ],
+    [
+      2,
+      0
+    ],
+    [
+      4,
+      2
+    ],
+    [
+      4,
+      3
+    ],
+    [
+      5,
+      3
+    ],
+    [
+      6,
+      5
+    ]
+  ],
+  "image_status": "sampled image hulls, 65 points per cell, padding 1e-10; not validated"
+}

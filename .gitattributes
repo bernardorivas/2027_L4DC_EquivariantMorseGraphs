@@ -1,0 +1,3 @@
+# Preserve the exact bytes of immutable numerical inputs and native exports.
+code/examples/**/reference/** -text -whitespace
+code/examples/**/data/*.npz -text
