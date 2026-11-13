@@ -33,7 +33,7 @@ def draw(ax):
 
 def render():
     out=ROOT/'artifacts/o3-flow';out.mkdir(parents=True,exist_ok=True)
-    with plt.rc_context(RC):
+    with plt.rc_context(dict(RC, **{'font.size':13})):
         fig,ax=plt.subplots(figsize=(3.5,2.1));draw(ax)
         for ext in ('pdf','svg','png'):fig.savefig(out/f'quotient-flow.{ext}',bbox_inches='tight',pad_inches=.035,dpi=220)
         plt.close(fig)

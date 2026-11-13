@@ -39,4 +39,4 @@ example = 'sphere' if name == '01_sphere.ipynb' else 'o3'
 preview = root / 'build/notebooks' / example / 'preview.html'
 preview.write_text(html)
 print('Notebook executed top-to-bottom and saved with outputs.')
-print('Analytical replay, fit diagnostics, and CMGDB comparisons saved. Cell outputs record whether the fit was loaded or trained.')
+print('Analytical figures, fit diagnostics, and CMGDB comparisons saved. Cell outputs record whether the fit was loaded or trained.')
