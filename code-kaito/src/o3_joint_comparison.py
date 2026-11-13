@@ -57,78 +57,8 @@ def show_joint_comparison(reference,fit,study,diagnostics=True):
     (ROOT/'build/notebooks/o3/latest.json').write_text(json.dumps(record,indent=2)+'\n')
 
 def show_joint_diagnostics(fit, study):
-    """Show actual cell geometry, shared node IDs, and domain-specific indices."""
-    import matplotlib.pyplot as plt
-    from matplotlib.patches import Polygon, Rectangle
-    from graphviz import Digraph
-    from PIL import Image
-    from IPython.display import display, Markdown
-    from notebook_support import table
-    folder = ROOT / study['study']
-    checks = ROOT / study['checks']
-    result = json.loads((folder / 'comparison.json').read_text())
-    last = result['resolutions'][-1]
-    nodes = last['restricted']['nodes']
-    colors = ['#0072B2', '#D55E00', '#009E73', '#CC79A7', '#756BB1', '#8C6D31']
-    c = result['point_checks']
-    display(Markdown(f"**Sampled domain check:** {c['one_step_outside']} of {c['samples']:,} "
-                     "encoded starts leave the sampled image after one learned step. "
-                     "The outline below is the sampled encoder boundary, not a basin boundary."))
-    with np.load(folder / 'domain.npz') as data:
-        boundary = data['boundary']
-    roots = c['roots']
-    graph = Digraph()
-    graph.attr(rankdir='TB', bgcolor='white', nodesep='.3', ranksep='.3', dpi='180')
-    for node in nodes:
-        k = node['id']
-        graph.node(str(k), str(k), style='filled', fillcolor=colors[k]+'33',
-                   color=colors[k], fontname='Helvetica', fontsize='14', width='.4', height='.3')
-    for u,v in last['restricted']['edges']:
-        graph.edge(str(u),str(v))
-    for ext in ('svg','pdf','png'):
-        (checks / f'native-topology.{ext}').write_bytes(graph.pipe(format=ext))
-    with plt.rc_context({'font.size': 10, 'axes.spines.top': False, 'axes.spines.right': False}):
-        fig, axes = plt.subplots(2,3,figsize=(12,6.5),layout='constrained')
-        ax = axes[0,0]
-        ax.add_patch(Polygon(boundary,facecolor='#f0f3f5',edgecolor='.5',lw=.8))
-        for node in nodes:
-            k=node['id']; lo=np.array(node['lower']); hi=np.array(node['upper'])
-            center=(lo+hi)/2
-            ax.scatter(*center,s=22,color=colors[k])
-        for root, name in zip(roots, ['left sink','origin','upper saddle','right sink']):
-            ax.annotate(name,root['q'],xytext=(-40,9) if name=='right sink' else (6,9),textcoords='offset points',fontsize=8)
-        ax.autoscale_view(); ax.set(title='Locations in the encoder image',xlabel='$q_1$',ylabel='$q_2$')
-        # Magnify each neighborhood without enlarging the cells in data coordinates.
-        for ax, root, title in zip([axes[0,1],axes[0,2],axes[1,0],axes[1,1]],
-                                  roots,['Left sink','Origin: adjacent components','Upper saddle: adjacent components','Right sink']):
-            q=np.array(root['q']); half=.025
-            for node in nodes:
-                lo=np.array(node['lower']); hi=np.array(node['upper']); k=node['id']
-                if np.all(hi>=q-half) and np.all(lo<=q+half):
-                    ax.add_patch(Rectangle(lo,*(hi-lo),facecolor=colors[k]+'55',edgecolor=colors[k],lw=1.5))
-                    ax.text(*(lo+hi)/2,str(k),ha='center',va='center',fontsize=11)
-            ax.plot(*q,marker='+',color='black',ms=9,mew=1.3)
-            ax.set(xlim=(q[0]-half,q[0]+half),ylim=(max(-.003,q[1]-half),q[1]+half),
-                   title=title,xlabel='$q_1$',ylabel='$q_2$')
-            ax.tick_params(labelsize=8);ax.ticklabel_format(useOffset=False)
-        ax=axes[1,2];ax.imshow(Image.open(checks/'native-topology.png'));ax.axis('off')
-        ax.set_title('Restricted graph: same cell IDs')
-        for ext in ('png','pdf','svg'):
-            fig.savefig(checks/f'native-cell-guide.{ext}',dpi=170,bbox_inches='tight')
-        plt.show()
-    display(Markdown("**How to read this figure.** Colored rectangles are the actual recurrent cells, "
-        "not point markers. Their numbers match the directed graph. A black + marks a numerically found "
-        "fixed point. Adjacent components without a + remain distinct native components. "
-        "The close-ups change the axis scale, not the computed cells."))
-    same_edges = sorted(last['restricted']['edges']) == sorted(last['rectangle']['edges'])
-    same_cells = all(a['id']==b['id'] and a['lower']==b['lower'] and a['upper']==b['upper']
-                     for a,b in zip(nodes,last['rectangle']['nodes']))
-    display(Markdown(f"At {last['n']} × {last['n']}, the two computations have "
-        + ("the same node cells and directed edges. " if same_edges and same_cells else "different native graph data. ")
-        + "The restricted domain uses Atlas and has no index annotations. The table reports only the rectangle computation's indices."))
-    table(['Cell ID','Restricted cell count','Contains a found fixed point','Rectangle index (degrees 0, 1, 2)'],
-          [(a['id'],a['cell_count'],'yes' if a['roots'] else 'no',str(tuple(b['annotations'])))
-           for a,b in zip(nodes,last['rectangle']['nodes'])])
+    from o3_grouping_guide import show_grouping_guide
+    show_grouping_guide(fit, study)
 
 if __name__=='__main__':
     import sys
