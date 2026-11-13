@@ -11,6 +11,8 @@ python examples/example2/run.py train --out outputs/example2-new-fit
 
 Replay loads the fixed data and all three saved checkpoints, recomputes encoder diagnostics, native data maps and basin labels, and checks them against the frozen reference. Training starts new joint fits with the same training data and recipe, followed by the same data-map construction. Both commands write `results.pdf`, `regions-of-attraction.pdf`, `sampling-study.pdf`, standalone panels in `figures/`, and raw native outputs. Reports show the data-map graphs and basins, sampling-density comparisons, and physical inverse images under the encoder. Each command requires a new output directory. To replay only the validation-selected fit, add `--seeds 1`.
 
+The [attracting-region tolerance command](reference/tolerances/README.md) accepts a checkpoint with `run.py tolerances --model MODEL --out OUTPUT`. It regenerates physical source pairs and native BoxMapData, rebuilds the safe sink regions, and compares numerical tolerance margins with sampled residuals. The reference includes all three seeds and source densities.
+
 ## Physical system and learned maps
 
 For $(a,v)\in X=[-3/2,3/2]\times B^3_{3/2}$,

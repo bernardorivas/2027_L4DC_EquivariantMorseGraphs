@@ -11,6 +11,8 @@ python examples/example1/run.py train --out outputs/example1-new-fit
 
 `replay` loads the frozen weights, recomputes diagnostics and all nine learned graphs, checks the results against the reference, and produces a six-page comparison PDF. `train` fits all three seeds jointly on the fixed data, computes their graphs, and produces the same report. Both commands keep the input files unchanged and require a new output directory. To replay only the selected fit, add `--seeds 1`.
 
+The [attracting-region tolerance calculation](reference/tolerances/README.md) accepts a checkpoint with `run.py tolerances --model MODEL --out OUTPUT`. It rebuilds the graph and conservative basin regions, computes numerical margins, and samples physical residuals. The reference includes all three seeds and their failed comparisons.
+
 ## Physical map and data
 
 The state is $p=(x,y,z)\in S^2$. The group acts by rotations about the vertical axis. Training pairs are $(p,F_1(p))$, where $F_1$ is the time-one map of

@@ -88,10 +88,16 @@ def main():
     data = commands.add_parser("data", help="Generate the joint experiment's independently sampled splits")
     data.add_argument("--out", type=Path, required=True)
     data.add_argument("--sizes", type=int, nargs=3, default=[16384, 4096, 4096])
+    tolerances = commands.add_parser("tolerances", help="Recompute safe data-map basin margins for a checkpoint")
+    from common.workflow import attracting_region_arguments
+    attracting_region_arguments(tolerances, 2)
     args = parser.parse_args()
     try:
-        args.versions = require_environment(graphics=args.command != "data")
-        if args.command == "data":
+        args.versions = require_environment(graphics=args.command not in {"data", "tolerances"})
+        if args.command == "tolerances":
+            from common.attracting_region_models import example2
+            example2(args)
+        elif args.command == "data":
             from example2.training import dataset
             if min(args.sizes) < 8:
                 raise ValueError("Each split needs at least eight starts.")

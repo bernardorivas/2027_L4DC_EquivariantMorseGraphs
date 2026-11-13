@@ -1,0 +1,1249 @@
+{
+  "format_version": 1,
+  "date": "2026-11-13",
+  "example": "example2",
+  "evidence": "sampled image hulls and residual maxima; no uniform physical certificate",
+  "sampling": {
+    "samples_per_axis": 1024,
+    "source_sizes": [
+      257,
+      513,
+      1025
+    ],
+    "grid_shape": [
+      64,
+      64
+    ]
+  },
+  "cases": [
+    {
+      "seed": 0,
+      "policy": null,
+      "cells_per_axis": 64,
+      "source_size": 257,
+      "map_time": 1.0986122886681098,
+      "validation_selected": false,
+      "checkpoint_files": {
+        "config.json": "bb7d1c3eb8a612759c5a47f880ee4f2b3e305fcc227b3506aa5279b368da1840",
+        "weights.npz": "bedda278516fc3ee578f26b94ddb0784837f581f50146060313666142b782e33"
+      },
+      "primary_metric": "euclidean",
+      "comparisons": [
+        {
+          "node": 0,
+          "metric": "euclidean",
+          "tolerance_lower": 0.14634042961361862,
+          "max_residual": 0.018921129126098214,
+          "count": 510659,
+          "passed": true,
+          "cells": 1160,
+          "latent_hull": [
+            -1.875,
+            0.0,
+            -0.0625,
+            1.25
+          ],
+          "certified": false
+        },
+        {
+          "node": 1,
+          "metric": "euclidean",
+          "tolerance_lower": 0.1465647676657433,
+          "max_residual": 0.02168211593019187,
+          "count": 510659,
+          "passed": true,
+          "cells": 1160,
+          "latent_hull": [
+            0.0625,
+            0.0,
+            1.875,
+            1.25
+          ],
+          "certified": false
+        }
+      ],
+      "timings": {
+        "native": {
+          "frozen_table_first_native_seconds": 0.01011537500016857,
+          "frozen_table_warm_native": {
+            "seconds": [
+              0.01149466700735502,
+              0.011771417004638352,
+              0.011783000009017996,
+              0.011780583008658141,
+              0.011933249988942407
+            ],
+            "median_seconds": 0.011780583008658141,
+            "relative_spread": 0.037229310405525004
+          },
+          "split_morse_seconds": 0.009326083003543317,
+          "split_index_pair_and_index_seconds": 0.001036626024870202,
+          "per_native_component_index_seconds": {
+            "0": 0.00013608399603981525,
+            "1": 0.00011175000690855086,
+            "2": 0.0004374999989522621,
+            "3": 0.00015237501065712422,
+            "4": 0.00019891701231244951
+          },
+          "timing_scope": "native calls with precomputed image hulls; neural image construction excluded",
+          "split_scope": "ComputeMorseGraph followed by ComputeConleyIndexForCells; distinct from the integrated native call",
+          "region_extraction_including_aggregation_seconds": 0.009686374993179925
+        },
+        "residual_evaluation": {
+          "first_seconds": 35.495506542007206,
+          "warm": {
+            "seconds": [
+              34.15854774999025,
+              34.38525999999547,
+              34.85997687499912
+            ],
+            "median_seconds": 34.38525999999547,
+            "relative_spread": 0.020399122327676576
+          }
+        },
+        "largest_source_pair_evaluation": {
+          "first_seconds": 16.607455917008338,
+          "warm": {
+            "seconds": [
+              16.318126375001157,
+              16.888344624996535,
+              16.992490207994706
+            ],
+            "median_seconds": 16.888344624996535,
+            "relative_spread": 0.03993072429345263
+          }
+        },
+        "data_map_index_construction": {
+          "first_seconds": 0.005031541004427709,
+          "warm": {
+            "seconds": [
+              0.00448441700427793,
+              0.004517207999015227,
+              0.0044104999979026616
+            ],
+            "median_seconds": 0.00448441700427793,
+            "relative_spread": 0.023795289557320565
+          }
+        },
+        "data_map_grid_queries": {
+          "first_seconds": 0.08080620900727808,
+          "warm": {
+            "seconds": [
+              0.07998716700240038,
+              0.08092891600972507,
+              0.12833649999811314
+            ],
+            "median_seconds": 0.08092891600972507,
+            "relative_spread": 0.5974296380035872
+          }
+        },
+        "native_cmgdb_with_data_queries": {
+          "first_seconds": 0.17151387500052806,
+          "warm": {
+            "seconds": [
+              0.1683430419943761,
+              0.1671822080097627,
+              0.16605224998784252,
+              0.16760950000025332,
+              0.16805141599616036
+            ],
+            "median_seconds": 0.16760950000025332,
+            "relative_spread": 0.013667435357364175
+          }
+        }
+      }
+    },
+    {
+      "seed": 0,
+      "policy": null,
+      "cells_per_axis": 64,
+      "source_size": 513,
+      "map_time": 1.0986122886681098,
+      "validation_selected": false,
+      "checkpoint_files": {
+        "config.json": "bb7d1c3eb8a612759c5a47f880ee4f2b3e305fcc227b3506aa5279b368da1840",
+        "weights.npz": "bedda278516fc3ee578f26b94ddb0784837f581f50146060313666142b782e33"
+      },
+      "primary_metric": "euclidean",
+      "comparisons": [
+        {
+          "node": 0,
+          "metric": "euclidean",
+          "tolerance_lower": 0.1259059756404149,
+          "max_residual": 0.018921129126098214,
+          "count": 510659,
+          "passed": true,
+          "cells": 1160,
+          "latent_hull": [
+            -1.875,
+            0.0,
+            -0.0625,
+            1.25
+          ],
+          "certified": false
+        },
+        {
+          "node": 1,
+          "metric": "euclidean",
+          "tolerance_lower": 0.12608977896087695,
+          "max_residual": 0.02168211593019187,
+          "count": 510659,
+          "passed": true,
+          "cells": 1160,
+          "latent_hull": [
+            0.0625,
+            0.0,
+            1.875,
+            1.25
+          ],
+          "certified": false
+        }
+      ],
+      "timings": {
+        "native": {
+          "frozen_table_first_native_seconds": 0.010659999999916181,
+          "frozen_table_warm_native": {
+            "seconds": [
+              0.011936167007661425,
+              0.011953332999837585,
+              0.011947083010454662,
+              0.011921875004190952,
+              0.011885874992003664
+            ],
+            "median_seconds": 0.011936167007661425,
+            "relative_spread": 0.005651563671203778
+          },
+          "split_morse_seconds": 0.00941758300177753,
+          "split_index_pair_and_index_seconds": 0.0010996680066455156,
+          "per_native_component_index_seconds": {
+            "0": 0.00014483300037682056,
+            "1": 0.0001145000132964924,
+            "2": 0.00042208399099763483,
+            "3": 0.00014708400703966618,
+            "4": 0.0002711669949349016
+          },
+          "timing_scope": "native calls with precomputed image hulls; neural image construction excluded",
+          "split_scope": "ComputeMorseGraph followed by ComputeConleyIndexForCells; distinct from the integrated native call",
+          "region_extraction_including_aggregation_seconds": 0.00817454200296197
+        },
+        "residual_evaluation": {
+          "first_seconds": 35.495506542007206,
+          "warm": {
+            "seconds": [
+              34.15854774999025,
+              34.38525999999547,
+              34.85997687499912
+            ],
+            "median_seconds": 34.38525999999547,
+            "relative_spread": 0.020399122327676576
+          }
+        },
+        "largest_source_pair_evaluation": {
+          "first_seconds": 16.607455917008338,
+          "warm": {
+            "seconds": [
+              16.318126375001157,
+              16.888344624996535,
+              16.992490207994706
+            ],
+            "median_seconds": 16.888344624996535,
+            "relative_spread": 0.03993072429345263
+          }
+        },
+        "data_map_index_construction": {
+          "first_seconds": 0.019624709006166086,
+          "warm": {
+            "seconds": [
+              0.019795625004917383,
+              0.019832125006360002,
+              0.01907174999359995
+            ],
+            "median_seconds": 0.019795625004917383,
+            "relative_spread": 0.038411265750445754
+          }
+        },
+        "data_map_grid_queries": {
+          "first_seconds": 0.10377916699508205,
+          "warm": {
+            "seconds": [
+              0.1033248339954298,
+              0.1030502079956932,
+              0.10322124999947846
+            ],
+            "median_seconds": 0.10322124999947846,
+            "relative_spread": 0.002660556811102241
+          }
+        },
+        "native_cmgdb_with_data_queries": {
+          "first_seconds": 0.21610362498904578,
+          "warm": {
+            "seconds": [
+              0.21717466700647492,
+              0.21708854200551286,
+              0.21534275000158232,
+              0.21426483300456312,
+              0.21661841598688625
+            ],
+            "median_seconds": 0.21661841598688625,
+            "relative_spread": 0.013432994552448214
+          }
+        }
+      }
+    },
+    {
+      "seed": 0,
+      "policy": null,
+      "cells_per_axis": 64,
+      "source_size": 1025,
+      "map_time": 1.0986122886681098,
+      "validation_selected": false,
+      "checkpoint_files": {
+        "config.json": "bb7d1c3eb8a612759c5a47f880ee4f2b3e305fcc227b3506aa5279b368da1840",
+        "weights.npz": "bedda278516fc3ee578f26b94ddb0784837f581f50146060313666142b782e33"
+      },
+      "primary_metric": "euclidean",
+      "comparisons": [
+        {
+          "node": 0,
+          "metric": "euclidean",
+          "tolerance_lower": 0.1259059756404149,
+          "max_residual": 0.018921129126098214,
+          "count": 510659,
+          "passed": true,
+          "cells": 1160,
+          "latent_hull": [
+            -1.875,
+            0.0,
+            -0.0625,
+            1.25
+          ],
+          "certified": false
+        },
+        {
+          "node": 1,
+          "metric": "euclidean",
+          "tolerance_lower": 0.12608977896087695,
+          "max_residual": 0.02168211593019187,
+          "count": 510659,
+          "passed": true,
+          "cells": 1160,
+          "latent_hull": [
+            0.0625,
+            0.0,
+            1.875,
+            1.25
+          ],
+          "certified": false
+        }
+      ],
+      "timings": {
+        "native": {
+          "frozen_table_first_native_seconds": 0.010179165998124518,
+          "frozen_table_warm_native": {
+            "seconds": [
+              0.011883333005243912,
+              0.01201387500623241,
+              0.019741083000553772,
+              0.011871042006532662,
+              0.011765165996621363
+            ],
+            "median_seconds": 0.011883333005243912,
+            "relative_spread": 0.6711851801521318
+          },
+          "split_morse_seconds": 0.009375249996082857,
+          "split_index_pair_and_index_seconds": 0.0010851260012714192,
+          "per_native_component_index_seconds": {
+            "0": 0.00013387500075623393,
+            "1": 0.00011395900219213217,
+            "2": 0.00046550000843126327,
+            "3": 0.00014391700096894056,
+            "4": 0.0002278749889228493
+          },
+          "timing_scope": "native calls with precomputed image hulls; neural image construction excluded",
+          "split_scope": "ComputeMorseGraph followed by ComputeConleyIndexForCells; distinct from the integrated native call",
+          "region_extraction_including_aggregation_seconds": 0.012698915990768
+        },
+        "residual_evaluation": {
+          "first_seconds": 35.495506542007206,
+          "warm": {
+            "seconds": [
+              34.15854774999025,
+              34.38525999999547,
+              34.85997687499912
+            ],
+            "median_seconds": 34.38525999999547,
+            "relative_spread": 0.020399122327676576
+          }
+        },
+        "largest_source_pair_evaluation": {
+          "first_seconds": 16.607455917008338,
+          "warm": {
+            "seconds": [
+              16.318126375001157,
+              16.888344624996535,
+              16.992490207994706
+            ],
+            "median_seconds": 16.888344624996535,
+            "relative_spread": 0.03993072429345263
+          }
+        },
+        "data_map_index_construction": {
+          "first_seconds": 0.10030458400433417,
+          "warm": {
+            "seconds": [
+              0.10344779200386256,
+              0.1058744170004502,
+              0.10094033299537841
+            ],
+            "median_seconds": 0.10344779200386256,
+            "relative_spread": 0.0476963684723938
+          }
+        },
+        "data_map_grid_queries": {
+          "first_seconds": 0.1863533329888014,
+          "warm": {
+            "seconds": [
+              0.18775558299967088,
+              0.18771749999723397,
+              0.18578558300214354
+            ],
+            "median_seconds": 0.18771749999723397,
+            "relative_spread": 0.010494493041705577
+          }
+        },
+        "native_cmgdb_with_data_queries": {
+          "first_seconds": 0.3837151249899762,
+          "warm": {
+            "seconds": [
+              0.3805853749945527,
+              0.38288937500328757,
+              0.3848146250093123,
+              0.39194229200074915,
+              0.3836356659885496
+            ],
+            "median_seconds": 0.3836356659885496,
+            "relative_spread": 0.02960339200197154
+          }
+        }
+      }
+    },
+    {
+      "seed": 1,
+      "policy": null,
+      "cells_per_axis": 64,
+      "source_size": 257,
+      "map_time": 1.0986122886681098,
+      "validation_selected": true,
+      "checkpoint_files": {
+        "config.json": "e717aa1de296964bb1b0b07819e205602c6fa33700c10a999e3b2595fc54a840",
+        "weights.npz": "dd10ad17adb837cd6d82c738323babf75d170e8e1be2bb4b64e10825fe21c357"
+      },
+      "primary_metric": "euclidean",
+      "comparisons": [
+        {
+          "node": 0,
+          "metric": "euclidean",
+          "tolerance_lower": 0.14328886092057078,
+          "max_residual": 0.0195666330456617,
+          "count": 510659,
+          "passed": true,
+          "cells": 1160,
+          "latent_hull": [
+            -1.875,
+            0.0,
+            -0.0625,
+            1.25
+          ],
+          "certified": false
+        },
+        {
+          "node": 1,
+          "metric": "euclidean",
+          "tolerance_lower": 0.14255172566741592,
+          "max_residual": 0.018049099348068566,
+          "count": 510659,
+          "passed": true,
+          "cells": 1160,
+          "latent_hull": [
+            0.0625,
+            0.0,
+            1.875,
+            1.25
+          ],
+          "certified": false
+        }
+      ],
+      "timings": {
+        "native": {
+          "frozen_table_first_native_seconds": 0.009921999997459352,
+          "frozen_table_warm_native": {
+            "seconds": [
+              0.01173441600985825,
+              0.011987624995526858,
+              0.011699750000843778,
+              0.011733167004422285,
+              0.011663583005429246
+            ],
+            "median_seconds": 0.011733167004422285,
+            "relative_spread": 0.027617606565685054
+          },
+          "split_morse_seconds": 0.00927641600719653,
+          "split_index_pair_and_index_seconds": 0.0010360839951317757,
+          "per_native_component_index_seconds": {
+            "0": 0.0001330419909209013,
+            "1": 0.0001229170011356473,
+            "2": 0.0005852500034961849,
+            "3": 0.0001948749995790422
+          },
+          "timing_scope": "native calls with precomputed image hulls; neural image construction excluded",
+          "split_scope": "ComputeMorseGraph followed by ComputeConleyIndexForCells; distinct from the integrated native call",
+          "region_extraction_including_aggregation_seconds": 0.010383999993791804
+        },
+        "residual_evaluation": {
+          "first_seconds": 38.17940541599819,
+          "warm": {
+            "seconds": [
+              35.74908541599871,
+              36.35948112500773,
+              35.94661683400045
+            ],
+            "median_seconds": 35.94661683400045,
+            "relative_spread": 0.0169806163352674
+          }
+        },
+        "largest_source_pair_evaluation": {
+          "first_seconds": 17.04771499999333,
+          "warm": {
+            "seconds": [
+              16.848959540991927,
+              16.660205374995712,
+              16.487363292006194
+            ],
+            "median_seconds": 16.660205374995712,
+            "relative_spread": 0.021704189164944605
+          }
+        },
+        "data_map_index_construction": {
+          "first_seconds": 0.004383167004561983,
+          "warm": {
+            "seconds": [
+              0.004229165992001072,
+              0.004156582988798618,
+              0.004195125002297573
+            ],
+            "median_seconds": 0.004195125002297573,
+            "relative_spread": 0.017301749807860606
+          }
+        },
+        "data_map_grid_queries": {
+          "first_seconds": 0.07925574999535456,
+          "warm": {
+            "seconds": [
+              0.07892466700286604,
+              0.07848666700010654,
+              0.08007550000911579
+            ],
+            "median_seconds": 0.07892466700286604,
+            "relative_spread": 0.02013100681123625
+          }
+        },
+        "native_cmgdb_with_data_queries": {
+          "first_seconds": 0.16540862500551157,
+          "warm": {
+            "seconds": [
+              0.16308183400542475,
+              0.1657253339944873,
+              0.16346350000821985,
+              0.16409370800829493,
+              0.16286412499903236
+            ],
+            "median_seconds": 0.16346350000821985,
+            "relative_spread": 0.017503656750963163
+          }
+        }
+      }
+    },
+    {
+      "seed": 1,
+      "policy": null,
+      "cells_per_axis": 64,
+      "source_size": 513,
+      "map_time": 1.0986122886681098,
+      "validation_selected": true,
+      "checkpoint_files": {
+        "config.json": "e717aa1de296964bb1b0b07819e205602c6fa33700c10a999e3b2595fc54a840",
+        "weights.npz": "dd10ad17adb837cd6d82c738323babf75d170e8e1be2bb4b64e10825fe21c357"
+      },
+      "primary_metric": "euclidean",
+      "comparisons": [
+        {
+          "node": 0,
+          "metric": "euclidean",
+          "tolerance_lower": 0.12308662185303704,
+          "max_residual": 0.0195666330456617,
+          "count": 510659,
+          "passed": true,
+          "cells": 1160,
+          "latent_hull": [
+            -1.875,
+            0.0,
+            -0.0625,
+            1.25
+          ],
+          "certified": false
+        },
+        {
+          "node": 1,
+          "metric": "euclidean",
+          "tolerance_lower": 0.12248655208822548,
+          "max_residual": 0.018049099348068566,
+          "count": 510659,
+          "passed": true,
+          "cells": 1160,
+          "latent_hull": [
+            0.0625,
+            0.0,
+            1.875,
+            1.25
+          ],
+          "certified": false
+        }
+      ],
+      "timings": {
+        "native": {
+          "frozen_table_first_native_seconds": 0.010173332993872464,
+          "frozen_table_warm_native": {
+            "seconds": [
+              0.011407041005440988,
+              0.011776500003179535,
+              0.01157204199989792,
+              0.011733459003153257,
+              0.011653958004899323
+            ],
+            "median_seconds": 0.011653958004899323,
+            "relative_spread": 0.03170244800806963
+          },
+          "split_morse_seconds": 0.009247457986930385,
+          "split_index_pair_and_index_seconds": 0.0010028340038843453,
+          "per_native_component_index_seconds": {
+            "0": 0.00012729200534522533,
+            "1": 0.00010900000052060932,
+            "2": 0.0005316669994499534,
+            "3": 0.0002348749985685572
+          },
+          "timing_scope": "native calls with precomputed image hulls; neural image construction excluded",
+          "split_scope": "ComputeMorseGraph followed by ComputeConleyIndexForCells; distinct from the integrated native call",
+          "region_extraction_including_aggregation_seconds": 0.008366916998056695
+        },
+        "residual_evaluation": {
+          "first_seconds": 38.17940541599819,
+          "warm": {
+            "seconds": [
+              35.74908541599871,
+              36.35948112500773,
+              35.94661683400045
+            ],
+            "median_seconds": 35.94661683400045,
+            "relative_spread": 0.0169806163352674
+          }
+        },
+        "largest_source_pair_evaluation": {
+          "first_seconds": 17.04771499999333,
+          "warm": {
+            "seconds": [
+              16.848959540991927,
+              16.660205374995712,
+              16.487363292006194
+            ],
+            "median_seconds": 16.660205374995712,
+            "relative_spread": 0.021704189164944605
+          }
+        },
+        "data_map_index_construction": {
+          "first_seconds": 0.018804958002874628,
+          "warm": {
+            "seconds": [
+              0.018810042005497962,
+              0.01858320900646504,
+              0.01834079199761618
+            ],
+            "median_seconds": 0.01858320900646504,
+            "relative_spread": 0.025251290437433724
+          }
+        },
+        "data_map_grid_queries": {
+          "first_seconds": 0.10071720799896866,
+          "warm": {
+            "seconds": [
+              0.09993416699580848,
+              0.09952941599476617,
+              0.10011562499857973
+            ],
+            "median_seconds": 0.09993416699580848,
+            "relative_spread": 0.005865951770410534
+          }
+        },
+        "native_cmgdb_with_data_queries": {
+          "first_seconds": 0.20861591699940618,
+          "warm": {
+            "seconds": [
+              0.21066487500502262,
+              0.21002487499208655,
+              0.2088497500080848,
+              0.2095311250013765,
+              0.21084524999605492
+            ],
+            "median_seconds": 0.21002487499208655,
+            "relative_spread": 0.009501255449123796
+          }
+        }
+      }
+    },
+    {
+      "seed": 1,
+      "policy": null,
+      "cells_per_axis": 64,
+      "source_size": 1025,
+      "map_time": 1.0986122886681098,
+      "validation_selected": true,
+      "checkpoint_files": {
+        "config.json": "e717aa1de296964bb1b0b07819e205602c6fa33700c10a999e3b2595fc54a840",
+        "weights.npz": "dd10ad17adb837cd6d82c738323babf75d170e8e1be2bb4b64e10825fe21c357"
+      },
+      "primary_metric": "euclidean",
+      "comparisons": [
+        {
+          "node": 0,
+          "metric": "euclidean",
+          "tolerance_lower": 0.12308662185303704,
+          "max_residual": 0.0195666330456617,
+          "count": 510659,
+          "passed": true,
+          "cells": 1160,
+          "latent_hull": [
+            -1.875,
+            0.0,
+            -0.0625,
+            1.25
+          ],
+          "certified": false
+        },
+        {
+          "node": 1,
+          "metric": "euclidean",
+          "tolerance_lower": 0.12248655208822548,
+          "max_residual": 0.018049099348068566,
+          "count": 510659,
+          "passed": true,
+          "cells": 1160,
+          "latent_hull": [
+            0.0625,
+            0.0,
+            1.875,
+            1.25
+          ],
+          "certified": false
+        }
+      ],
+      "timings": {
+        "native": {
+          "frozen_table_first_native_seconds": 0.010103084001457319,
+          "frozen_table_warm_native": {
+            "seconds": [
+              0.011415667002438568,
+              0.012018708002869971,
+              0.011782040994148701,
+              0.011831041992991231,
+              0.011815958001534455
+            ],
+            "median_seconds": 0.011815958001534455,
+            "relative_spread": 0.05103614961673788
+          },
+          "split_morse_seconds": 0.009333042005891912,
+          "split_index_pair_and_index_seconds": 0.0009718759974930435,
+          "per_native_component_index_seconds": {
+            "0": 0.0001163340057246387,
+            "1": 0.00011366700346115977,
+            "2": 0.0005263329949229956,
+            "3": 0.0002155419933842495
+          },
+          "timing_scope": "native calls with precomputed image hulls; neural image construction excluded",
+          "split_scope": "ComputeMorseGraph followed by ComputeConleyIndexForCells; distinct from the integrated native call",
+          "region_extraction_including_aggregation_seconds": 0.00955420799436979
+        },
+        "residual_evaluation": {
+          "first_seconds": 38.17940541599819,
+          "warm": {
+            "seconds": [
+              35.74908541599871,
+              36.35948112500773,
+              35.94661683400045
+            ],
+            "median_seconds": 35.94661683400045,
+            "relative_spread": 0.0169806163352674
+          }
+        },
+        "largest_source_pair_evaluation": {
+          "first_seconds": 17.04771499999333,
+          "warm": {
+            "seconds": [
+              16.848959540991927,
+              16.660205374995712,
+              16.487363292006194
+            ],
+            "median_seconds": 16.660205374995712,
+            "relative_spread": 0.021704189164944605
+          }
+        },
+        "data_map_index_construction": {
+          "first_seconds": 0.08364366600289941,
+          "warm": {
+            "seconds": [
+              0.08366337500046939,
+              0.08404575000167824,
+              0.08388812499470077
+            ],
+            "median_seconds": 0.08388812499470077,
+            "relative_spread": 0.004558154103849757
+          }
+        },
+        "data_map_grid_queries": {
+          "first_seconds": 0.17777416699391324,
+          "warm": {
+            "seconds": [
+              0.17947708300198428,
+              0.17870729199785274,
+              0.177746000001207
+            ],
+            "median_seconds": 0.17870729199785274,
+            "relative_spread": 0.009686694826073964
+          }
+        },
+        "native_cmgdb_with_data_queries": {
+          "first_seconds": 0.36448966700118035,
+          "warm": {
+            "seconds": [
+              0.3647329160012305,
+              0.3653944580000825,
+              0.36692462500650436,
+              0.37419108299945947,
+              0.3675706670037471
+            ],
+            "median_seconds": 0.36692462500650436,
+            "relative_spread": 0.025776866292528955
+          }
+        }
+      }
+    },
+    {
+      "seed": 2,
+      "policy": null,
+      "cells_per_axis": 64,
+      "source_size": 257,
+      "map_time": 1.0986122886681098,
+      "validation_selected": false,
+      "checkpoint_files": {
+        "config.json": "3a5958b28916ef6dbd02c98fcc1ade766569a50c818b0d01dce513c9738c5bee",
+        "weights.npz": "6fb41db30bc2315ee1e9eafa1530f3fdbf28b07862953feecd925a101ed6d562"
+      },
+      "primary_metric": "euclidean",
+      "comparisons": [
+        {
+          "node": 0,
+          "metric": "euclidean",
+          "tolerance_lower": 0.14468954903498502,
+          "max_residual": 0.02334266278345635,
+          "count": 510659,
+          "passed": true,
+          "cells": 1160,
+          "latent_hull": [
+            -1.875,
+            0.0,
+            -0.0625,
+            1.25
+          ],
+          "certified": false
+        },
+        {
+          "node": 1,
+          "metric": "euclidean",
+          "tolerance_lower": 0.14441531480046943,
+          "max_residual": 0.025882870540067215,
+          "count": 510659,
+          "passed": true,
+          "cells": 1160,
+          "latent_hull": [
+            0.0625,
+            0.0,
+            1.875,
+            1.25
+          ],
+          "certified": false
+        }
+      ],
+      "timings": {
+        "native": {
+          "frozen_table_first_native_seconds": 0.010183624995988794,
+          "frozen_table_warm_native": {
+            "seconds": [
+              0.011915541996131651,
+              0.011879542013048194,
+              0.01124958400032483,
+              0.011549792005098425,
+              0.01164358299865853
+            ],
+            "median_seconds": 0.01164358299865853,
+            "relative_spread": 0.05719528051490219
+          },
+          "split_morse_seconds": 0.009149833000265062,
+          "split_index_pair_and_index_seconds": 0.0010361259774072096,
+          "per_native_component_index_seconds": {
+            "0": 0.00013275000674184412,
+            "1": 0.00012554199201986194,
+            "2": 0.0004394589923322201,
+            "3": 0.00012808298924937844,
+            "4": 0.000210291997063905
+          },
+          "timing_scope": "native calls with precomputed image hulls; neural image construction excluded",
+          "split_scope": "ComputeMorseGraph followed by ComputeConleyIndexForCells; distinct from the integrated native call",
+          "region_extraction_including_aggregation_seconds": 0.009936292000929825
+        },
+        "residual_evaluation": {
+          "first_seconds": 36.866815749992384,
+          "warm": {
+            "seconds": [
+              35.53449066700705,
+              35.53045550000388,
+              35.5701922080043
+            ],
+            "median_seconds": 35.53449066700705,
+            "relative_spread": 0.0011182574241119865
+          }
+        },
+        "largest_source_pair_evaluation": {
+          "first_seconds": 16.81574679100595,
+          "warm": {
+            "seconds": [
+              16.357158792001428,
+              16.36467954199179,
+              16.88015754200751
+            ],
+            "median_seconds": 16.36467954199179,
+            "relative_spread": 0.03195899734327617
+          }
+        },
+        "data_map_index_construction": {
+          "first_seconds": 0.0044924169924343005,
+          "warm": {
+            "seconds": [
+              0.004538332999800332,
+              0.004494833992794156,
+              0.004303500012611039
+            ],
+            "median_seconds": 0.004494833992794156,
+            "relative_spread": 0.05224508570633817
+          }
+        },
+        "data_map_grid_queries": {
+          "first_seconds": 0.08158237500174437,
+          "warm": {
+            "seconds": [
+              0.07964466699922923,
+              0.07970845799718518,
+              0.07915595799568109
+            ],
+            "median_seconds": 0.07964466699922923,
+            "relative_spread": 0.006937062107490924
+          }
+        },
+        "native_cmgdb_with_data_queries": {
+          "first_seconds": 0.16762049999670126,
+          "warm": {
+            "seconds": [
+              0.16883904200221878,
+              0.16784083399397787,
+              0.16737070798990317,
+              0.16743620899796952,
+              0.16906795899558347
+            ],
+            "median_seconds": 0.16784083399397787,
+            "relative_spread": 0.010112265086463988
+          }
+        }
+      }
+    },
+    {
+      "seed": 2,
+      "policy": null,
+      "cells_per_axis": 64,
+      "source_size": 513,
+      "map_time": 1.0986122886681098,
+      "validation_selected": false,
+      "checkpoint_files": {
+        "config.json": "3a5958b28916ef6dbd02c98fcc1ade766569a50c818b0d01dce513c9738c5bee",
+        "weights.npz": "6fb41db30bc2315ee1e9eafa1530f3fdbf28b07862953feecd925a101ed6d562"
+      },
+      "primary_metric": "euclidean",
+      "comparisons": [
+        {
+          "node": 0,
+          "metric": "euclidean",
+          "tolerance_lower": 0.12439481267819422,
+          "max_residual": 0.02334266278345635,
+          "count": 510659,
+          "passed": true,
+          "cells": 1160,
+          "latent_hull": [
+            -1.875,
+            0.0,
+            -0.0625,
+            1.25
+          ],
+          "certified": false
+        },
+        {
+          "node": 1,
+          "metric": "euclidean",
+          "tolerance_lower": 0.12416844995498455,
+          "max_residual": 0.025882870540067215,
+          "count": 510659,
+          "passed": true,
+          "cells": 1160,
+          "latent_hull": [
+            0.0625,
+            0.0,
+            1.875,
+            1.25
+          ],
+          "certified": false
+        }
+      ],
+      "timings": {
+        "native": {
+          "frozen_table_first_native_seconds": 0.010152416987693869,
+          "frozen_table_warm_native": {
+            "seconds": [
+              0.011844207998365164,
+              0.011914707996766083,
+              0.011734166007954627,
+              0.011779458000091836,
+              0.019140582997351885
+            ],
+            "median_seconds": 0.011844207998365164,
+            "relative_spread": 0.6253197335287892
+          },
+          "split_morse_seconds": 0.009371042004204355,
+          "split_index_pair_and_index_seconds": 0.0010880850022658706,
+          "per_native_component_index_seconds": {
+            "0": 0.0001438750041415915,
+            "1": 0.00012766700820066035,
+            "2": 0.0004555420018732548,
+            "3": 0.0001269169879378751,
+            "4": 0.00023408400011248887
+          },
+          "timing_scope": "native calls with precomputed image hulls; neural image construction excluded",
+          "split_scope": "ComputeMorseGraph followed by ComputeConleyIndexForCells; distinct from the integrated native call",
+          "region_extraction_including_aggregation_seconds": 0.008127499997499399
+        },
+        "residual_evaluation": {
+          "first_seconds": 36.866815749992384,
+          "warm": {
+            "seconds": [
+              35.53449066700705,
+              35.53045550000388,
+              35.5701922080043
+            ],
+            "median_seconds": 35.53449066700705,
+            "relative_spread": 0.0011182574241119865
+          }
+        },
+        "largest_source_pair_evaluation": {
+          "first_seconds": 16.81574679100595,
+          "warm": {
+            "seconds": [
+              16.357158792001428,
+              16.36467954199179,
+              16.88015754200751
+            ],
+            "median_seconds": 16.36467954199179,
+            "relative_spread": 0.03195899734327617
+          }
+        },
+        "data_map_index_construction": {
+          "first_seconds": 0.018775624994304962,
+          "warm": {
+            "seconds": [
+              0.01894558400090318,
+              0.018961082998430356,
+              0.018435458012390882
+            ],
+            "median_seconds": 0.01894558400090318,
+            "relative_spread": 0.02774393156813835
+          }
+        },
+        "data_map_grid_queries": {
+          "first_seconds": 0.10281699999177363,
+          "warm": {
+            "seconds": [
+              0.10298258300463203,
+              0.10298470899579115,
+              0.10378133298945613
+            ],
+            "median_seconds": 0.10298470899579115,
+            "relative_spread": 0.007756005649894515
+          }
+        },
+        "native_cmgdb_with_data_queries": {
+          "first_seconds": 0.21490033299778588,
+          "warm": {
+            "seconds": [
+              0.21554845799983013,
+              0.21476462500868365,
+              0.21629766700789332,
+              0.21537450001051184,
+              0.2139597909990698
+            ],
+            "median_seconds": 0.21537450001051184,
+            "relative_spread": 0.010854934120378265
+          }
+        }
+      }
+    },
+    {
+      "seed": 2,
+      "policy": null,
+      "cells_per_axis": 64,
+      "source_size": 1025,
+      "map_time": 1.0986122886681098,
+      "validation_selected": false,
+      "checkpoint_files": {
+        "config.json": "3a5958b28916ef6dbd02c98fcc1ade766569a50c818b0d01dce513c9738c5bee",
+        "weights.npz": "6fb41db30bc2315ee1e9eafa1530f3fdbf28b07862953feecd925a101ed6d562"
+      },
+      "primary_metric": "euclidean",
+      "comparisons": [
+        {
+          "node": 0,
+          "metric": "euclidean",
+          "tolerance_lower": 0.12439481267819422,
+          "max_residual": 0.02334266278345635,
+          "count": 510659,
+          "passed": true,
+          "cells": 1160,
+          "latent_hull": [
+            -1.875,
+            0.0,
+            -0.0625,
+            1.25
+          ],
+          "certified": false
+        },
+        {
+          "node": 1,
+          "metric": "euclidean",
+          "tolerance_lower": 0.12416844995498455,
+          "max_residual": 0.025882870540067215,
+          "count": 510659,
+          "passed": true,
+          "cells": 1160,
+          "latent_hull": [
+            0.0625,
+            0.0,
+            1.875,
+            1.25
+          ],
+          "certified": false
+        }
+      ],
+      "timings": {
+        "native": {
+          "frozen_table_first_native_seconds": 0.010328749995096587,
+          "frozen_table_warm_native": {
+            "seconds": [
+              0.011785958995460533,
+              0.01179295800102409,
+              0.011712250008713454,
+              0.011761791000026278,
+              0.011757082989788614
+            ],
+            "median_seconds": 0.011761791000026278,
+            "relative_spread": 0.006861879479958063
+          },
+          "split_morse_seconds": 0.009242708998499438,
+          "split_index_pair_and_index_seconds": 0.0010270840139128268,
+          "per_native_component_index_seconds": {
+            "0": 0.00013341700832825154,
+            "1": 0.00011691699910443276,
+            "2": 0.0005320000054780394,
+            "3": 0.0002447500010021031
+          },
+          "timing_scope": "native calls with precomputed image hulls; neural image construction excluded",
+          "split_scope": "ComputeMorseGraph followed by ComputeConleyIndexForCells; distinct from the integrated native call",
+          "region_extraction_including_aggregation_seconds": 0.007422875001793727
+        },
+        "residual_evaluation": {
+          "first_seconds": 36.866815749992384,
+          "warm": {
+            "seconds": [
+              35.53449066700705,
+              35.53045550000388,
+              35.5701922080043
+            ],
+            "median_seconds": 35.53449066700705,
+            "relative_spread": 0.0011182574241119865
+          }
+        },
+        "largest_source_pair_evaluation": {
+          "first_seconds": 16.81574679100595,
+          "warm": {
+            "seconds": [
+              16.357158792001428,
+              16.36467954199179,
+              16.88015754200751
+            ],
+            "median_seconds": 16.36467954199179,
+            "relative_spread": 0.03195899734327617
+          }
+        },
+        "data_map_index_construction": {
+          "first_seconds": 0.08921866599121131,
+          "warm": {
+            "seconds": [
+              0.0883109999995213,
+              0.08782816700113472,
+              0.087915249998332
+            ],
+            "median_seconds": 0.087915249998332,
+            "relative_spread": 0.005492027815376114
+          }
+        },
+        "data_map_grid_queries": {
+          "first_seconds": 0.18653408299724106,
+          "warm": {
+            "seconds": [
+              0.1853174590069102,
+              0.1848840000020573,
+              0.1846430000005057
+            ],
+            "median_seconds": 0.1848840000020573,
+            "relative_spread": 0.0036480117608716773
+          }
+        },
+        "native_cmgdb_with_data_queries": {
+          "first_seconds": 0.3820668749976903,
+          "warm": {
+            "seconds": [
+              0.3811774580099154,
+              0.37993258399365004,
+              0.3817016669927398,
+              0.3823536660056561,
+              0.3824239999958081
+            ],
+            "median_seconds": 0.3817016669927398,
+            "relative_spread": 0.006527128953318048
+          }
+        }
+      }
+    }
+  ]
+}

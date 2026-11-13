@@ -109,10 +109,16 @@ def main():
             command.set_defaults(config=HERE / "reference/joint/config.json")
     manuscript = commands.add_parser("manuscript", help="Recompute and redraw the older saved manuscript fit")
     manuscript.add_argument("--out", type=Path, required=True)
+    tolerances = commands.add_parser("tolerances", help="Recompute attracting-region margins for a checkpoint")
+    from common.workflow import attracting_region_arguments
+    attracting_region_arguments(tolerances, 1)
     args = parser.parse_args()
     try:
-        args.versions = require_environment()
-        if args.command == "manuscript":
+        args.versions = require_environment(graphics=args.command != "tolerances")
+        if args.command == "tolerances":
+            from common.attracting_region_models import example1
+            example1(args)
+        elif args.command == "manuscript":
             from common.workflow import manuscript_run
             manuscript_run("example1", args.out)
         else:

@@ -20,6 +20,8 @@ Run this from `code/`. It loads the exact data and saved weights for the joint i
 
 The READMEs identify the actual dataset, representations, learned maps, and time steps. Each workflow writes to a new directory in `code/outputs/`. Input data and frozen references have separate locations. Fresh training results can differ from saved checkpoints, so compare both numerical errors and actual native graphs.
 
+The [attracting-region tolerance workflow](code/examples/common/attracting_regions.md) accepts another model directory through `--model`. It rebuilds the native map and conservative minimal-node regions and saves the numerical tolerance and sampled physical residual in the same metric. Separate reference summaries retain the working-example values and reproduction settings.
+
 ## Read the manuscript
 
 1. Read the Introduction and Combinatorial dynamics and latent dynamics for the problem, outer approximations, Morse graphs, and Conley indices. The flow examples use time maps.

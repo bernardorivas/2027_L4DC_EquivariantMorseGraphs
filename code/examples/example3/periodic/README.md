@@ -18,6 +18,8 @@ To replay the 53 frozen numeric inputs, regenerate the physical data, and check 
 python examples/example3/run.py periodic replay --out outputs/example3-periodic-replay
 ```
 
+The [attracting-region instructions](reference/tolerances/README.md) describe `periodic tolerances --policy coning --model MODEL --out OUTPUT`, its numerical reference values, and reruns for another checkpoint. It rebuilds the graph and coning aggregate and samples the physical residual in matching sphere and interval metrics.
+
 To generate data and train new models:
 
 ```bash

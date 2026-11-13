@@ -1,0 +1,586 @@
+{
+  "format_version": 1,
+  "date": "2026-11-13",
+  "example": "example3",
+  "evidence": "sampled image hulls and residual maxima; no uniform physical certificate",
+  "sampling": {
+    "held_out_trajectories": 4096,
+    "windows_per_trajectory": 23,
+    "fresh_trajectories": 4096,
+    "held_out_seed": 2026111323,
+    "fresh_seed": 2026111341,
+    "image_samples": 257
+  },
+  "cases": [
+    {
+      "seed": 0,
+      "policy": "nominal",
+      "cells_per_axis": 128,
+      "source_size": null,
+      "map_time": 1.0,
+      "validation_selected": true,
+      "checkpoint_files": {
+        "config.json": "056303d5652e27da99549e299307576d6256bef452f3057f2ae2fa0a5ec1cd5e",
+        "weights.npz": "d8477c6d6bf0e400095a689b577befb2c30fddd9ebd73eaa51945fe61d742e3b",
+        "normalization.npz": "8342097dba49ea856f74d2aed86d8b2934548d763dbcf3b92749bb81bec69576"
+      },
+      "primary_metric": "sphere_height",
+      "comparisons": [
+        {
+          "node": 0,
+          "metric": "euclidean",
+          "tolerance_lower": 0.09427967343139654,
+          "max_residual": 0.013514816761016846,
+          "count": 87450,
+          "passed": true,
+          "cells": 127,
+          "latent_hull": [
+            -0.984375,
+            1.0
+          ],
+          "certified": false
+        },
+        {
+          "node": 0,
+          "metric": "sphere_height",
+          "tolerance_lower": 0.2948311736802007,
+          "max_residual": 0.014870967533202498,
+          "count": 87450,
+          "passed": true,
+          "cells": 127,
+          "latent_hull": [
+            -0.984375,
+            1.0
+          ],
+          "certified": false
+        }
+      ],
+      "timings": {
+        "native": {
+          "frozen_table_first_native_seconds": 0.0004105830012122169,
+          "frozen_table_warm_native": {
+            "seconds": [
+              0.00042791599116753787,
+              0.0003904590121237561,
+              0.0003750830073840916,
+              0.0003735409991350025,
+              0.0003783749998547137
+            ],
+            "median_seconds": 0.0003783749998547137,
+            "relative_spread": 0.14370661923598013
+          },
+          "split_morse_seconds": 0.00027470799977891147,
+          "split_index_pair_and_index_seconds": 0.00016541600052732974,
+          "per_native_component_index_seconds": {
+            "0": 7.733299571555108e-05,
+            "1": 8.808300481177866e-05
+          },
+          "timing_scope": "native calls with precomputed image hulls; neural image construction excluded",
+          "split_scope": "ComputeMorseGraph followed by ComputeConleyIndexForCells; distinct from the integrated native call",
+          "structural_aggregation_seconds": 0.000315792000037618,
+          "region_extraction_including_aggregation_seconds": 0.0003771250048885122
+        },
+        "image_construction": {
+          "first_seconds": 0.5468404170096619,
+          "warm": {
+            "seconds": [
+              0.012277791989617981,
+              0.012543207994895056,
+              0.012066208000760525
+            ],
+            "median_seconds": 0.012277791989617981,
+            "relative_spread": 0.038850633284704485
+          }
+        },
+        "residual_evaluation": {
+          "first_seconds": 0.7716924579872284,
+          "warm": {
+            "seconds": [
+              0.21414437500061467,
+              0.213617332992726,
+              0.2140042499959236
+            ],
+            "median_seconds": 0.2140042499959236,
+            "relative_spread": 0.0024627642109850928
+          }
+        }
+      }
+    },
+    {
+      "seed": 0,
+      "policy": "coning",
+      "cells_per_axis": 128,
+      "source_size": null,
+      "map_time": 1.0,
+      "validation_selected": true,
+      "checkpoint_files": {
+        "config.json": "1eab9877cba8dea9c5e4498ec469a4ba69eee5c675754dca54747f4a10f0180a",
+        "weights.npz": "682f8d162c1c4b3b94da9095fa30f2a63c82af139f1452ebac02d2ccd31767e0",
+        "normalization.npz": "2070d1a6256f830dfcc575120b4a9a646ae0466e86187001bd3e9ec140c0dde0"
+      },
+      "primary_metric": "sphere_height",
+      "comparisons": [
+        {
+          "node": 0,
+          "metric": "euclidean",
+          "tolerance_lower": 0.04477253231811529,
+          "max_residual": 0.009189814329147339,
+          "count": 76823,
+          "passed": true,
+          "cells": 126,
+          "latent_hull": [
+            -0.984375,
+            0.984375
+          ],
+          "certified": false
+        },
+        {
+          "node": 0,
+          "metric": "sphere_height",
+          "tolerance_lower": 0.17216790542864707,
+          "max_residual": 0.014892178061572673,
+          "count": 76823,
+          "passed": true,
+          "cells": 126,
+          "latent_hull": [
+            -0.984375,
+            0.984375
+          ],
+          "certified": false
+        }
+      ],
+      "timings": {
+        "native": {
+          "frozen_table_first_native_seconds": 0.0004404159990372136,
+          "frozen_table_warm_native": {
+            "seconds": [
+              0.00046299998939502984,
+              0.00042912500794045627,
+              0.0004254160012351349,
+              0.00041725000482983887,
+              0.00041704101022332907
+            ],
+            "median_seconds": 0.0004254160012351349,
+            "relative_spread": 0.10803302893700616
+          },
+          "split_morse_seconds": 0.0002769169950624928,
+          "split_index_pair_and_index_seconds": 0.0002829169970937073,
+          "per_native_component_index_seconds": {
+            "0": 6.17500045336783e-05,
+            "1": 8.491698827128857e-05,
+            "2": 7.525000546593219e-05,
+            "3": 6.0999998822808266e-05
+          },
+          "timing_scope": "native calls with precomputed image hulls; neural image construction excluded",
+          "split_scope": "ComputeMorseGraph followed by ComputeConleyIndexForCells; distinct from the integrated native call",
+          "structural_aggregation_seconds": 0.00041841699567157775,
+          "region_extraction_including_aggregation_seconds": 0.00047066700062714517
+        },
+        "image_construction": {
+          "first_seconds": 0.5119820420077303,
+          "warm": {
+            "seconds": [
+              0.01206024999555666,
+              0.011910667002666742,
+              0.012093083001673222
+            ],
+            "median_seconds": 0.01206024999555666,
+            "relative_spread": 0.015125391187884765
+          }
+        },
+        "residual_evaluation": {
+          "first_seconds": 0.7481269170093583,
+          "warm": {
+            "seconds": [
+              0.21370750000642147,
+              0.21371754199208226,
+              0.21321541699580848
+            ],
+            "median_seconds": 0.21370750000642147,
+            "relative_spread": 0.0023495899594477994
+          }
+        }
+      }
+    },
+    {
+      "seed": 1,
+      "policy": "nominal",
+      "cells_per_axis": 128,
+      "source_size": null,
+      "map_time": 1.0,
+      "validation_selected": false,
+      "checkpoint_files": {
+        "config.json": "44599af5e0fe5795da4724e84c5375880db94ff34afc29921911830acaeb98f0",
+        "weights.npz": "5c7b387b7a67d5a0ead905c9761e7478438229c800297df1656a112354707fbc",
+        "normalization.npz": "8342097dba49ea856f74d2aed86d8b2934548d763dbcf3b92749bb81bec69576"
+      },
+      "primary_metric": "sphere_height",
+      "comparisons": [
+        {
+          "node": 0,
+          "metric": "euclidean",
+          "tolerance_lower": 0.09394201311874395,
+          "max_residual": 0.013332096859812737,
+          "count": 87448,
+          "passed": true,
+          "cells": 127,
+          "latent_hull": [
+            -0.984375,
+            1.0
+          ],
+          "certified": false
+        },
+        {
+          "node": 0,
+          "metric": "sphere_height",
+          "tolerance_lower": 0.29419912214273647,
+          "max_residual": 0.016440533186772483,
+          "count": 87448,
+          "passed": true,
+          "cells": 127,
+          "latent_hull": [
+            -0.984375,
+            1.0
+          ],
+          "certified": false
+        }
+      ],
+      "timings": {
+        "native": {
+          "frozen_table_first_native_seconds": 0.00040512499981559813,
+          "frozen_table_warm_native": {
+            "seconds": [
+              0.0004440000047907233,
+              0.00039958399429451674,
+              0.00039037500391714275,
+              0.0003869170031975955,
+              0.00038462500378955156
+            ],
+            "median_seconds": 0.00039037500391714275,
+            "relative_spread": 0.152097343337521
+          },
+          "split_morse_seconds": 0.00027887499891221523,
+          "split_index_pair_and_index_seconds": 0.00014725099026691169,
+          "per_native_component_index_seconds": {
+            "0": 6.704199768137187e-05,
+            "1": 8.020899258553982e-05
+          },
+          "timing_scope": "native calls with precomputed image hulls; neural image construction excluded",
+          "split_scope": "ComputeMorseGraph followed by ComputeConleyIndexForCells; distinct from the integrated native call",
+          "structural_aggregation_seconds": 0.0002840829984052107,
+          "region_extraction_including_aggregation_seconds": 0.00034149999555666
+        },
+        "image_construction": {
+          "first_seconds": 0.5185106669960078,
+          "warm": {
+            "seconds": [
+              0.012153000003308989,
+              0.012093500001356006,
+              0.012163124993094243
+            ],
+            "median_seconds": 0.012153000003308989,
+            "relative_spread": 0.005729037416216581
+          }
+        },
+        "residual_evaluation": {
+          "first_seconds": 0.7463020419963868,
+          "warm": {
+            "seconds": [
+              0.21504195900342893,
+              0.2133142500097165,
+              0.21367374999681488
+            ],
+            "median_seconds": 0.21367374999681488,
+            "relative_spread": 0.008085733477969074
+          }
+        }
+      }
+    },
+    {
+      "seed": 1,
+      "policy": "coning",
+      "cells_per_axis": 128,
+      "source_size": null,
+      "map_time": 1.0,
+      "validation_selected": false,
+      "checkpoint_files": {
+        "config.json": "7b6d7156e7fc778918c4d355310717781b68535cecc9f8414675a06fb7d3bbea",
+        "weights.npz": "a7fcd1b09a7eb41341df1c11da20d0ceb03e9d9c94a636137a7a5d23e9e50355",
+        "normalization.npz": "2070d1a6256f830dfcc575120b4a9a646ae0466e86187001bd3e9ec140c0dde0"
+      },
+      "primary_metric": "sphere_height",
+      "comparisons": [
+        {
+          "node": 0,
+          "metric": "euclidean",
+          "tolerance_lower": 0.04485514435577398,
+          "max_residual": 0.01636139489710331,
+          "count": 76807,
+          "passed": true,
+          "cells": 126,
+          "latent_hull": [
+            -0.984375,
+            0.984375
+          ],
+          "certified": false
+        },
+        {
+          "node": 0,
+          "metric": "sphere_height",
+          "tolerance_lower": 0.17271350058826027,
+          "max_residual": 0.016363577997971626,
+          "count": 76807,
+          "passed": true,
+          "cells": 126,
+          "latent_hull": [
+            -0.984375,
+            0.984375
+          ],
+          "certified": false
+        }
+      ],
+      "timings": {
+        "native": {
+          "frozen_table_first_native_seconds": 0.00043029199878219515,
+          "frozen_table_warm_native": {
+            "seconds": [
+              0.0004155000060563907,
+              0.00038458299241028726,
+              0.0003834999952232465,
+              0.00038416699680965394,
+              0.000381334000849165
+            ],
+            "median_seconds": 0.00038416699680965394,
+            "relative_spread": 0.08893529504345779
+          },
+          "split_morse_seconds": 0.0002563339949119836,
+          "split_index_pair_and_index_seconds": 0.0002520830021239817,
+          "per_native_component_index_seconds": {
+            "0": 5.4208008805289865e-05,
+            "1": 7.162499241530895e-05,
+            "2": 5.337499896995723e-05,
+            "3": 7.287500193342566e-05
+          },
+          "timing_scope": "native calls with precomputed image hulls; neural image construction excluded",
+          "split_scope": "ComputeMorseGraph followed by ComputeConleyIndexForCells; distinct from the integrated native call",
+          "structural_aggregation_seconds": 0.00035633399966172874,
+          "region_extraction_including_aggregation_seconds": 0.00040879200969357044
+        },
+        "image_construction": {
+          "first_seconds": 0.5153848750051111,
+          "warm": {
+            "seconds": [
+              0.011835166995297186,
+              0.011780250002630055,
+              0.0153240840008948
+            ],
+            "median_seconds": 0.011835166995297186,
+            "relative_spread": 0.29943253015972826
+          }
+        },
+        "residual_evaluation": {
+          "first_seconds": 0.747094416001346,
+          "warm": {
+            "seconds": [
+              0.2094134579965612,
+              0.1998102090001339,
+              0.20292658399557695
+            ],
+            "median_seconds": 0.20292658399557695,
+            "relative_spread": 0.047323760186278
+          }
+        }
+      }
+    },
+    {
+      "seed": 2,
+      "policy": "nominal",
+      "cells_per_axis": 128,
+      "source_size": null,
+      "map_time": 1.0,
+      "validation_selected": false,
+      "checkpoint_files": {
+        "config.json": "9896398e29d79b3fcd310072e74bc53c6a2af4298d638b290ee15ee926ff084c",
+        "weights.npz": "b7bcafb6ded7fa9199b45cf89f6c6b7195809ee1f07f6c01f9c196b254bf35b7",
+        "normalization.npz": "8342097dba49ea856f74d2aed86d8b2934548d763dbcf3b92749bb81bec69576"
+      },
+      "primary_metric": "sphere_height",
+      "comparisons": [
+        {
+          "node": 0,
+          "metric": "euclidean",
+          "tolerance_lower": 0.09411003861236578,
+          "max_residual": 0.019262798130512238,
+          "count": 87441,
+          "passed": true,
+          "cells": 127,
+          "latent_hull": [
+            -0.984375,
+            1.0
+          ],
+          "certified": false
+        },
+        {
+          "node": 0,
+          "metric": "sphere_height",
+          "tolerance_lower": 0.29504956629331164,
+          "max_residual": 0.02196536373596516,
+          "count": 87441,
+          "passed": true,
+          "cells": 127,
+          "latent_hull": [
+            -0.984375,
+            1.0
+          ],
+          "certified": false
+        }
+      ],
+      "timings": {
+        "native": {
+          "frozen_table_first_native_seconds": 0.00040708400774747133,
+          "frozen_table_warm_native": {
+            "seconds": [
+              0.00042254199797753245,
+              0.00039683400245849043,
+              0.0003921250026905909,
+              0.0003885000041918829,
+              0.0003885000041918829
+            ],
+            "median_seconds": 0.0003921250026905909,
+            "relative_spread": 0.08681413720642195
+          },
+          "split_morse_seconds": 0.00028883399500045925,
+          "split_index_pair_and_index_seconds": 0.00017041699902620167,
+          "per_native_component_index_seconds": {
+            "0": 8.029199671000242e-05,
+            "1": 9.012500231619924e-05
+          },
+          "timing_scope": "native calls with precomputed image hulls; neural image construction excluded",
+          "split_scope": "ComputeMorseGraph followed by ComputeConleyIndexForCells; distinct from the integrated native call",
+          "structural_aggregation_seconds": 0.00030412498745135963,
+          "region_extraction_including_aggregation_seconds": 0.0003615409950725734
+        },
+        "image_construction": {
+          "first_seconds": 0.5123005420027766,
+          "warm": {
+            "seconds": [
+              0.012234583002282307,
+              0.012137166995671578,
+              0.012076458995579742
+            ],
+            "median_seconds": 0.012137166995671578,
+            "relative_spread": 0.013028081986426956
+          }
+        },
+        "residual_evaluation": {
+          "first_seconds": 0.7427157909987727,
+          "warm": {
+            "seconds": [
+              0.21380083299300168,
+              0.212789958997746,
+              0.2144103340106085
+            ],
+            "median_seconds": 0.21380083299300168,
+            "relative_spread": 0.007578899437288608
+          }
+        }
+      }
+    },
+    {
+      "seed": 2,
+      "policy": "coning",
+      "cells_per_axis": 128,
+      "source_size": null,
+      "map_time": 1.0,
+      "validation_selected": false,
+      "checkpoint_files": {
+        "config.json": "6bf0897cf0539f35b29ddc1b342319bf954daa6b07e763e10b55aeafccee9a2c",
+        "weights.npz": "d78ff2d7b3752b7729fb711ffdafee165c4418f51c686707f5813ca06c4f3bd3",
+        "normalization.npz": "2070d1a6256f830dfcc575120b4a9a646ae0466e86187001bd3e9ec140c0dde0"
+      },
+      "primary_metric": "sphere_height",
+      "comparisons": [
+        {
+          "node": 0,
+          "metric": "euclidean",
+          "tolerance_lower": 0.045141365859985405,
+          "max_residual": 0.011251688003540039,
+          "count": 76807,
+          "passed": true,
+          "cells": 126,
+          "latent_hull": [
+            -0.984375,
+            0.984375
+          ],
+          "certified": false
+        },
+        {
+          "node": 0,
+          "metric": "sphere_height",
+          "tolerance_lower": 0.17322366735373615,
+          "max_residual": 0.01699919756995978,
+          "count": 76807,
+          "passed": true,
+          "cells": 126,
+          "latent_hull": [
+            -0.984375,
+            0.984375
+          ],
+          "certified": false
+        }
+      ],
+      "timings": {
+        "native": {
+          "frozen_table_first_native_seconds": 0.00042141700396314263,
+          "frozen_table_warm_native": {
+            "seconds": [
+              0.0004280829889466986,
+              0.00040337500104214996,
+              0.0004110830050194636,
+              0.0003794999938691035,
+              0.0003796250093728304
+            ],
+            "median_seconds": 0.00040337500104214996,
+            "relative_spread": 0.12044126421339264
+          },
+          "split_morse_seconds": 0.00025016700965352356,
+          "split_index_pair_and_index_seconds": 0.00023845898977015167,
+          "per_native_component_index_seconds": {
+            "0": 6.299999949987978e-05,
+            "1": 7.38749949960038e-05,
+            "2": 4.729199281428009e-05,
+            "3": 5.4292002459988e-05
+          },
+          "timing_scope": "native calls with precomputed image hulls; neural image construction excluded",
+          "split_scope": "ComputeMorseGraph followed by ComputeConleyIndexForCells; distinct from the integrated native call",
+          "structural_aggregation_seconds": 0.0003342080017318949,
+          "region_extraction_including_aggregation_seconds": 0.0003830420027952641
+        },
+        "image_construction": {
+          "first_seconds": 0.5194152500043856,
+          "warm": {
+            "seconds": [
+              0.011889665998751298,
+              0.011878707999130711,
+              0.011872042014147155
+            ],
+            "median_seconds": 0.011878707999130711,
+            "relative_spread": 0.001483661742121478
+          }
+        },
+        "residual_evaluation": {
+          "first_seconds": 0.7937102909927489,
+          "warm": {
+            "seconds": [
+              0.2041042080090847,
+              0.20392658300988842,
+              0.20418220899591688
+            ],
+            "median_seconds": 0.2041042080090847,
+            "relative_spread": 0.0012524287888130397
+          }
+        }
+      }
+    }
+  ]
+}

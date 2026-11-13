@@ -8,6 +8,8 @@ The [Example 3 presentation](code/examples/example3/README.md) pairs original an
 
 [Read the two-page Example 3 presentation and view its SVG panels](code/examples/example3/presentation/README.md).
 
+[Compute attracting-region tolerances for a saved or newly trained model](code/examples/common/attracting_regions.md). Each run saves its checkpoint hashes, reconstructed regions, sampled residual comparisons, and timing stages.
+
 - [Example 1](code/examples/example1/README.md): SO(2) flow on the sphere.
 - [Example 2](code/examples/example2/README.md): O(3) flow.
 - [Example 3](code/examples/example3/README.md): reduced attitude control.

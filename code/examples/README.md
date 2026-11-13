@@ -36,6 +36,10 @@ Example 2 uses the joint quotient fit on a fixed $64\times64$ latent grid. Nativ
 
 Example 3 uses full-plant trajectories initialized on the closed invariant sphere subsystem, with explicit calibration toward the thrust axis. The [earlier arbitrary-rate reconstruction experiment](example3/full-state.md) is preserved separately.
 
+## Attracting-region tolerances
+
+The [shared tolerance workflow](common/attracting_regions.md) accepts a checkpoint directory and recomputes its numerical attracting-region margins and physical residuals. Use `example1/run.py tolerances`, `example2/run.py tolerances`, or `example3/run.py periodic tolerances`, each with `--model MODEL --out OUTPUT`. The reference READMEs retain the current values and settings. New weights are evaluated through new native graphs and basin labels. Failed comparisons remain in the output.
+
 ## Files
 
 Each example has its own README, `run.py`, editable settings in `config.json`, fixed numerical datasets in `data/`, and immutable saved experiments in `reference/`. Examples 1 and 2 retain separate historical manuscript inputs, and Example 2's `reference/data-map/` stores the current data-map analysis. Example 3 groups its sphere, interval, and CMGDB references by controller and seed. Input manifests record SHA-256 checksums. All new results go to the requested output directory, which is ignored by Git.

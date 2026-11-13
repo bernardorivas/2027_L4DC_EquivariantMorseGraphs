@@ -32,12 +32,15 @@ The [reproduction instructions](examples/example3/periodic/README.md) include th
 
 Use a new output directory for every run. `outputs/` is ignored by Git, and supplied data and references stay unchanged. Reference inputs have SHA-256 manifests. Examples 1 and 2 keep their new joint fits and older manuscript fits in separate reference directories.
 
+The [attracting-region commands](examples/common/attracting_regions.md) accept `--model` to analyze another checkpoint. They rebuild the graph and basin regions, compare numerical tolerance margins with sampled physical residuals, and save weight hashes, settings, and timings. Each example has a separate numerical reference and reproduction README.
+
 ## Library and tests
 
 - `src/latent_equivariance/equivariant_grid.py`: equivariant uniform grids and box images on cell representatives.
 - `src/latent_equivariance/equivariant_graph.py`: quotient graphs, group labels, stabilizers, and lifted order.
 - `src/latent_equivariance/homology.py`: relative cubical homology, signed actions, orbit and twisted complexes, index maps, and reconstruction.
 - `src/latent_equivariance/certificates.py`: geometric blocks and sampled residual checks.
+- `src/latent_equivariance/quotient_certificates.py`: quotient metrics, conservative regions, and tolerance geometry.
 - `src/latent_equivariance/learned.py`: PyTorch components used by the library tests.
 
 ```bash

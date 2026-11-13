@@ -68,6 +68,24 @@ def require_environment(graphics=True):
     return found
 
 
+def attracting_region_arguments(command, example):
+    """Arguments shared by the numerical attracting-region commands."""
+    command.add_argument("--model", type=Path, help="Checkpoint directory containing config.json and weights.npz")
+    command.add_argument("--out", type=Path, required=True)
+    command.add_argument("--samples", type=int, default={1: 65537, 2: 1024, 3: 4096}[example],
+                         help="Meridian points, section points per axis, or trajectories, respectively")
+    command.add_argument("--repeats", type=int, default=3, help="Warm image and residual timing repetitions; zero uses the first call")
+    command.add_argument("--native-repeats", type=int, default=5)
+    if example != 2:
+        command.add_argument("--cells", type=int, default=128)
+        command.add_argument("--image-samples", type=int, default=65 if example == 1 else 257)
+    else:
+        command.add_argument("--source-sizes", type=int, nargs="+", default=[1025])
+    if example == 3:
+        command.add_argument("--policy", choices=("nominal", "coning"), default="coning")
+        command.add_argument("--data", type=Path, help="Optional held-out observation file or its data directory")
+
+
 def run_module(name, *arguments):
     subprocess.run([sys.executable, "-m", name, *map(str, arguments)], cwd=EXAMPLES, check=True)
 

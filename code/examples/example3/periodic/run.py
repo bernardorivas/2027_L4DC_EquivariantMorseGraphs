@@ -73,6 +73,9 @@ def main(argv=None):
     data = commands.add_parser("data")
     data.add_argument("--out", type=Path, required=True)
     data.add_argument("--sizes", type=int, nargs=3, default=[8192, 2048, 4096])
+    tolerances = commands.add_parser("tolerances", help="Recompute attracting-region margins for a sphere and interval checkpoint")
+    from common.workflow import attracting_region_arguments
+    attracting_region_arguments(tolerances, 3)
     for name in ("train", "analyze"):
         command = commands.add_parser(name)
         command.add_argument("--out", type=Path, required=True)
@@ -83,7 +86,12 @@ def main(argv=None):
             command.add_argument("--steps", type=int, default=6000)
             command.add_argument("--skip-analysis", action="store_true")
     args = parser.parse_args(argv)
-    versions = require_environment(graphics=args.command != "data")
+    versions = require_environment(graphics=args.command not in {"data", "tolerances"})
+    args.versions = versions
+    if args.command == "tolerances":
+        from common.attracting_region_models import example3
+        example3(args)
+        return
     if args.command == "presentation":
         verify_inputs(HERE)
         out = new_output(args.out)
