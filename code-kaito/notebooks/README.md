@@ -1,8 +1,8 @@
-# Example notebooks — Section 5
+# Worked examples of learned quotient dynamics
 
-- `01_sphere.ipynb` (§5.1): raw sphere states, an O(2)-invariant interval encoder, learned time-one map, and orbit decoder. CMGDB uses ten learned steps.
-- `02_o3_flow.ipynb` (§5.2): raw scalar/vector states, an O(3)-invariant gain encoder, learned time-log(3) quotient map, and orbit decoder.
+- [Sphere flow](01_sphere.ipynb) explains the height quotient, learned interval dynamics, and circle-fiber contribution to local indices.
+- [O(3) flow](02_o3_flow.ipynb) explains positive-gain coordinates, two-dimensional quotient dynamics, and sphere-fiber contributions.
 
-Use the `code-kaito/.venv` kernel and run the cells in order. The training cell loads the saved fit by default; `retrain=True` trains again. See the parent README for environment setup.
+Read either notebook from top to bottom. Each introduces the system, derives a concrete quotient example, specifies the model and training loss, and explains how to read the figures and graph annotations. Saved outputs are included.
 
-These notebooks retain their saved experiment configurations. Bernardo’s numbered workflows in `code/examples/` are separate experiments; their checkpoints and training settings are not interchangeable. The comparisons distinguish native graphs, aggregates, and reconstructed indices for specified lifts.
+To reproduce the outputs, follow the [environment setup](../README.md#run-locally), select `code-kaito/.venv`, and run every cell. The default loads the bundled checkpoint without training. The numerical settings are explicit in the fitting cell. Figure exports retain PDF or SVG sources alongside the PNG notebook outputs.

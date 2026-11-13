@@ -32,7 +32,7 @@ def analytical_graphs(folder,levels=(7,8,9),tau=10.):
     (folder/'comparison.json').write_text(json.dumps(result,indent=2)+'\n');return result
 
 
-def show_joint_comparison(reference,fit,study):
+def show_joint_comparison(reference,fit,study,diagnostics=True):
     from notebook_support import gallery,table
     from quotient_domain_notebook import _domain_figure
     from IPython.display import display,HTML
@@ -48,7 +48,22 @@ def show_joint_comparison(reference,fit,study):
     from o3_morse_regions import show_regions
     show_regions(fit)
     from o3_aggregation import show_aggregation
-    show_aggregation(fit,show_graphs=False)
+    show_aggregation(fit,show_graphs=False,show_placement=False)
+    if diagnostics:show_joint_diagnostics(fit,study)
+    fit_result=json.loads((fit/'result.json').read_text())
+    record=dict(fit=str(fit.relative_to(ROOT)),checkpoint_sha256=fit_result['checkpoint_sha256'],
+        metrics=fit_result['metrics'],domain_study=study,reference_figures=str(reference.relative_to(ROOT)),
+        analytical_matched_time=str(dest.relative_to(ROOT)),synthetic_observations=False)
+    (ROOT/'build/notebooks/o3/latest.json').write_text(json.dumps(record,indent=2)+'\n')
+
+def show_joint_diagnostics(fit,study):
+    """Display sampled image membership and the two native graph domains."""
+    from notebook_support import gallery
+    from quotient_domain_notebook import _domain_figure
+    from IPython.display import display,HTML
+    folder=ROOT/study['study']
+    result=json.loads((folder/'comparison.json').read_text())
+    n=result['resolutions'][-1]['n']
     c=result['point_checks']
     display(HTML(f"<p><b>Domain check:</b> {c['initial_outside']} of {c['samples']} encoded starts lie outside the sampled image; "
         f"{c['one_step_outside']} leave it after one learned step. "
@@ -56,13 +71,8 @@ def show_joint_comparison(reference,fit,study):
     checks=ROOT/study['checks']
     _domain_figure(folder,checks,result)
     gallery([('Encoder image: native graph, no indices',folder/f'restricted-{n}.svg'),
-             ('Rectangle: native graph and indices',folder/f'rectangle-{n}.svg')])
+             ('Rectangle: native graph and indices',folder/f'rectangle-{n}.svg')],fit_height=420)
     display(HTML('<p>Rectangle indices include cells outside the sampled encoder image and are not transferred to the Atlas restriction.</p>'))
-    fit_result=json.loads((fit/'result.json').read_text())
-    record=dict(fit=str(fit.relative_to(ROOT)),checkpoint_sha256=fit_result['checkpoint_sha256'],
-        metrics=fit_result['metrics'],domain_study=study,reference_figures=str(reference.relative_to(ROOT)),
-        analytical_matched_time=str(dest.relative_to(ROOT)),synthetic_observations=False)
-    (ROOT/'build/notebooks/o3/latest.json').write_text(json.dumps(record,indent=2)+'\n')
 
 if __name__=='__main__':
     import sys

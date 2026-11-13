@@ -63,6 +63,18 @@ def height(ax):
     ax.set_xticks([-1,-.4,0,.4,1],['$-1$','$-0.4$','$0$','$0.4$','$1$'])
     ax.set_yticks([-1,0,1]);ax.tick_params(length=3,width=.65,pad=3)
 
+def render_height():
+    """Render the height map with labels sized for a compact manuscript panel."""
+    out=ROOT/'artifacts/sphere-flow';out.mkdir(parents=True,exist_ok=True)
+    with plt.rc_context(dict(RC, **{'font.size':11})):
+        fig,ax=plt.subplots(figsize=(2.5,2.4))
+        height(ax)
+        for ext in ('pdf','svg','png'):
+            fig.savefig(out/f'height-map.{ext}',dpi=220,bbox_inches='tight',pad_inches=.04)
+        plt.close(fig)
+    return out
+
+
 def render():
     out=ROOT/'artifacts/sphere-flow';out.mkdir(parents=True,exist_ok=True)
     with plt.rc_context(RC):

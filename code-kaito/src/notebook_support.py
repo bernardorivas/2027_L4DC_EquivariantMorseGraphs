@@ -83,6 +83,8 @@ def gallery(items, width=1050, max_height=None, fit_height=None, image_max_width
         return
     # Equal-width columns keep comparison panels together on GitHub.
     height = max(im.height / im.width for _, im in images) * width / len(images)
+    if fit_height is not None:
+        height = min(height, fit_height)
     fig, axes = plt.subplots(1, len(images), squeeze=False,
                              figsize=(width / 150, (height + 65) / 150))
     for ax, (title, im) in zip(axes[0], images):

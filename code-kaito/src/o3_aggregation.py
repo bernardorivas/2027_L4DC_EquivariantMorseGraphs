@@ -103,7 +103,7 @@ if __name__=='__main__':
     shifted_images() if '--images' in sys.argv else run()
 
 
-def show_aggregation(fit,show_graphs=True):
+def show_aggregation(fit,show_graphs=True,show_placement=True):
     import hashlib
     from notebook_support import gallery,table
     from IPython.display import HTML,display
@@ -117,6 +117,7 @@ def show_aggregation(fit,show_graphs=True):
     table(['Grid','Native learned','Aggregated','Analytical graph + indices'],
           [(r['n'],r['native_components'],len(r['groups']),'Match' if r['matches_analytical_annotated_graph'] else 'Mismatch') for r in result['original_grid']])
     display(HTML('<p>Groups include all directed connecting cells; they are disjoint, and CMGDB validates each index pair and recomputes its index. The extra nodes group with the origin and saddle. These are quotient indices on the rectangular domain, not reconstructed original-space indices.</p>'))
+    if not show_placement:return
     table(['Grid','Aligned grid: native nodes','Half-cell shift: native nodes','All aggregated indices match'],
           [(n,*[next(r['native_components'] for r in result['shifted_grids'] if r['n']==n and r['grid_shift_cells']==s) for s in (0.,.5)],'Yes') for n in (128,256)])
     display(HTML('<p>The grid-placement test uses identical weights, time, cell widths and sampling; only placement changes between its two columns. Together with sampled strict drift in both extra components, this supports a grid-artifact explanation. It is not a rigorous exclusion of all recurrent dynamics of the continuous neural map: cell-image bounds remain sampled.</p>'))

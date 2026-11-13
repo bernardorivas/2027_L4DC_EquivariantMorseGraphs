@@ -131,8 +131,6 @@ Arb interval bounds verify local expansion/contraction and unique fixed-point br
     table(['Set','Quotient classes','Additional original-space classes','Original-space classes'],
           [('Origin','None','H₄','H₄'),('Saddle sphere','H₁','H₃','H₁, H₃'),('Each sink','H₀','None','H₀')])
     display(Markdown('The quotient graph alone does not determine the fiber degree. The specified lift has degree +1. Local bounds are restored to `build/o3-certification/local-index-argument.md`.'))
-    from conjugacy_summary import show_conjugacy_check
-    show_conjugacy_check(fit)
     return record
 
 if __name__=='__main__':compute(ROOT/'build/o3-repair/gain-001/fit',verbose=True)

@@ -18,6 +18,25 @@ def paper_reference(root, examples, data, system):
     return figures
 
 
+def show_flow(system):
+    """Display the current analytical panels without replaying historical fits."""
+    from pathlib import Path
+    root = Path(__file__).resolve().parents[1]
+    (root/'build/notebooks'/system).mkdir(parents=True, exist_ok=True)
+    if system == 'sphere':
+        from sphere_flow_figure import render_height
+        panels = render_height()
+        gallery([('(a) Normalized tangent field', root/'assets/sphere-field.png'),
+                 ('(b) Time-three height map', panels/'height-map.svg')], width=950)
+    elif system == 'o3':
+        from o3_flow_figure import render
+        panels = render()
+        gallery([('', panels/'quotient-flow.svg')], width=650)
+    else:
+        raise ValueError('Choose sphere or o3.')
+    return panels
+
+
 def show_analytical(reference, system):
     if system == 'sphere':
         from sphere_flow_figure import render
