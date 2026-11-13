@@ -6,11 +6,10 @@ from common import figure_style as style
 
 def sphere_panel(phase, coordinate, path, svg=True):
     boxes=np.asarray(phase['boxes'])
-    rows=[];pale=[]
-    for bounds,node,basin in zip(boxes,phase['membership'],phase['basin_node']):
+    rows=[]
+    for bounds,node in zip(boxes,phase['membership']):
         z=np.interp(bounds,coordinate['values'],coordinate['knots']).tolist()
         if z[1]<=z[0]:continue
-        if basin>=0:pale.append(dict(z=z,node=int(basin)))
         if node>=0:rows.append(dict(z=z,node=int(node)))
     def merge_adjacent(bands):
         merged=[]
@@ -19,9 +18,8 @@ def sphere_panel(phase, coordinate, path, svg=True):
                 merged[-1]['z'][1]=row['z'][1]
             else:merged.append(dict(node=row['node'],z=list(row['z'])))
         return merged
-    rows=merge_adjacent(rows);pale=merge_adjacent(pale)
+    rows=merge_adjacent(rows)
     palette={r['node']:style.morse(r['node']) for r in rows}
-    light={r['node']:style.tint(r['node']) for r in pale}
     with plt.rc_context({'font.family':'serif','mathtext.fontset':'cm','font.size':13}):
         fig,(ax,strip)=plt.subplots(2,1,figsize=(4.6,4.8),gridspec_kw={'height_ratios':[4.5,1]})
         draw_transparent_sphere(ax,rows,palette)
@@ -38,7 +36,6 @@ def sphere_panel(phase, coordinate, path, svg=True):
             ax.annotate(label,xy=point,xytext=target,color=color,fontsize=16,ha='center',va='center',zorder=10,
                 arrowprops=dict(arrowstyle='-' if pole else '->',connectionstyle='arc3,rad=0' if pole else 'arc3,rad=.3',color=color,lw=.9))
         ax.set(aspect='equal',xlim=(-1.08,1.43),ylim=(-1.22,1.22));ax.axis('off')
-        for row in pale:strip.axvspan(*row['z'],ymin=.38,ymax=.62,color=light[row['node']],lw=0)
         strip.axhline(.5,color='.65',lw=.8)
         for row in rows:
             strip.axvspan(*row['z'],ymin=.30,ymax=.70,color=palette[row['node']],alpha=.85,lw=0)
