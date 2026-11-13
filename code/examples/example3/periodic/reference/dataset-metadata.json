@@ -1,0 +1,104 @@
+{
+  "nominal-train.npz": {
+    "policy": "nominal",
+    "split": "train",
+    "seed": 2026111311,
+    "trajectories": 8192,
+    "shape": [
+      8192,
+      33,
+      18
+    ],
+    "sha256": "0605d9b527cf9e0e21cd3ba827d861971744039350a051513264ab169b22abfb",
+    "spacing": 0.1,
+    "integration_step": 0.002,
+    "initialization": "eta=0 with independent translation and heading; quarter near poles",
+    "observable_target": "thrust axis, columns 12:15 of full observation",
+    "split_rule": "independent complete trajectories"
+  },
+  "nominal-validation.npz": {
+    "policy": "nominal",
+    "split": "validation",
+    "seed": 2026111312,
+    "trajectories": 2048,
+    "shape": [
+      2048,
+      33,
+      18
+    ],
+    "sha256": "5ffea67d149ac62458d2e6a078db75ad9b2ba079637de2993ff79f50f31758eb",
+    "spacing": 0.1,
+    "integration_step": 0.002,
+    "initialization": "eta=0 with independent translation and heading; quarter near poles",
+    "observable_target": "thrust axis, columns 12:15 of full observation",
+    "split_rule": "independent complete trajectories"
+  },
+  "nominal-test.npz": {
+    "policy": "nominal",
+    "split": "test",
+    "seed": 2026111323,
+    "trajectories": 4096,
+    "shape": [
+      4096,
+      33,
+      18
+    ],
+    "sha256": "5d72f2ebe100334a7455007e09dc34ab552b261d31994f9d76ade31effebea25",
+    "spacing": 0.1,
+    "integration_step": 0.002,
+    "initialization": "eta=0 with independent translation and heading; quarter near poles",
+    "observable_target": "thrust axis, columns 12:15 of full observation",
+    "split_rule": "independent complete trajectories"
+  },
+  "coning-train.npz": {
+    "policy": "coning",
+    "split": "train",
+    "seed": 2026111311,
+    "trajectories": 8192,
+    "shape": [
+      8192,
+      33,
+      18
+    ],
+    "sha256": "4ece231f0ee491681fc6a9281ac8939fe024f04cbacb1cb56eed6be26886c277",
+    "spacing": 0.1,
+    "integration_step": 0.002,
+    "initialization": "eta=0 with independent translation and heading; quarter near poles",
+    "observable_target": "thrust axis, columns 12:15 of full observation",
+    "split_rule": "independent complete trajectories"
+  },
+  "coning-validation.npz": {
+    "policy": "coning",
+    "split": "validation",
+    "seed": 2026111312,
+    "trajectories": 2048,
+    "shape": [
+      2048,
+      33,
+      18
+    ],
+    "sha256": "816e5300fb27b72d5a6d58dc0e2e36cc6829046f31a0e14ac5409dbdb3defdbd",
+    "spacing": 0.1,
+    "integration_step": 0.002,
+    "initialization": "eta=0 with independent translation and heading; quarter near poles",
+    "observable_target": "thrust axis, columns 12:15 of full observation",
+    "split_rule": "independent complete trajectories"
+  },
+  "coning-test.npz": {
+    "policy": "coning",
+    "split": "test",
+    "seed": 2026111323,
+    "trajectories": 4096,
+    "shape": [
+      4096,
+      33,
+      18
+    ],
+    "sha256": "80202008e63764f7df2229ebb153ecbbb71d7ecd3e7621d5796cb38d6d5eba57",
+    "spacing": 0.1,
+    "integration_step": 0.002,
+    "initialization": "eta=0 with independent translation and heading; quarter near poles",
+    "observable_target": "thrust axis, columns 12:15 of full observation",
+    "split_rule": "independent complete trajectories"
+  }
+}

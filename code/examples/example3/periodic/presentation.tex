@@ -1,0 +1,27 @@
+\documentclass[11pt]{article}
+\usepackage[hmargin=1.25in,vmargin=1in]{geometry}
+\usepackage{amsmath,amssymb,graphicx,booktabs}
+\usepackage[colorlinks=true]{hyperref}
+\newcommand{\R}{\mathbb R}
+\newcommand{\PanelRoot}{}
+\newcommand{\panelpair}[3][.485]{\noindent\makebox[.485\linewidth]{\includegraphics[width=#1\linewidth,clip]{\PanelRoot#2}}\hfill\makebox[.485\linewidth]{\includegraphics[width=#1\linewidth,clip]{\PanelRoot#3}}\par\vspace{2pt}}
+\title{Reduced attitude control on $S^2$}
+\author{}
+\date{}
+\begin{document}
+\maketitle
+\noindent A quadrotor points its thrust axis $q=Re_3$ toward the upright direction or toward a periodic coning latitude, with heading free. The rigid-body state is $(p,v,R,\Omega)\in\R^3\times\R^3\times\mathrm{SO}(3)\times\R^3$. For $z=q\cdot e_3$, define $V_a(q)=a(z)(e_3-zq)+\omega e_3\times q$, $w=R\Omega$, $w_d=q\times V_a(q)$, and $\eta=w-w_d$. With thrust $mg$, the constructed moment
+\[
+ M=\Omega\times J\Omega+JR^\top\left(Dw_d(q)[w\times q]-2\eta\right)
+\]
+implies $\dot q=V_a(q)+\eta\times q$ and $\dot\eta=-2\eta$. Position is unregulated. Vertical rotations act by $(p,v,R,\Omega)\mapsto(Qp,Qv,QR,\Omega)$, and the feedback is equivariant.
+
+On $\eta=0$, the quotient is $\dot z=a(z)(1-z^2)$. For $a=1$, the sphere order is $S\to N$. For $a(z)=1/4-z$ and $\omega=\pi/\log2$, the periodic latitude $C=\{z=1/4\}$ attracts every nonpolar axis and has period $2\log2$. Both poles repel, so the order is $S\to C\leftarrow N$. The transverse Floquet multipliers in $(q,\eta)$ are $0.272627$ and $0.0625$ three times, proving local exponential orbital stability. Disk and annulus index pairs have identity index maps in degree $2$ at the repelling poles, in degree $0$ at the nominal sink, and in degrees $0,1$ at the attracting periodic orbit.
+
+We jointly learn an equivariant encoder, a thrust-axis decoder, a sphere-preserving time-$0.1$ map $f$, a monotone quotient coordinate $\pi_\varphi(\zeta)=h_\varphi(\zeta_3)$, and its orbit decoder. The interval map shares the learned latitude map $m$ through $\bar f=h_\varphi\circ m\circ h_\varphi^{-1}$. The encoder receives all 18 observation coordinates and is calibrated toward the known thrust axis. Each policy uses 8,192 training, 2,048 validation, and 4,096 test trajectories on $\eta=0$, with 33 observations per trajectory. Three seeds are trained for 6,000 updates, and validation selects seed 0 for both policies.
+
+CMGDB analyzes ten learned steps on 128 interval cells. One-second held-out componentwise axis RMS errors are $0.0010$--$0.0014$ for nominal control and $0.0017$--$0.0021$ for coning. The raw coning graph contains an adjacent trivial-index component $A$. We aggregate $A$, $C$, and their connecting cells according to the attracting-latitude structure, check order convexity, and recompute the merged Conley index with CMGDB. The displayed graphs have two components for nominal control and three for coning. Raw graphs remain available for verification. The original indices are analytic, and the learned reconstruction is observed. The sampled image hulls do not certify transfer of indices or attracting blocks to the full physical system.
+
+\clearpage
+\input{presentation-figure.tex}
+\end{document}

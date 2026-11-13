@@ -1,6 +1,6 @@
 # Joining the project
 
-The manuscript, An Equivariant Approach to Topological Dynamics, is on [Overleaf](https://www.overleaf.com/project/6ad128ca1e6dd6d3000000ad). Its `main.tex` is the reference for definitions, hypotheses, and claims. This repository contains the Python code and Lean 4 formalization. The guide follows the three current examples as of November 12, 2026.
+The manuscript, An Equivariant Approach to Topological Dynamics, is on [Overleaf](https://www.overleaf.com/project/6ad128ca1e6dd6d3000000ad). Its `main.tex` is the reference for definitions, hypotheses, and claims. This repository contains the Python code and Lean 4 formalization. The guide follows the three current examples as of November 13, 2026.
 
 ## Run the code first
 
@@ -16,7 +16,7 @@ Run this from `code/`. It loads the exact data and saved weights for the joint i
 |---|---|---|
 | [example1](code/examples/example1/README.md) | SO(2) flow on the sphere | Checked checkpoint replay, joint training, and separate reproduction of the older manuscript panels |
 | [example2](code/examples/example2/README.md) | O(3) flow on a subset of R4 | Joint learning and checked BoxMapData replay at 64 x 64, physical sampling comparisons, numerical basins and physical preimages, and data generation |
-| [example3](code/examples/example3/README.md) | Reduced attitude control | Reference thrust-axis quotient calculations and full-plant data generation |
+| [example3](code/examples/example3/README.md) | Reduced attitude control | Constructed upright and coning control, task-aware models, three seeds per policy, 128-cell CMGDB, concise presentation, and checked replay; the earlier full-state experiment is retained separately |
 
 The READMEs identify the actual dataset, representations, learned maps, and time steps. Each workflow writes to a new directory in `code/outputs/`. Input data and frozen references have separate locations. Fresh training results can differ from saved checkpoints, so compare both numerical errors and actual native graphs.
 

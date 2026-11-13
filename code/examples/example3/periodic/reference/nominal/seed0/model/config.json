@@ -1,0 +1,54 @@
+{
+  "seed": 0,
+  "width": 64,
+  "layers": 2,
+  "scalar_width": 24,
+  "knots": 33,
+  "boost_bound": 0.5,
+  "angle_bound": 1.0,
+  "coordinate_log_bound": 0.35,
+  "steps": 6000,
+  "warmup_steps": 1000,
+  "batch": 256,
+  "learning_rate_start": 0.002,
+  "learning_rate_end": 5e-05,
+  "validate_every": 250,
+  "parameters": 20795,
+  "best_step": 6000,
+  "best_validation": 2.029131039570247e-06,
+  "parameter_changes": {
+    "encoder": 4.172843933105469,
+    "axis_decoder": 3.6413722038269043,
+    "time_heads": 1.114014983177185,
+    "coordinate": 1.6713390350341797,
+    "orbit_decoder": 1.3489512205123901
+  },
+  "seconds": 77.52925599999435,
+  "weights_sha256": "d8477c6d6bf0e400095a689b577befb2c30fddd9ebd73eaa51945fe61d742e3b",
+  "objective": "task-aware axis reconstruction, prediction, calibration, and consistency",
+  "loss_names": [
+    "axis_reconstruction",
+    "axis_prediction",
+    "axis_calibration",
+    "physical_closure",
+    "orbit_reconstruction",
+    "orbit_prediction",
+    "quotient_consistency"
+  ],
+  "loss_weights": [
+    1.0,
+    3.0,
+    2.0,
+    0.5,
+    0.5,
+    0.5,
+    0.10000000149011612
+  ],
+  "horizons": [
+    0,
+    1,
+    4,
+    10
+  ],
+  "dtype": "float32"
+}

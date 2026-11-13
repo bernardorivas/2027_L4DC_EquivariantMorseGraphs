@@ -1,0 +1,10 @@
+{
+  "experiment": "two-stage-attitude-v1",
+  "policies": ["nominal", "coning"],
+  "seeds": [0, 1, 2],
+  "data": {"sizes": [16384, 2048, 4096], "split_seeds": [2026111111, 2026111112, 2026111113], "observations": 33, "spacing": 0.1, "integration_step": 0.001},
+  "sphere": {"width": 128, "layers": 3, "steps": 20000, "batch": 256, "learning_rate_start": 0.001, "learning_rate_end": 0.00001, "weight_decay": 0.000001, "validate_every": 250},
+  "interval": {"width": 32, "layers": 2, "knots": 65, "coordinate_log_bound": 0.35, "time_gain": 2.0, "steps": 20000, "batch": 512, "learning_rate_start": 0.002, "learning_rate_end": 0.0001, "validate_every": 100},
+  "interval_data": {"sizes": [16384, 4096, 4096], "split_seeds": [2026111301, 2026111302, 2026111303]},
+  "analysis": {"cells": 64, "samples_per_cell": 257, "image_padding": 0.000002, "latitude_points": 513, "angle_points": 65}
+}

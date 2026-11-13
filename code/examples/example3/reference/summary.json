@@ -1,0 +1,1957 @@
+[
+  {
+    "policy": "nominal",
+    "seed": 0,
+    "validation_prediction": 0.438216284615919,
+    "test_prediction": 0.4511638489784673,
+    "interval": {
+      "reconstruction_height_rms": 0.003600519150495529,
+      "prediction_height_rms": 0.009272211231291294,
+      "consistency_rms": 0.009853593073785305,
+      "sampled_invariance_error": 0.0,
+      "minimum_coordinate_slope": 0.6381988525390625,
+      "maximum_coordinate_slope": 1.2628021240234375,
+      "endpoints": [
+        -1.0,
+        1.0
+      ],
+      "minimum_monotone_grid_increment": 7.790327072143555e-05,
+      "inverse_identity_maximum": 5.960464477539063e-08,
+      "finite": true
+    },
+    "graph": {
+      "cells": 64,
+      "domain": [
+        -1.0,
+        1.0
+      ],
+      "nodes": [
+        {
+          "node": 0,
+          "cell_ids": [
+            0
+          ],
+          "cells": 1,
+          "interval": [
+            -1.0,
+            -0.96875
+          ],
+          "annotations": [
+            "x-1",
+            "0"
+          ]
+        },
+        {
+          "node": 1,
+          "cell_ids": [
+            41
+          ],
+          "cells": 1,
+          "interval": [
+            0.28125,
+            0.3125
+          ],
+          "annotations": [
+            "0",
+            "0"
+          ]
+        },
+        {
+          "node": 2,
+          "cell_ids": [
+            42
+          ],
+          "cells": 1,
+          "interval": [
+            0.3125,
+            0.34375
+          ],
+          "annotations": [
+            "0",
+            "0"
+          ]
+        },
+        {
+          "node": 3,
+          "cell_ids": [
+            43
+          ],
+          "cells": 1,
+          "interval": [
+            0.34375,
+            0.375
+          ],
+          "annotations": [
+            "0",
+            "0"
+          ]
+        },
+        {
+          "node": 4,
+          "cell_ids": [
+            44
+          ],
+          "cells": 1,
+          "interval": [
+            0.375,
+            0.40625
+          ],
+          "annotations": [
+            "0",
+            "0"
+          ]
+        },
+        {
+          "node": 5,
+          "cell_ids": [
+            45
+          ],
+          "cells": 1,
+          "interval": [
+            0.40625,
+            0.4375
+          ],
+          "annotations": [
+            "0",
+            "0"
+          ]
+        },
+        {
+          "node": 6,
+          "cell_ids": [
+            63
+          ],
+          "cells": 1,
+          "interval": [
+            0.96875,
+            1.0
+          ],
+          "annotations": [
+            "x-1",
+            "0"
+          ]
+        },
+        {
+          "node": 7,
+          "cell_ids": [
+            62
+          ],
+          "cells": 1,
+          "interval": [
+            0.9375,
+            0.96875
+          ],
+          "annotations": [
+            "0",
+            "0"
+          ]
+        },
+        {
+          "node": 8,
+          "cell_ids": [
+            61
+          ],
+          "cells": 1,
+          "interval": [
+            0.90625,
+            0.9375
+          ],
+          "annotations": [
+            "0",
+            "0"
+          ]
+        },
+        {
+          "node": 9,
+          "cell_ids": [
+            60
+          ],
+          "cells": 1,
+          "interval": [
+            0.875,
+            0.90625
+          ],
+          "annotations": [
+            "0",
+            "0"
+          ]
+        },
+        {
+          "node": 10,
+          "cell_ids": [
+            51
+          ],
+          "cells": 1,
+          "interval": [
+            0.59375,
+            0.625
+          ],
+          "annotations": [
+            "0",
+            "0"
+          ]
+        },
+        {
+          "node": 11,
+          "cell_ids": [
+            50
+          ],
+          "cells": 1,
+          "interval": [
+            0.5625,
+            0.59375
+          ],
+          "annotations": [
+            "0",
+            "0"
+          ]
+        },
+        {
+          "node": 12,
+          "cell_ids": [
+            49
+          ],
+          "cells": 1,
+          "interval": [
+            0.53125,
+            0.5625
+          ],
+          "annotations": [
+            "0",
+            "0"
+          ]
+        },
+        {
+          "node": 13,
+          "cell_ids": [
+            48
+          ],
+          "cells": 1,
+          "interval": [
+            0.5,
+            0.53125
+          ],
+          "annotations": [
+            "0",
+            "0"
+          ]
+        },
+        {
+          "node": 14,
+          "cell_ids": [
+            47
+          ],
+          "cells": 1,
+          "interval": [
+            0.46875,
+            0.5
+          ],
+          "annotations": [
+            "0",
+            "0"
+          ]
+        },
+        {
+          "node": 15,
+          "cell_ids": [
+            46
+          ],
+          "cells": 1,
+          "interval": [
+            0.4375,
+            0.46875
+          ],
+          "annotations": [
+            "0",
+            "x-1"
+          ]
+        }
+      ],
+      "edges": [
+        [
+          1,
+          0
+        ],
+        [
+          2,
+          1
+        ],
+        [
+          3,
+          2
+        ],
+        [
+          4,
+          3
+        ],
+        [
+          5,
+          4
+        ],
+        [
+          7,
+          6
+        ],
+        [
+          8,
+          7
+        ],
+        [
+          9,
+          8
+        ],
+        [
+          10,
+          9
+        ],
+        [
+          11,
+          10
+        ],
+        [
+          12,
+          11
+        ],
+        [
+          13,
+          12
+        ],
+        [
+          14,
+          13
+        ],
+        [
+          15,
+          5
+        ],
+        [
+          15,
+          14
+        ]
+      ],
+      "sink_nodes": [
+        0,
+        6
+      ],
+      "basin_cells": {
+        "0": 41,
+        "6": 1
+      },
+      "unresolved_cells": 22,
+      "map_constructor": "regular learned scalar box callback",
+      "samples_per_cell": 257,
+      "padding": 2e-06,
+      "time_step": 0.1,
+      "coefficient_field": 5,
+      "annotation_space": "learned interval quotient only",
+      "image_status": "sampled function hulls; not validated",
+      "finite_graph_basin_forward_invariance_checked": true
+    }
+  },
+  {
+    "policy": "nominal",
+    "seed": 1,
+    "validation_prediction": 0.4189296132729699,
+    "test_prediction": 0.43006291950587183,
+    "interval": {
+      "reconstruction_height_rms": 0.00018830619228538126,
+      "prediction_height_rms": 0.0024072236847132444,
+      "consistency_rms": 0.002483535557985306,
+      "sampled_invariance_error": 0.0,
+      "minimum_coordinate_slope": 0.9174785614013672,
+      "maximum_coordinate_slope": 1.0918388366699219,
+      "endpoints": [
+        -1.0,
+        1.0
+      ],
+      "minimum_monotone_grid_increment": 0.0001119375228881836,
+      "inverse_identity_maximum": 5.960464477539063e-08,
+      "finite": true
+    },
+    "graph": {
+      "cells": 64,
+      "domain": [
+        -1.0,
+        1.0
+      ],
+      "nodes": [
+        {
+          "node": 0,
+          "cell_ids": [
+            0
+          ],
+          "cells": 1,
+          "interval": [
+            -1.0,
+            -0.96875
+          ],
+          "annotations": [
+            "x-1",
+            "0"
+          ]
+        },
+        {
+          "node": 1,
+          "cell_ids": [
+            1
+          ],
+          "cells": 1,
+          "interval": [
+            -0.96875,
+            -0.9375
+          ],
+          "annotations": [
+            "0",
+            "0"
+          ]
+        },
+        {
+          "node": 2,
+          "cell_ids": [
+            27
+          ],
+          "cells": 1,
+          "interval": [
+            -0.15625,
+            -0.125
+          ],
+          "annotations": [
+            "0",
+            "0"
+          ]
+        },
+        {
+          "node": 3,
+          "cell_ids": [
+            28
+          ],
+          "cells": 1,
+          "interval": [
+            -0.125,
+            -0.09375
+          ],
+          "annotations": [
+            "0",
+            "0"
+          ]
+        },
+        {
+          "node": 4,
+          "cell_ids": [
+            60
+          ],
+          "cells": 1,
+          "interval": [
+            0.875,
+            0.90625
+          ],
+          "annotations": [
+            "x-1",
+            "0"
+          ]
+        },
+        {
+          "node": 5,
+          "cell_ids": [
+            59
+          ],
+          "cells": 1,
+          "interval": [
+            0.84375,
+            0.875
+          ],
+          "annotations": [
+            "0",
+            "0"
+          ]
+        },
+        {
+          "node": 6,
+          "cell_ids": [
+            58
+          ],
+          "cells": 1,
+          "interval": [
+            0.8125,
+            0.84375
+          ],
+          "annotations": [
+            "0",
+            "0"
+          ]
+        },
+        {
+          "node": 7,
+          "cell_ids": [
+            57
+          ],
+          "cells": 1,
+          "interval": [
+            0.78125,
+            0.8125
+          ],
+          "annotations": [
+            "0",
+            "0"
+          ]
+        },
+        {
+          "node": 8,
+          "cell_ids": [
+            56
+          ],
+          "cells": 1,
+          "interval": [
+            0.75,
+            0.78125
+          ],
+          "annotations": [
+            "0",
+            "0"
+          ]
+        },
+        {
+          "node": 9,
+          "cell_ids": [
+            55
+          ],
+          "cells": 1,
+          "interval": [
+            0.71875,
+            0.75
+          ],
+          "annotations": [
+            "0",
+            "0"
+          ]
+        },
+        {
+          "node": 10,
+          "cell_ids": [
+            32
+          ],
+          "cells": 1,
+          "interval": [
+            0.0,
+            0.03125
+          ],
+          "annotations": [
+            "0",
+            "0"
+          ]
+        },
+        {
+          "node": 11,
+          "cell_ids": [
+            31
+          ],
+          "cells": 1,
+          "interval": [
+            -0.03125,
+            0.0
+          ],
+          "annotations": [
+            "0",
+            "0"
+          ]
+        },
+        {
+          "node": 12,
+          "cell_ids": [
+            30
+          ],
+          "cells": 1,
+          "interval": [
+            -0.0625,
+            -0.03125
+          ],
+          "annotations": [
+            "0",
+            "0"
+          ]
+        },
+        {
+          "node": 13,
+          "cell_ids": [
+            29
+          ],
+          "cells": 1,
+          "interval": [
+            -0.09375,
+            -0.0625
+          ],
+          "annotations": [
+            "0",
+            "x-1"
+          ]
+        },
+        {
+          "node": 14,
+          "cell_ids": [
+            61
+          ],
+          "cells": 1,
+          "interval": [
+            0.90625,
+            0.9375
+          ],
+          "annotations": [
+            "0",
+            "0"
+          ]
+        },
+        {
+          "node": 15,
+          "cell_ids": [
+            62
+          ],
+          "cells": 1,
+          "interval": [
+            0.9375,
+            0.96875
+          ],
+          "annotations": [
+            "0",
+            "0"
+          ]
+        },
+        {
+          "node": 16,
+          "cell_ids": [
+            63
+          ],
+          "cells": 1,
+          "interval": [
+            0.96875,
+            1.0
+          ],
+          "annotations": [
+            "0",
+            "0"
+          ]
+        }
+      ],
+      "edges": [
+        [
+          1,
+          0
+        ],
+        [
+          2,
+          1
+        ],
+        [
+          3,
+          2
+        ],
+        [
+          5,
+          4
+        ],
+        [
+          6,
+          5
+        ],
+        [
+          7,
+          6
+        ],
+        [
+          8,
+          7
+        ],
+        [
+          9,
+          8
+        ],
+        [
+          10,
+          9
+        ],
+        [
+          11,
+          10
+        ],
+        [
+          12,
+          11
+        ],
+        [
+          13,
+          3
+        ],
+        [
+          13,
+          12
+        ],
+        [
+          14,
+          4
+        ],
+        [
+          15,
+          14
+        ],
+        [
+          16,
+          15
+        ]
+      ],
+      "sink_nodes": [
+        0,
+        4
+      ],
+      "basin_cells": {
+        "0": 1,
+        "4": 1
+      },
+      "unresolved_cells": 62,
+      "map_constructor": "regular learned scalar box callback",
+      "samples_per_cell": 257,
+      "padding": 2e-06,
+      "time_step": 0.1,
+      "coefficient_field": 5,
+      "annotation_space": "learned interval quotient only",
+      "image_status": "sampled function hulls; not validated",
+      "finite_graph_basin_forward_invariance_checked": true
+    }
+  },
+  {
+    "policy": "nominal",
+    "seed": 2,
+    "validation_prediction": 0.45008178738256294,
+    "test_prediction": 0.4511222108655299,
+    "interval": {
+      "reconstruction_height_rms": 9.642729855841026e-05,
+      "prediction_height_rms": 0.0023697796277701855,
+      "consistency_rms": 0.0024221264757215977,
+      "sampled_invariance_error": 0.0,
+      "minimum_coordinate_slope": 0.9636955261230469,
+      "maximum_coordinate_slope": 1.0334358215332031,
+      "endpoints": [
+        -1.0,
+        1.0
+      ],
+      "minimum_monotone_grid_increment": 0.0001175999641418457,
+      "inverse_identity_maximum": 5.960464477539063e-08,
+      "finite": true
+    },
+    "graph": {
+      "cells": 64,
+      "domain": [
+        -1.0,
+        1.0
+      ],
+      "nodes": [
+        {
+          "node": 0,
+          "cell_ids": [
+            16
+          ],
+          "cells": 1,
+          "interval": [
+            -0.5,
+            -0.46875
+          ],
+          "annotations": [
+            "x-1",
+            "0"
+          ]
+        },
+        {
+          "node": 1,
+          "cell_ids": [
+            15
+          ],
+          "cells": 1,
+          "interval": [
+            -0.53125,
+            -0.5
+          ],
+          "annotations": [
+            "0",
+            "0"
+          ]
+        },
+        {
+          "node": 2,
+          "cell_ids": [
+            14
+          ],
+          "cells": 1,
+          "interval": [
+            -0.5625,
+            -0.53125
+          ],
+          "annotations": [
+            "0",
+            "0"
+          ]
+        },
+        {
+          "node": 3,
+          "cell_ids": [
+            13
+          ],
+          "cells": 1,
+          "interval": [
+            -0.59375,
+            -0.5625
+          ],
+          "annotations": [
+            "0",
+            "0"
+          ]
+        },
+        {
+          "node": 4,
+          "cell_ids": [
+            12
+          ],
+          "cells": 1,
+          "interval": [
+            -0.625,
+            -0.59375
+          ],
+          "annotations": [
+            "0",
+            "0"
+          ]
+        },
+        {
+          "node": 5,
+          "cell_ids": [
+            11
+          ],
+          "cells": 1,
+          "interval": [
+            -0.65625,
+            -0.625
+          ],
+          "annotations": [
+            "0",
+            "0"
+          ]
+        },
+        {
+          "node": 6,
+          "cell_ids": [
+            10
+          ],
+          "cells": 1,
+          "interval": [
+            -0.6875,
+            -0.65625
+          ],
+          "annotations": [
+            "0",
+            "0"
+          ]
+        },
+        {
+          "node": 7,
+          "cell_ids": [
+            9
+          ],
+          "cells": 1,
+          "interval": [
+            -0.71875,
+            -0.6875
+          ],
+          "annotations": [
+            "0",
+            "0"
+          ]
+        },
+        {
+          "node": 8,
+          "cell_ids": [
+            8
+          ],
+          "cells": 1,
+          "interval": [
+            -0.75,
+            -0.71875
+          ],
+          "annotations": [
+            "0",
+            "0"
+          ]
+        },
+        {
+          "node": 9,
+          "cell_ids": [
+            7
+          ],
+          "cells": 1,
+          "interval": [
+            -0.78125,
+            -0.75
+          ],
+          "annotations": [
+            "0",
+            "0"
+          ]
+        },
+        {
+          "node": 10,
+          "cell_ids": [
+            6
+          ],
+          "cells": 1,
+          "interval": [
+            -0.8125,
+            -0.78125
+          ],
+          "annotations": [
+            "0",
+            "0"
+          ]
+        },
+        {
+          "node": 11,
+          "cell_ids": [
+            5
+          ],
+          "cells": 1,
+          "interval": [
+            -0.84375,
+            -0.8125
+          ],
+          "annotations": [
+            "0",
+            "0"
+          ]
+        },
+        {
+          "node": 12,
+          "cell_ids": [
+            4
+          ],
+          "cells": 1,
+          "interval": [
+            -0.875,
+            -0.84375
+          ],
+          "annotations": [
+            "0",
+            "0"
+          ]
+        },
+        {
+          "node": 13,
+          "cell_ids": [
+            3
+          ],
+          "cells": 1,
+          "interval": [
+            -0.90625,
+            -0.875
+          ],
+          "annotations": [
+            "0",
+            "0"
+          ]
+        },
+        {
+          "node": 14,
+          "cell_ids": [
+            2
+          ],
+          "cells": 1,
+          "interval": [
+            -0.9375,
+            -0.90625
+          ],
+          "annotations": [
+            "0",
+            "0"
+          ]
+        },
+        {
+          "node": 15,
+          "cell_ids": [
+            1
+          ],
+          "cells": 1,
+          "interval": [
+            -0.96875,
+            -0.9375
+          ],
+          "annotations": [
+            "0",
+            "0"
+          ]
+        },
+        {
+          "node": 16,
+          "cell_ids": [
+            0
+          ],
+          "cells": 1,
+          "interval": [
+            -1.0,
+            -0.96875
+          ],
+          "annotations": [
+            "0",
+            "0"
+          ]
+        },
+        {
+          "node": 17,
+          "cell_ids": [
+            17
+          ],
+          "cells": 1,
+          "interval": [
+            -0.46875,
+            -0.4375
+          ],
+          "annotations": [
+            "0",
+            "0"
+          ]
+        },
+        {
+          "node": 18,
+          "cell_ids": [
+            18
+          ],
+          "cells": 1,
+          "interval": [
+            -0.4375,
+            -0.40625
+          ],
+          "annotations": [
+            "0",
+            "0"
+          ]
+        },
+        {
+          "node": 19,
+          "cell_ids": [
+            19
+          ],
+          "cells": 1,
+          "interval": [
+            -0.40625,
+            -0.375
+          ],
+          "annotations": [
+            "0",
+            "0"
+          ]
+        },
+        {
+          "node": 20,
+          "cell_ids": [
+            20
+          ],
+          "cells": 1,
+          "interval": [
+            -0.375,
+            -0.34375
+          ],
+          "annotations": [
+            "0",
+            "0"
+          ]
+        },
+        {
+          "node": 21,
+          "cell_ids": [
+            21
+          ],
+          "cells": 1,
+          "interval": [
+            -0.34375,
+            -0.3125
+          ],
+          "annotations": [
+            "0",
+            "0"
+          ]
+        },
+        {
+          "node": 22,
+          "cell_ids": [
+            46
+          ],
+          "cells": 1,
+          "interval": [
+            0.4375,
+            0.46875
+          ],
+          "annotations": [
+            "0",
+            "0"
+          ]
+        },
+        {
+          "node": 23,
+          "cell_ids": [
+            47
+          ],
+          "cells": 1,
+          "interval": [
+            0.46875,
+            0.5
+          ],
+          "annotations": [
+            "0",
+            "0"
+          ]
+        },
+        {
+          "node": 24,
+          "cell_ids": [
+            48
+          ],
+          "cells": 1,
+          "interval": [
+            0.5,
+            0.53125
+          ],
+          "annotations": [
+            "0",
+            "0"
+          ]
+        },
+        {
+          "node": 25,
+          "cell_ids": [
+            49
+          ],
+          "cells": 1,
+          "interval": [
+            0.53125,
+            0.5625
+          ],
+          "annotations": [
+            "0",
+            "0"
+          ]
+        },
+        {
+          "node": 26,
+          "cell_ids": [
+            50
+          ],
+          "cells": 1,
+          "interval": [
+            0.5625,
+            0.59375
+          ],
+          "annotations": [
+            "0",
+            "0"
+          ]
+        },
+        {
+          "node": 27,
+          "cell_ids": [
+            51
+          ],
+          "cells": 1,
+          "interval": [
+            0.59375,
+            0.625
+          ],
+          "annotations": [
+            "0",
+            "0"
+          ]
+        },
+        {
+          "node": 28,
+          "cell_ids": [
+            52
+          ],
+          "cells": 1,
+          "interval": [
+            0.625,
+            0.65625
+          ],
+          "annotations": [
+            "0",
+            "0"
+          ]
+        },
+        {
+          "node": 29,
+          "cell_ids": [
+            53
+          ],
+          "cells": 1,
+          "interval": [
+            0.65625,
+            0.6875
+          ],
+          "annotations": [
+            "0",
+            "0"
+          ]
+        },
+        {
+          "node": 30,
+          "cell_ids": [
+            54
+          ],
+          "cells": 1,
+          "interval": [
+            0.6875,
+            0.71875
+          ],
+          "annotations": [
+            "0",
+            "0"
+          ]
+        },
+        {
+          "node": 31,
+          "cell_ids": [
+            63
+          ],
+          "cells": 1,
+          "interval": [
+            0.96875,
+            1.0
+          ],
+          "annotations": [
+            "x-1",
+            "0"
+          ]
+        },
+        {
+          "node": 32,
+          "cell_ids": [
+            62
+          ],
+          "cells": 1,
+          "interval": [
+            0.9375,
+            0.96875
+          ],
+          "annotations": [
+            "0",
+            "0"
+          ]
+        },
+        {
+          "node": 33,
+          "cell_ids": [
+            61
+          ],
+          "cells": 1,
+          "interval": [
+            0.90625,
+            0.9375
+          ],
+          "annotations": [
+            "0",
+            "0"
+          ]
+        },
+        {
+          "node": 34,
+          "cell_ids": [
+            60
+          ],
+          "cells": 1,
+          "interval": [
+            0.875,
+            0.90625
+          ],
+          "annotations": [
+            "0",
+            "0"
+          ]
+        },
+        {
+          "node": 35,
+          "cell_ids": [
+            59
+          ],
+          "cells": 1,
+          "interval": [
+            0.84375,
+            0.875
+          ],
+          "annotations": [
+            "0",
+            "0"
+          ]
+        },
+        {
+          "node": 36,
+          "cell_ids": [
+            58
+          ],
+          "cells": 1,
+          "interval": [
+            0.8125,
+            0.84375
+          ],
+          "annotations": [
+            "0",
+            "0"
+          ]
+        },
+        {
+          "node": 37,
+          "cell_ids": [
+            57
+          ],
+          "cells": 1,
+          "interval": [
+            0.78125,
+            0.8125
+          ],
+          "annotations": [
+            "0",
+            "0"
+          ]
+        },
+        {
+          "node": 38,
+          "cell_ids": [
+            56
+          ],
+          "cells": 1,
+          "interval": [
+            0.75,
+            0.78125
+          ],
+          "annotations": [
+            "0",
+            "0"
+          ]
+        },
+        {
+          "node": 39,
+          "cell_ids": [
+            55
+          ],
+          "cells": 1,
+          "interval": [
+            0.71875,
+            0.75
+          ],
+          "annotations": [
+            "0",
+            "x-1"
+          ]
+        }
+      ],
+      "edges": [
+        [
+          1,
+          0
+        ],
+        [
+          2,
+          1
+        ],
+        [
+          3,
+          2
+        ],
+        [
+          4,
+          3
+        ],
+        [
+          5,
+          4
+        ],
+        [
+          6,
+          5
+        ],
+        [
+          7,
+          6
+        ],
+        [
+          8,
+          7
+        ],
+        [
+          9,
+          8
+        ],
+        [
+          10,
+          9
+        ],
+        [
+          11,
+          10
+        ],
+        [
+          12,
+          11
+        ],
+        [
+          13,
+          12
+        ],
+        [
+          14,
+          13
+        ],
+        [
+          15,
+          14
+        ],
+        [
+          16,
+          15
+        ],
+        [
+          17,
+          0
+        ],
+        [
+          18,
+          17
+        ],
+        [
+          19,
+          18
+        ],
+        [
+          20,
+          19
+        ],
+        [
+          21,
+          20
+        ],
+        [
+          22,
+          21
+        ],
+        [
+          23,
+          22
+        ],
+        [
+          24,
+          23
+        ],
+        [
+          25,
+          24
+        ],
+        [
+          26,
+          25
+        ],
+        [
+          27,
+          26
+        ],
+        [
+          28,
+          27
+        ],
+        [
+          29,
+          28
+        ],
+        [
+          30,
+          29
+        ],
+        [
+          32,
+          31
+        ],
+        [
+          33,
+          32
+        ],
+        [
+          34,
+          33
+        ],
+        [
+          35,
+          34
+        ],
+        [
+          36,
+          35
+        ],
+        [
+          37,
+          36
+        ],
+        [
+          38,
+          37
+        ],
+        [
+          39,
+          30
+        ],
+        [
+          39,
+          38
+        ]
+      ],
+      "sink_nodes": [
+        0,
+        31
+      ],
+      "basin_cells": {
+        "0": 1,
+        "31": 1
+      },
+      "unresolved_cells": 62,
+      "map_constructor": "regular learned scalar box callback",
+      "samples_per_cell": 257,
+      "padding": 2e-06,
+      "time_step": 0.1,
+      "coefficient_field": 5,
+      "annotation_space": "learned interval quotient only",
+      "image_status": "sampled function hulls; not validated",
+      "finite_graph_basin_forward_invariance_checked": true
+    }
+  },
+  {
+    "policy": "coning",
+    "seed": 0,
+    "validation_prediction": 0.31975255456442636,
+    "test_prediction": 0.32993792765773833,
+    "interval": {
+      "reconstruction_height_rms": 0.0004936421173624694,
+      "prediction_height_rms": 0.009851004928350449,
+      "consistency_rms": 0.009849047288298607,
+      "sampled_invariance_error": 0.0,
+      "minimum_coordinate_slope": 0.9800491333007812,
+      "maximum_coordinate_slope": 1.020742416381836,
+      "endpoints": [
+        -1.0,
+        1.0
+      ],
+      "minimum_monotone_grid_increment": 0.00011962652206420898,
+      "inverse_identity_maximum": 5.960464477539063e-08,
+      "finite": true
+    },
+    "graph": {
+      "cells": 64,
+      "domain": [
+        -1.0,
+        1.0
+      ],
+      "nodes": [
+        {
+          "node": 0,
+          "cell_ids": [
+            0
+          ],
+          "cells": 1,
+          "interval": [
+            -1.0,
+            -0.96875
+          ],
+          "annotations": [
+            "x-1",
+            "0"
+          ]
+        },
+        {
+          "node": 1,
+          "cell_ids": [
+            62
+          ],
+          "cells": 1,
+          "interval": [
+            0.9375,
+            0.96875
+          ],
+          "annotations": [
+            "0",
+            "0"
+          ]
+        },
+        {
+          "node": 2,
+          "cell_ids": [
+            63
+          ],
+          "cells": 1,
+          "interval": [
+            0.96875,
+            1.0
+          ],
+          "annotations": [
+            "0",
+            "0"
+          ]
+        }
+      ],
+      "edges": [
+        [
+          1,
+          0
+        ],
+        [
+          2,
+          1
+        ]
+      ],
+      "sink_nodes": [
+        0
+      ],
+      "basin_cells": {
+        "0": 62
+      },
+      "unresolved_cells": 2,
+      "map_constructor": "regular learned scalar box callback",
+      "samples_per_cell": 257,
+      "padding": 2e-06,
+      "time_step": 0.1,
+      "coefficient_field": 5,
+      "annotation_space": "learned interval quotient only",
+      "image_status": "sampled function hulls; not validated",
+      "finite_graph_basin_forward_invariance_checked": true
+    }
+  },
+  {
+    "policy": "coning",
+    "seed": 1,
+    "validation_prediction": 0.32285282481461763,
+    "test_prediction": 0.3339291096587355,
+    "interval": {
+      "reconstruction_height_rms": 0.005479387938976288,
+      "prediction_height_rms": 0.009694572538137436,
+      "consistency_rms": 0.008978517726063728,
+      "sampled_invariance_error": 0.0,
+      "minimum_coordinate_slope": 0.600860595703125,
+      "maximum_coordinate_slope": 1.174276351928711,
+      "endpoints": [
+        -1.0,
+        1.0
+      ],
+      "minimum_monotone_grid_increment": 7.331371307373047e-05,
+      "inverse_identity_maximum": 5.960464477539063e-08,
+      "finite": true
+    },
+    "graph": {
+      "cells": 64,
+      "domain": [
+        -1.0,
+        1.0
+      ],
+      "nodes": [
+        {
+          "node": 0,
+          "cell_ids": [
+            0
+          ],
+          "cells": 1,
+          "interval": [
+            -1.0,
+            -0.96875
+          ],
+          "annotations": [
+            "x-1",
+            "0"
+          ]
+        },
+        {
+          "node": 1,
+          "cell_ids": [
+            1
+          ],
+          "cells": 1,
+          "interval": [
+            -0.96875,
+            -0.9375
+          ],
+          "annotations": [
+            "0",
+            "0"
+          ]
+        },
+        {
+          "node": 2,
+          "cell_ids": [
+            2
+          ],
+          "cells": 1,
+          "interval": [
+            -0.9375,
+            -0.90625
+          ],
+          "annotations": [
+            "0",
+            "0"
+          ]
+        },
+        {
+          "node": 3,
+          "cell_ids": [
+            60
+          ],
+          "cells": 1,
+          "interval": [
+            0.875,
+            0.90625
+          ],
+          "annotations": [
+            "0",
+            "0"
+          ]
+        },
+        {
+          "node": 4,
+          "cell_ids": [
+            61
+          ],
+          "cells": 1,
+          "interval": [
+            0.90625,
+            0.9375
+          ],
+          "annotations": [
+            "0",
+            "0"
+          ]
+        },
+        {
+          "node": 5,
+          "cell_ids": [
+            62
+          ],
+          "cells": 1,
+          "interval": [
+            0.9375,
+            0.96875
+          ],
+          "annotations": [
+            "0",
+            "0"
+          ]
+        },
+        {
+          "node": 6,
+          "cell_ids": [
+            63
+          ],
+          "cells": 1,
+          "interval": [
+            0.96875,
+            1.0
+          ],
+          "annotations": [
+            "0",
+            "0"
+          ]
+        }
+      ],
+      "edges": [
+        [
+          1,
+          0
+        ],
+        [
+          2,
+          1
+        ],
+        [
+          3,
+          2
+        ],
+        [
+          4,
+          3
+        ],
+        [
+          5,
+          4
+        ],
+        [
+          6,
+          5
+        ]
+      ],
+      "sink_nodes": [
+        0
+      ],
+      "basin_cells": {
+        "0": 1
+      },
+      "unresolved_cells": 63,
+      "map_constructor": "regular learned scalar box callback",
+      "samples_per_cell": 257,
+      "padding": 2e-06,
+      "time_step": 0.1,
+      "coefficient_field": 5,
+      "annotation_space": "learned interval quotient only",
+      "image_status": "sampled function hulls; not validated",
+      "finite_graph_basin_forward_invariance_checked": true
+    }
+  },
+  {
+    "policy": "coning",
+    "seed": 2,
+    "validation_prediction": 0.2888639959661911,
+    "test_prediction": 0.2991884301106135,
+    "interval": {
+      "reconstruction_height_rms": 0.001284948200918734,
+      "prediction_height_rms": 0.008544784970581532,
+      "consistency_rms": 0.00574510358273983,
+      "sampled_invariance_error": 0.0,
+      "minimum_coordinate_slope": 0.5948143005371094,
+      "maximum_coordinate_slope": 1.1888809204101562,
+      "endpoints": [
+        -1.0,
+        1.0
+      ],
+      "minimum_monotone_grid_increment": 7.259845733642578e-05,
+      "inverse_identity_maximum": 5.960464477539063e-08,
+      "finite": true
+    },
+    "graph": {
+      "cells": 64,
+      "domain": [
+        -1.0,
+        1.0
+      ],
+      "nodes": [
+        {
+          "node": 0,
+          "cell_ids": [
+            0
+          ],
+          "cells": 1,
+          "interval": [
+            -1.0,
+            -0.96875
+          ],
+          "annotations": [
+            "x-1",
+            "0"
+          ]
+        },
+        {
+          "node": 1,
+          "cell_ids": [
+            1
+          ],
+          "cells": 1,
+          "interval": [
+            -0.96875,
+            -0.9375
+          ],
+          "annotations": [
+            "0",
+            "0"
+          ]
+        },
+        {
+          "node": 2,
+          "cell_ids": [
+            60
+          ],
+          "cells": 1,
+          "interval": [
+            0.875,
+            0.90625
+          ],
+          "annotations": [
+            "0",
+            "0"
+          ]
+        },
+        {
+          "node": 3,
+          "cell_ids": [
+            61
+          ],
+          "cells": 1,
+          "interval": [
+            0.90625,
+            0.9375
+          ],
+          "annotations": [
+            "0",
+            "0"
+          ]
+        },
+        {
+          "node": 4,
+          "cell_ids": [
+            62
+          ],
+          "cells": 1,
+          "interval": [
+            0.9375,
+            0.96875
+          ],
+          "annotations": [
+            "0",
+            "0"
+          ]
+        },
+        {
+          "node": 5,
+          "cell_ids": [
+            63
+          ],
+          "cells": 1,
+          "interval": [
+            0.96875,
+            1.0
+          ],
+          "annotations": [
+            "0",
+            "0"
+          ]
+        }
+      ],
+      "edges": [
+        [
+          1,
+          0
+        ],
+        [
+          2,
+          1
+        ],
+        [
+          3,
+          2
+        ],
+        [
+          4,
+          3
+        ],
+        [
+          5,
+          4
+        ]
+      ],
+      "sink_nodes": [
+        0
+      ],
+      "basin_cells": {
+        "0": 1
+      },
+      "unresolved_cells": 63,
+      "map_constructor": "regular learned scalar box callback",
+      "samples_per_cell": 257,
+      "padding": 2e-06,
+      "time_step": 0.1,
+      "coefficient_field": 5,
+      "annotation_space": "learned interval quotient only",
+      "image_status": "sampled function hulls; not validated",
+      "finite_graph_basin_forward_invariance_checked": true
+    }
+  }
+]

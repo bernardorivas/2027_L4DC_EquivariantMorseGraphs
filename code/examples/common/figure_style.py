@@ -86,7 +86,7 @@ PANEL_PAD_BP = 1.0
 GRAPH_FRAME = 'margin="0", pad="0.04"'
 
 
-def save_panel(fig, path, pad_bp=PANEL_PAD_BP, dpi=600):
+def save_panel(fig, path, pad_bp=PANEL_PAD_BP, dpi=600, svg=False):
     """Save fig as a PDF cropped to its ink plus pad_bp on each side.
 
     The ink box is measured on the PDF itself: fig is saved with a generous box around its tight bounding
@@ -117,6 +117,23 @@ def save_panel(fig, path, pad_bp=PANEL_PAD_BP, dpi=600):
     box = Bbox.from_extents(probe.x0 + cols.min() / per_in - pad, probe.y1 - (rows.max() + 1) / per_in - pad,
                             probe.x0 + (cols.max() + 1) / per_in + pad, probe.y1 - rows.min() / per_in + pad)
     fig.savefig(path, bbox_inches=box, metadata={"CreationDate": None})
+    if svg:
+        changed = []
+        for ax in fig.axes:
+            for collection in ax.collections:
+                if collection.get_rasterized():
+                    changed.append((collection, collection.get_edgecolor(), collection.get_linewidth()))
+                    collection.set_rasterized(False)
+                    collection.set_edgecolor("face")
+                    collection.set_linewidth(.02)
+        svg_path = Path(path).with_suffix(".svg")
+        fig.savefig(svg_path, bbox_inches=box, format="svg",
+                    metadata={"Creator": None, "Date": None})
+        svg_path.write_text("\n".join(line.rstrip() for line in svg_path.read_text().splitlines())+"\n")
+        for collection, edge, width in changed:
+            collection.set_rasterized(True)
+            collection.set_edgecolor(edge)
+            collection.set_linewidth(width)
 
 
 def printed_width_bp(layout, panel):

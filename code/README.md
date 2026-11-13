@@ -4,7 +4,7 @@ The numbered examples share one Python 3.13 environment with EMLP, native CMGDB,
 
 ## Setup
 
-Install Python 3.13, Graphviz (`dot`), and Poppler (`pdftoppm` and `pdfinfo`). The reference numerical environment is CPU with JAX float64; the example commands configure it automatically. From this `code/` directory:
+Install Python 3.13, Graphviz (`dot`), and Poppler (`pdftoppm` and `pdfinfo`). The reference environment is CPU. Examples 1 and 2 use JAX float64, while Example 3 retains float32 learned models; the commands configure their precision automatically. From this `code/` directory:
 
 ```bash
 python3.13 -m venv .venv
@@ -25,6 +25,10 @@ python examples/example1/run.py train --out outputs/example1-new-fit
 ```
 
 Replay loads the bundled data and checkpoint and checks against the saved result. Training fits a new model with the supplied data and configuration. Both produce diagnostics, native graph outputs, and PDF reports. Example 2 uses the same `replay` and `train` commands and adds native `CMGDB.BoxMapData` construction from encoded physical sources, sampling-density comparisons, numerical regions of attraction, and physical inverse images. Its latent grid is fixed at $64\times64$, with empty cells left unavailable, and its report is `results.pdf`. The [example index](examples/README.md) lists the commands available for all three examples. Each README states its mathematical setup, data format, expected results, and numerical limitations.
+
+Example 3 learns task-aware sphere and interval models of nominal upright and constructed coning control, with three seeds each. `python examples/example3/run.py periodic presentation --out outputs/example3-presentation` renders the concise presentation and paired original/learned PDF and SVG panels from saved inputs. It displays structural aggregate graphs with recomputed Conley indices, retains raw 128-cell graphs for verification, and distinguishes quotient annotations from reconstructed sphere indices.
+
+The [reproduction instructions](examples/example3/periodic/README.md) include the controller and local stability proof. `python examples/example3/run.py periodic replay --out outputs/example3-periodic-replay` regenerates data and checks the six frozen fits, native graphs, and independent audits. Numeric reports require the shared environment and Graphviz. LaTeX with `latexmk` optionally compiles the mathematical presentation. The [earlier full-state reconstruction experiment](examples/example3/full-state.md) and its original runner commands are preserved.
 
 Use a new output directory for every run. `outputs/` is ignored by Git, and supplied data and references stay unchanged. Reference inputs have SHA-256 manifests. Examples 1 and 2 keep their new joint fits and older manuscript fits in separate reference directories.
 

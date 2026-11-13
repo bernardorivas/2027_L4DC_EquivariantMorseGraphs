@@ -1,0 +1,84 @@
+{
+  "validation": {
+    "prediction": 0.45008178738256294,
+    "reconstruction": 0.3604413646971807,
+    "block_mse_by_horizon": [
+      [
+        0.06925242720171809,
+        0.23522931896150112,
+        0.354507714509964,
+        0.7827759981155396
+      ],
+      [
+        0.08114935085177422,
+        0.23917248286306858,
+        0.34755342081189156,
+        0.6021780595183372
+      ],
+      [
+        0.15348090417683125,
+        0.3151492513716221,
+        0.6065491735935211,
+        0.8344779014587402
+      ],
+      [
+        0.615652784705162,
+        0.5583783276379108,
+        0.5945946574211121,
+        0.4526451341807842
+      ]
+    ],
+    "windows": 2048
+  },
+  "test": {
+    "prediction": 0.4511222108655299,
+    "reconstruction": 0.36504512489773333,
+    "block_mse_by_horizon": [
+      [
+        0.06430637277662754,
+        0.22593776043504477,
+        0.35478425770998,
+        0.815152108669281
+      ],
+      [
+        0.07491370709612966,
+        0.22971240803599358,
+        0.3452014457434416,
+        0.6363068297505379
+      ],
+      [
+        0.14865530468523502,
+        0.3071960285305977,
+        0.597952950745821,
+        0.8449470289051533
+      ],
+      [
+        0.5961999855935574,
+        0.5732651334255934,
+        0.5856478102505207,
+        0.4734678976237774
+      ]
+    ],
+    "windows": 4096
+  },
+  "physical_one_step_sphere_consistency_rms": 0.40096041560173035,
+  "physical_one_step_interval_consistency_rms": 0.1686282455921173,
+  "physical_second_stage_commutation_rms": 0.0016428290400654078,
+  "sphere_second_stage_commutation_maximum": 0.006889402866363525,
+  "encoder_equivariance_maximum": 1.4552436682201825e-06,
+  "sphere_map_equivariance_maximum": 5.364418029785156e-07,
+  "minimum_raw_encoder_norm": 0.4948030710220337,
+  "minimum_raw_sphere_map_norm": 0.5812402963638306,
+  "sphere_norm_maximum_error": 1.1920928955078125e-07,
+  "physical_source_interval_range": [
+    -0.999998927116394,
+    0.999997615814209
+  ],
+  "physical_source_supported_cells": 64,
+  "physical_basin_labeled_cells": 2,
+  "physical_cells_reaching_unobserved_support": 0,
+  "support_source": "training and validation observations at indices 0, 1, 4, 16, 32",
+  "test_latent_height_physical_tilt_correlation": 0.20746959048434518,
+  "physical_sources": 92160,
+  "evidence_status": "sampled diagnostics; no physical transfer certificate"
+}

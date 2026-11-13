@@ -1,0 +1,97 @@
+{
+  "nominal/seed0": {
+    "independent_cyclic_components": 2,
+    "all_128_sink_labels_checked": true,
+    "all_morse_reachability_checked": true,
+    "dense_image_samples": 524416,
+    "dense_image_violation": 0.0,
+    "learned_orbit_geometry": []
+  },
+  "nominal/seed1": {
+    "independent_cyclic_components": 2,
+    "all_128_sink_labels_checked": true,
+    "all_morse_reachability_checked": true,
+    "dense_image_samples": 524416,
+    "dense_image_violation": 0.0,
+    "learned_orbit_geometry": []
+  },
+  "nominal/seed2": {
+    "independent_cyclic_components": 2,
+    "all_128_sink_labels_checked": true,
+    "all_morse_reachability_checked": true,
+    "dense_image_samples": 524416,
+    "dense_image_violation": 0.0,
+    "learned_orbit_geometry": []
+  },
+  "coning/seed0": {
+    "independent_cyclic_components": 4,
+    "all_128_sink_labels_checked": true,
+    "all_morse_reachability_checked": true,
+    "dense_image_samples": 524416,
+    "dense_image_violation": 0.0,
+    "learned_orbit_geometry": [
+      {
+        "latent_height": 0.24707368595863644,
+        "decoded_physical_height": 0.24741913378238678,
+        "angle_per_step": 0.4532478451728821,
+        "transverse_multiplier": 0.9087026715278625
+      }
+    ]
+  },
+  "coning/seed1": {
+    "independent_cyclic_components": 4,
+    "all_128_sink_labels_checked": true,
+    "all_morse_reachability_checked": true,
+    "dense_image_samples": 524416,
+    "dense_image_violation": 0.0,
+    "learned_orbit_geometry": [
+      {
+        "latent_height": 0.2470976676706626,
+        "decoded_physical_height": 0.24759896099567413,
+        "angle_per_step": 0.45322513580322266,
+        "transverse_multiplier": 0.9086878299713135
+      }
+    ]
+  },
+  "coning/seed2": {
+    "independent_cyclic_components": 4,
+    "all_128_sink_labels_checked": true,
+    "all_morse_reachability_checked": true,
+    "dense_image_samples": 524416,
+    "dense_image_violation": 0.0,
+    "learned_orbit_geometry": [
+      {
+        "latent_height": 0.24687053326676064,
+        "decoded_physical_height": 0.2473394125699997,
+        "angle_per_step": 0.45324957370758057,
+        "transverse_multiplier": 0.9086290001869202
+      }
+    ]
+  },
+  "nominal/official-emlp": {
+    "official_emlp_output_maximum_errors": [
+      1.1920928955078125e-07,
+      1.1920928955078125e-07,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "maximum_error": 1.1920928955078125e-07,
+    "samples": 128
+  },
+  "coning/official-emlp": {
+    "official_emlp_output_maximum_errors": [
+      1.1920928955078125e-07,
+      1.4901161193847656e-08,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "maximum_error": 1.1920928955078125e-07,
+    "samples": 128
+  }
+}

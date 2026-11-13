@@ -1,0 +1,15 @@
+{
+  "reconstruction_height_rms": 9.642729855841026e-05,
+  "prediction_height_rms": 0.0023697796277701855,
+  "consistency_rms": 0.0024221264757215977,
+  "sampled_invariance_error": 0.0,
+  "minimum_coordinate_slope": 0.9636955261230469,
+  "maximum_coordinate_slope": 1.0334358215332031,
+  "endpoints": [
+    -1.0,
+    1.0
+  ],
+  "minimum_monotone_grid_increment": 0.0001175999641418457,
+  "inverse_identity_maximum": 5.960464477539063e-08,
+  "finite": true
+}

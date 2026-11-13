@@ -1,0 +1,38 @@
+{
+  "nominal": {
+    "selected_seed": 1,
+    "ranking": [
+      {
+        "seed": 1,
+        "validation_prediction": 0.4189295257286479
+      },
+      {
+        "seed": 0,
+        "validation_prediction": 0.43821636292462546
+      },
+      {
+        "seed": 2,
+        "validation_prediction": 0.45008180763882893
+      }
+    ],
+    "criterion": "full-plant validation prediction, fixed before CMGDB"
+  },
+  "coning": {
+    "selected_seed": 2,
+    "ranking": [
+      {
+        "seed": 2,
+        "validation_prediction": 0.28886383182058734
+      },
+      {
+        "seed": 0,
+        "validation_prediction": 0.31975263318357366
+      },
+      {
+        "seed": 1,
+        "validation_prediction": 0.3228528869803995
+      }
+    ],
+    "criterion": "full-plant validation prediction, fixed before CMGDB"
+  }
+}

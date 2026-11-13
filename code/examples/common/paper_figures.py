@@ -1,4 +1,4 @@
-"""Render the sphere and O(3) example panels from the supplied results."""
+"""Render the three example panels from the supplied results."""
 
 from argparse import ArgumentParser
 from hashlib import sha256
@@ -22,7 +22,7 @@ def verify_data(directory):
 
 def main():
     parser = ArgumentParser(description=__doc__)
-    parser.add_argument("--example", choices=("example1", "example2", "sphere", "o3", "all"), default="all")
+    parser.add_argument("--example", choices=("example1", "example2", "example3", "sphere", "o3", "attitude", "all"), default="all")
     parser.add_argument("--data", type=Path)
     parser.add_argument("--layout", type=Path, default=HERE / "layout.json")
     parser.add_argument("--out", type=Path, default=HERE / "output")
@@ -31,11 +31,12 @@ def main():
         if shutil.which(command) is None:
             raise RuntimeError(f"Required command is unavailable: {command}")
     cases = [("example1", "sphere", ("render_sphere_flow", "render_sphere_morse")),
-             ("example2", "o3", ("render_o3",))]
+             ("example2", "o3", ("render_o3",)), ("example3", "attitude", ("render_attitude",))]
     for example, model, scripts in cases:
         if args.example not in (example, model, "all"):
             continue
-        source = HERE.parent / example / "reference/manuscript" if args.data is None else args.data
+        source = (HERE.parent/example/("periodic/reference" if example == "example3" else "reference/manuscript")
+                  if args.data is None else args.data)
         if (source / model).is_dir():
             source = source / model
         verify_data(source)

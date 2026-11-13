@@ -1,0 +1,24 @@
+{
+  "fingerprint_errors": {
+    "encoder": 1.0132789611816406e-06,
+    "decoder": 5.960464477539062e-07,
+    "latent": 2.980232238769531e-07
+  },
+  "native_backend_errors": {
+    "encoder": 1.4901161193847656e-07,
+    "decoder": 2.384185791015625e-07,
+    "latent": 1.1920928955078125e-07
+  },
+  "numeric_parameter_arrays": 33,
+  "finite_full_sphere_sweep": true,
+  "north_image": [
+    -1.0036695030635201e-08,
+    3.563049943977603e-08,
+    1.0
+  ],
+  "south_image": [
+    1.901299917506094e-08,
+    -1.5749838766510038e-08,
+    -1.0
+  ]
+}

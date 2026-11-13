@@ -1,0 +1,200 @@
+{
+  "policy": "coning",
+  "cells": 128,
+  "time_step": 0.1,
+  "image_padding": 2e-06,
+  "nodes": [
+    {
+      "node": 0,
+      "intervals": [
+        [
+          0.234375,
+          0.25
+        ],
+        [
+          0.25,
+          0.265625
+        ]
+      ],
+      "annotations": [
+        "x-1",
+        "0"
+      ]
+    },
+    {
+      "node": 1,
+      "intervals": [
+        [
+          0.21875,
+          0.234375
+        ]
+      ],
+      "annotations": [
+        "0",
+        "0"
+      ]
+    },
+    {
+      "node": 2,
+      "intervals": [
+        [
+          -1.0,
+          -0.984375
+        ]
+      ],
+      "annotations": [
+        "0",
+        "0"
+      ]
+    },
+    {
+      "node": 3,
+      "intervals": [
+        [
+          0.265625,
+          0.28125
+        ]
+      ],
+      "annotations": [
+        "0",
+        "0"
+      ]
+    },
+    {
+      "node": 4,
+      "intervals": [
+        [
+          0.84375,
+          0.859375
+        ]
+      ],
+      "annotations": [
+        "0",
+        "0"
+      ]
+    },
+    {
+      "node": 5,
+      "intervals": [
+        [
+          0.984375,
+          1.0
+        ]
+      ],
+      "annotations": [
+        "x-1",
+        "0"
+      ]
+    },
+    {
+      "node": 6,
+      "intervals": [
+        [
+          0.890625,
+          0.90625
+        ]
+      ],
+      "annotations": [
+        "0",
+        "0"
+      ]
+    },
+    {
+      "node": 7,
+      "intervals": [
+        [
+          0.859375,
+          0.875
+        ],
+        [
+          0.875,
+          0.890625
+        ]
+      ],
+      "annotations": [
+        "0",
+        "x-1"
+      ]
+    }
+  ],
+  "nonzero_nodes": [
+    {
+      "node": 0,
+      "intervals": [
+        [
+          0.234375,
+          0.25
+        ],
+        [
+          0.25,
+          0.265625
+        ]
+      ],
+      "annotations": [
+        "x-1",
+        "0"
+      ]
+    },
+    {
+      "node": 5,
+      "intervals": [
+        [
+          0.984375,
+          1.0
+        ]
+      ],
+      "annotations": [
+        "x-1",
+        "0"
+      ]
+    },
+    {
+      "node": 7,
+      "intervals": [
+        [
+          0.859375,
+          0.875
+        ],
+        [
+          0.875,
+          0.890625
+        ]
+      ],
+      "annotations": [
+        "0",
+        "x-1"
+      ]
+    }
+  ],
+  "edges": [
+    [
+      1,
+      0
+    ],
+    [
+      2,
+      1
+    ],
+    [
+      3,
+      0
+    ],
+    [
+      4,
+      3
+    ],
+    [
+      6,
+      5
+    ],
+    [
+      7,
+      4
+    ],
+    [
+      7,
+      6
+    ]
+  ],
+  "evidence_status": "DOP853 numerical reference with monotone endpoint hulls; not a validated enclosure"
+}

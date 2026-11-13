@@ -1,0 +1,27 @@
+{
+  "seed": 1,
+  "width": 32,
+  "layers": 2,
+  "knots": 65,
+  "coordinate_log_bound": 0.35,
+  "time_gain": 2.0,
+  "steps": 20000,
+  "batch": 512,
+  "learning_rate_start": 0.002,
+  "learning_rate_end": 0.0001,
+  "validate_every": 100,
+  "best_step": 19900,
+  "best_validation": 1.1848531357827596e-05,
+  "seconds": 31.35537916699832,
+  "parameter_changes": {
+    "encoder": 0.8309547305107117,
+    "decoder": 1.0437076091766357,
+    "dynamics": 2.750985622406006
+  },
+  "dtype": "float32",
+  "weights_sha256": "bf242b69f41796a6835c71a92fb6424848a58f4c7f679a71f741e59c33dfc399",
+  "coordinate_geometry": "positive piecewise-linear homeomorphism of the known latitude quotient",
+  "coordinate_derivative_lower_bound": 0.4965853037914095,
+  "coordinate_derivative_upper_bound": 2.0137527074704766,
+  "time_head": "clip(u + time_gain*tanh(network(u)), -1, 1); endpoint images and interior fixed points are learned"
+}

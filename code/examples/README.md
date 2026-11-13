@@ -6,7 +6,7 @@ The numbered folders follow the order of the three examples in the manuscript. S
 |---|---|---|
 | [example1](example1/README.md) | SO(2) flow on the sphere | Replay the joint interval fit; train a new joint fit; reproduce the older manuscript panels |
 | [example2](example2/README.md) | O(3) flow on a subset of R4 | Replay or train the joint quotient model; compute BoxMapData graphs and numerical basins at 64 x 64; generate data |
-| [example3](example3/README.md) | Reduced attitude control | Compute the reference thrust-axis quotient graphs; generate full-plant trajectories |
+| [example3](example3/README.md) | Reduced attitude control | Constructed upright and coning controllers, task-aware joint sphere and interval models, three seeds per policy, 128-cell CMGDB, concise presentation, and checked replay |
 
 ## Start with Example 1
 
@@ -28,14 +28,17 @@ Replay checks an existing learned map. Training fits a new one and reports its a
 
 ```bash
 python examples/example2/run.py replay --out outputs/example2-replay
-python examples/example3/run.py replay --out outputs/example3-reference
+python examples/example3/run.py periodic presentation --out outputs/example3-presentation
+python examples/example3/run.py periodic replay --out outputs/example3-replay
 ```
 
-Example 2 uses the joint quotient fit on a fixed $64\times64$ latent grid. Native `CMGDB.BoxMapData` uses only pairs from encoded physical sources, comparing three sampling densities without interpolating empty cells. `results.pdf` includes the data-map graphs, numerical regions of attraction, and physical inverse images. Its `replay`, `train`, and `data` commands are documented in its README. Example 3 includes a reference calculation for the thrust-axis subsystem at zero angular-velocity error; a full-plant learned checkpoint is not included.
+Example 2 uses the joint quotient fit on a fixed $64\times64$ latent grid. Native `CMGDB.BoxMapData` uses only pairs from encoded physical sources, comparing three sampling densities without interpolating empty cells. `results.pdf` includes the data-map graphs, numerical regions of attraction, and physical inverse images. Example 3 supplies a nominal upright controller and an attracting coning orbit, three task-aware learned models per controller, and regular CMGDB on 128 interval cells. Its PDF and SVG presentation panels pair original and learned sphere preimages, interval cells, aggregate quotient graphs, and reconstructed sphere indices. Each README documents reproduction and training commands and the actual numerical outcomes.
+
+Example 3 uses full-plant trajectories initialized on the closed invariant sphere subsystem, with explicit calibration toward the thrust axis. The [earlier arbitrary-rate reconstruction experiment](example3/full-state.md) is preserved separately.
 
 ## Files
 
-Each example has its own README and `run.py`. Examples 1 and 2 also have editable training settings in `config.json`, fixed numerical datasets in `data/`, and immutable saved experiments in `reference/`. Their `reference/joint/` and `reference/manuscript/` directories identify different learned models. Example 2's `reference/data-map/` stores the data-map analysis of the joint checkpoints. Input manifests record SHA-256 checksums. All new results go to the requested output directory, which is ignored by Git.
+Each example has its own README, `run.py`, editable settings in `config.json`, fixed numerical datasets in `data/`, and immutable saved experiments in `reference/`. Examples 1 and 2 retain separate historical manuscript inputs, and Example 2's `reference/data-map/` stores the current data-map analysis. Example 3 groups its sphere, interval, and CMGDB references by controller and seed. Input manifests record SHA-256 checksums. All new results go to the requested output directory, which is ignored by Git.
 
 `common/` contains the physical simulators, exact reference enclosures, native replay helpers, geometry, and figure style. It is shared implementation; use the numbered entry points for normal runs. `check.py` checks the pinned environment and the physical systems.
 

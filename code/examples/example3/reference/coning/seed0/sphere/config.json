@@ -1,0 +1,18 @@
+{
+  "seed": 0,
+  "width": 128,
+  "layers": 3,
+  "steps": 20000,
+  "dtype": "float32",
+  "batch": 256,
+  "best_step": 19500,
+  "best_validation_prediction": 0.31975263318357366,
+  "best_validation_reconstruction": 0.21971868176478893,
+  "parameters": 167688,
+  "origin": "retained completed full-plant sphere fit",
+  "learning_rate_start": 0.001,
+  "learning_rate_end": 1e-05,
+  "weight_decay": 1e-06,
+  "validate_every": 250,
+  "weights_sha256": "e12ed7ebaebe41535d509882d30662f18f41155255be24feee2fdb788bb2ebbf"
+}

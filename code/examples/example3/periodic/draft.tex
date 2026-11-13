@@ -1,0 +1,216 @@
+\documentclass[11pt]{article}
+\usepackage[margin=0.85in]{geometry}
+\usepackage{amsmath,amssymb,amsthm,booktabs,graphicx,tikz-cd,float}
+\usepackage{needspace}
+\usepackage[colorlinks=true,allcolors=blue]{hyperref}
+\newtheorem{proposition}{Proposition}
+\newcommand{\R}{\mathbb R}
+\newcommand{\SO}{\mathrm{SO}}
+\newcommand{\F}{\mathbb F_5}
+\input{selected-panels.tex}
+\title{Autonomous stabilization of a coning thrust axis\\\large A constructed variant of Example 3}
+\author{}
+\date{Working draft, November 13, 2026}
+\begin{document}
+\maketitle
+\noindent We construct a rigid-body feedback that attracts the thrust direction to a periodic latitude on $S^2$. The objective is deliberately periodic attitude motion with free phase. It is a separate benchmark from a failure of an upright controller. We prove the properties of the constructed controller, train task-aware equivariant models, and analyze their learned quotient maps with CMGDB. Position is unregulated, and the result is not a hovering or position-stabilization result.
+
+\section{Physical system and feedback}
+The state is $(p,v,R,\Omega)\in\R^3\times\R^3\times\SO(3)\times\R^3$. We use the rigid-body plant
+\begin{align*}
+ \dot p&=v,& \dot v&=-g e_3+(f_{\rm th}/m)Re_3,\\
+ \dot R&=R\widehat\Omega,& J\dot\Omega&=M-\Omega\times J\Omega.
+\end{align*}
+Here $R$ maps body coordinates to spatial coordinates. The thrust direction is $q=Re_3$, its height is $z=q\cdot e_3$, and the spatial angular velocity is $w=R\Omega$. The experiments use $m=1$, $g=9.81$, $J=\operatorname{diag}(0.02,0.025,0.04)$, and $f_{\rm th}=mg$. Moments are applied without actuator saturation. The plant is the usual rigid-body model used in geometric quadrotor control \cite{lee,kousik}. The feedback below is constructed here.
+
+For a smooth function $a\colon[-1,1]\to\R$ and constants $\omega\ne0$ and $\lambda>0$, define
+\begin{align*}
+ V_a(q)&=a(z)(e_3-zq)+\omega e_3\times q,\\
+ w_d(q)&=q\times V_a(q)=a(z)q\times e_3+\omega(e_3-zq),\\
+ \eta&=w-w_d(q).
+\end{align*}
+We apply the moment
+\begin{equation}\label{eq:moment}
+ M=\Omega\times J\Omega+JR^\top\bigl(Dw_d(q)[w\times q]-\lambda\eta\bigr).
+\end{equation}
+The derivative used in the implementation is
+\[
+ Dw_d(q)[\xi]=a'(z)\xi_3(q\times e_3)+a(z)(\xi\times e_3)-\omega(\xi_3q+z\xi),\qquad \xi\in T_qS^2.
+\]
+
+\begin{proposition}\label{prop:error}
+The feedback \eqref{eq:moment} satisfies
+\[
+ \dot q=V_a(q)+\eta\times q,\qquad \dot\eta=-\lambda\eta.
+\]
+The set $\{\eta=0\}$ is invariant. On this set, the thrust direction follows the closed vector field $V_a$.
+\end{proposition}
+\begin{proof}
+The kinematic equation implies $\dot q=w\times q$. Since $q\cdot V_a(q)=0$ and $\|q\|=1$, the identity $(q\times V_a(q))\times q=V_a(q)$ proves the first equation. Also,
+\[
+ \dot w=R\dot\Omega=Dw_d(q)[w\times q]-\lambda\eta,
+\]
+because $\dot R\Omega=R(\Omega\times\Omega)=0$. Subtracting $Dw_d(q)[\dot q]$ proves the second equation.
+\end{proof}
+
+For every vertical rotation $Q\in\SO(2)$, the state action is $(p,v,R,\Omega)\mapsto(Qp,Qv,QR,\Omega)$. Under this action, $q,w,w_d,\eta$ transform by $Q$, and the body moment in \eqref{eq:moment} is unchanged. Thus the full feedback is equivariant even though the first two principal inertias differ.
+
+\section{An attracting coning orbit}
+Choose
+\[
+ a(z)=\kappa(c-z),\qquad -1<c<1,\quad \kappa>0.
+\]
+On $\eta=0$, the equations away from the poles are
+\begin{equation}\label{eq:height}
+ \dot z=\kappa(c-z)(1-z^2),\qquad \dot\phi=\omega.
+\end{equation}
+The numerical experiment uses $c=1/4$, $\kappa=1$, $\lambda=2$, and $\omega=\pi/\log2$. The coning period is $T=2\log2\approx1.386294$ seconds. The nominal comparison uses $a(z)=1$ with the same $\omega$ and $\lambda$.
+
+\begin{proposition}\label{prop:orbit}
+On $S^2\times\{0\}$, the latitude $C=\{q\in S^2:q_3=c\}$ is a periodic orbit of period $2\pi/|\omega|$ and attracts every nonpolar thrust direction. Both poles repel on this sphere. In the reduced angular state space $S^2\times\R^3$ with coordinates $(q,\eta)$, the orbit $C\times\{0\}$ is locally exponentially orbitally stable.
+\end{proposition}
+\begin{proof}
+For $-1<z<1$, the right-hand side of \eqref{eq:height} is positive below $c$ and negative above $c$. A solution cannot cross the equilibrium $c$, so its height converges monotonically to $c$. Equivalently,
+\[
+ \frac{d}{dt}\frac{(z-c)^2}{2}=-\kappa(z-c)^2(1-z^2).
+\]
+The azimuth advances at the nonzero constant rate $\omega$. The tangent linearizations at the north and south poles have positive real parts $\kappa(1-c)$ and $\kappa(1+c)$, respectively.
+
+Near $C\times\{0\}$, use coordinates $(z,\phi,\eta)$. The linearization along the periodic orbit has the triangular form
+\[
+ \begin{pmatrix}\dot{\delta z}\\\dot{\delta\phi}\\\dot{\delta\eta}\end{pmatrix}
+ =\begin{pmatrix}-\kappa(1-c^2)&0&B_1(t)\\0&0&B_2(t)\\0&0&-\lambda I_3\end{pmatrix}
+ \begin{pmatrix}\delta z\\\delta\phi\\\delta\eta\end{pmatrix}.
+\]
+Its Floquet multipliers are
+\[
+ 1,\quad e^{-\kappa(1-c^2)T},\quad e^{-\lambda T},\quad e^{-\lambda T},\quad e^{-\lambda T}.
+\]
+The multiplier $1$ is simple and corresponds to phase. Every transverse multiplier has magnitude less than $1$, which proves local exponential orbital stability.
+\end{proof}
+
+For the chosen parameters, the transverse multipliers are approximately $0.272627$ and $0.0625$ with multiplicity three. The pole expansion rates are $1.25$ at $S$ and $0.75$ at $N$. In the rate-augmented space these poles also have three stable rate directions. No claim of global attraction away from $\eta=0$ follows from Proposition~\ref{prop:orbit}.
+
+The periodic orbit is an orbit of the thrust direction. Heading remains free, so it does not identify a unique periodic full attitude. Translation is also unregulated. In fact, on the coning orbit with constant thrust $mg$, the vertical acceleration is $g(c-1)$. Thus axis stabilization here does not maintain altitude.
+
+\Needspace{10\baselineskip}
+\subsection*{Analytic Conley indices}
+Using tuples in degrees $0,1,2$, with $x-1$ denoting the identity index map over $\F$, the physical axis orders are
+\[
+ \text{nominal:}\quad
+ \underbrace{S}_{(0,0,x-1)}\longrightarrow\underbrace{N}_{(x-1,0,0)},
+\]
+\[
+ \text{coning:}\quad
+ \underbrace{S}_{(0,0,x-1)}\longrightarrow
+ \underbrace{C}_{(x-1,x-1,0)}\longleftarrow
+ \underbrace{N}_{(0,0,x-1)}.
+\]
+A repelling pole has an index pair homotopy equivalent to $(D^2,S^1)$, so its index is in degree $2$. An attracting pole has a disk with empty exit set, so its pointed index is in degree $0$. A trapping annulus around the attracting periodic orbit has empty exit set and retracts to $S^1$. Its pointed homology is in degrees $0$ and $1$, and the time map induces the identity in both. These are analytic sphere indices. The interval quotient collapses the circle direction and has different annotations, including trivial endpoint annotations for the repelling poles.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=.52\linewidth]{panels/physical-cone.pdf}
+\caption{Physical thrust-axis trajectories with nonzero initial angular-rate error approach the constructed coning latitude. This plot concerns reduced attitude, not position or altitude.}
+\end{figure}
+
+\section{The learned diagram and training data}
+Let $\mathcal X_0$ denote the full-plant invariant set $\{\eta=0\}$ and $F$ its time-$0.1$ map. The learning diagram is
+\[
+\begin{tikzcd}[column sep=large,row sep=large]
+ \mathcal X_0\arrow[r,"F"]\arrow[d,"E"']&\mathcal X_0\arrow[d,"E"]\\
+ S^2\arrow[r,"f_\theta"]\arrow[d,"\pi_\varphi"']&S^2\arrow[d,"\pi_\varphi"]\\
+ {[-1,1]}\arrow[r,"\bar f_{\theta,\varphi}"']&{[-1,1]}.
+\end{tikzcd}
+\]
+The upper square is approximate and is checked on held-out physical trajectories. The lower square commutes by construction. The decoder $D_q\colon S^2\to S^2$ reconstructs the thrust-axis observable. A second learned decoder $r\colon[-1,1]\to[-1,1]$ reconstructs latent height from the quotient coordinate.
+
+The encoder receives all 18 observation coordinates: $p$, $v$, the three columns of $R$, and the three body angular-velocity coordinates. Its representation is $5V+3\mathbf1$ for vertical rotations. The decoder and encoder use two hidden EMLP layers of width 64, and scalar heads use width 24. The total model has 20,795 parameters. The encoder and axis decoder normalize their vector outputs. The encoder is explicitly calibrated toward the known observable $q=Re_3$. This is task-aware learning, not unsupervised discovery of the thrust direction and not full-state reconstruction from a two-dimensional code.
+
+For each policy, independent splits contain 8,192 training trajectories, 2,048 validation trajectories, and 4,096 test trajectories. Each trajectory has 33 observations separated by $0.1$ seconds. The full plant is integrated with normalized-quaternion RK4 at step $0.002$. Initial translation and heading vary independently. Initial angular velocity satisfies $\eta=0$. One quarter of initial heights are sampled near the poles, and exact pole samples are also included. Splits are formed before selecting temporal windows.
+
+We train reconstruction and prediction at horizons $0,1,4,10$, encoder calibration, physical-to-latent consistency, and orbit reconstruction and prediction. The first 1,000 updates calibrate the encoder and decoders. Joint training then continues to 6,000 total updates with batch size 256. All five EMLP modules are learned. We retain \seedcount{} seeds per policy. The checkpoint minimizes the declared joint validation objective, and the selected seed is fixed by that validation objective before computing graphs. After the pilot determined the training recipe, we generated a fresh final test split with seed 2026111323. It is separate from the pilot test data, and no further model tuning uses it.
+
+The off-manifold tests use initial rate-error radii $0$, $0.25$, $2$, and $6$. They validate the physical controller separately and do not imply that $q$ alone is a closed state away from $\eta=0$. Full-state reconstruction and arbitrary-rate reduction were the objectives of the earlier experiment, whose saved inputs and results remain separate.
+
+\subsection*{Sphere preservation and the learned quotient}
+In this subsection, $z$ denotes latent height. It is close to physical height under the calibration objective but is not identified with it exactly. For $(v,z)\in S^2$, let bounded scalar EMLPs produce $b_\theta(z)$ and $\alpha_\theta(z)$. Define
+\begin{align*}
+ d(z)&=\cosh b_\theta(z)+z\sinh b_\theta(z),\\
+ m_\theta(z)&=\frac{z\cosh b_\theta(z)+\sinh b_\theta(z)}{d(z)},\\
+ f_\theta(v,z)&=\left(\frac{R_{\alpha_\theta(z)}v}{d(z)},m_\theta(z)\right).
+\end{align*}
+Since $d(z)\ge e^{-|b_\theta(z)|}>0$ and
+\[
+ (1-z^2)+(z\cosh b+\sinh b)^2=(\cosh b+z\sinh b)^2,
+\]
+the map preserves $S^2$, fixes both poles, and commutes with vertical rotations. Its interior fixed heights are exactly the zeros of $b_\theta$. Their number and locations are learned. The parameterization does not prescribe the desired Morse order. A sampled monotonicity diagnostic uses
+\[
+ m_\theta'(z)=\frac{1+(1-z^2)b_\theta'(z)}{d(z)^2}.
+\]
+Let $h_\varphi$ be a learned increasing piecewise-linear homeomorphism of $[-1,1]$, with 33 fixed source knots and positive learned image increments. Define
+\[
+ \pi_\varphi(v,z)=h_\varphi(z),\qquad
+ \bar f_{\theta,\varphi}=h_\varphi\circ m_\theta\circ h_\varphi^{-1}.
+\]
+Then $\pi_\varphi\circ f_\theta=\bar f_{\theta,\varphi}\circ\pi_\varphi$. The known group action determines that height labels orbits. Learning $h_\varphi$ chooses a coordinate on that orbit space. The interval time map shares learned parameters with the spherical time map, rather than being an independently inconsistent fit.
+
+\section{Numerical results}
+Physical identity and equivariance residuals are below $3\cdot10^{-14}$. The maximum observation difference between integration steps $0.002$ and $0.001$ over one second is below $5\cdot10^{-10}$. Agreement of the integrated thrust axis with the independent scalar reference is below $9\cdot10^{-11}$. The sampled rate-error decay residual over 20 seconds is below $10^{-9}$.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\linewidth]{panels/physical.pdf}
+\caption{Controller validation from on-manifold and off-manifold initial conditions. Left: convergence of physical height to $c=1/4$. Solid curves start with zero rate error and dashed curves with nonzero rate error. Right: rate-error norms compared with the exponential bound.}
+\end{figure}
+
+\begin{table}[H]
+\centering\small
+\input{results-table.tex}
+\caption{Held-out componentwise RMS errors. Prediction errors compare decoded forecasts with the physical thrust direction from the start of each test trajectory. Encoder calibration and one-step closure are reported separately. Nodes and sinks refer to the structural aggregate graph.}
+\end{table}
+
+\input{results-text.tex}
+
+The coning fits have one attracting interior latitude. Their raw 128-cell graphs have four components, including an adjacent trivial-index component $A$. We aggregate $A$, $C$, and their connecting cells according to the attracting-latitude structure. Order convexity is checked, and CMGDB checks the merged index pair and recomputes its interval index as $(x-1,0)$. Every coning aggregate has order $S\to C\leftarrow N$, with 126 of 128 cells assigned to the singleton sink. Raw graphs remain available for verification. The proved physical basin on $\eta=0$ is all nonpolar thrust directions.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\linewidth]{panels/learning.pdf}
+\caption{All retained seeds per policy. Left: joint validation objective, including the initial calibration phase. Right: held-out open-loop prediction errors through 3.2 seconds.}
+\end{figure}
+
+\section{CMGDB on 128 interval cells}
+We analyze ten learned steps, representing one second, with regular interval callbacks on 128 cells. Each image hull uses 257 samples per cell and padding $2\cdot10^{-6}$. The physical scalar reference uses DOP853 with relative tolerance $2\cdot10^{-13}$ and absolute tolerance $2\cdot10^{-14}$. For a matched comparison it is conjugated by the selected learned coordinate $h_\varphi$. Every native component and its annotations are retained. The file \texttt{all-native-graphs.pdf} contains all \fitcount{} learned graphs.
+
+\begin{figure}[H]
+\centering
+\begin{minipage}{.49\linewidth}\centering
+Nominal upright control\\[4pt]
+\includegraphics[width=.55\linewidth,height=1.5in,keepaspectratio]{\nominalgraph}\\
+\includegraphics[width=.56\linewidth]{panels/nominal-sphere.pdf}\\
+\includegraphics[width=\linewidth]{\nominalcells}
+\end{minipage}\hfill
+\begin{minipage}{.49\linewidth}\centering
+Autonomous coning control\\[4pt]
+\includegraphics[width=.8\linewidth,height=1.5in,keepaspectratio]{\coninggraph}\\
+\includegraphics[width=.56\linewidth]{panels/coning-sphere.pdf}\\
+\includegraphics[width=\linewidth]{\coningcells}
+\end{minipage}
+\caption{Selected aggregate quotient graphs, their preimages on the learned sphere, and aggregate interval Morse cells. Colors identify aggregate components. Pale regions indicate numerical singleton sink basins. Sphere colors represent preimages under the learned quotient coordinate, not certified physical basins. The labels are recomputed quotient indices, not reconstructed sphere indices.}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=.49\linewidth]{panels/nominal-drift.pdf}\hfill
+\includegraphics[width=.49\linewidth]{panels/coning-drift.pdf}
+\caption{One-second displacement in the selected learned interval coordinate. Left: nominal control. Right: coning control. The reference and learned maps use the same coordinate and analysis time.}
+\end{figure}
+
+The controller identities, analytic axis orders, and physical Conley indices follow from the displayed calculations. Numerical agreement of learned maps and graph computations is observed. Sampled function hulls and sampled derivative bounds are not validated enclosures. Vector normalization is checked on held-out observations and sampled latent points, but global avoidance of zero raw encoder and decoder outputs is not proved. No uniform physical-to-latent residual bound or physical attracting-block transfer certificate is claimed. The experiment also does not establish the earlier unsupervised reduction from arbitrary full-state initial conditions.
+
+\begin{thebibliography}{9}
+\bibitem{lee} T. Lee, M. Leok, and N. H. McClamroch. \emph{Control of Complex Maneuvers for a Quadrotor UAV using Geometric Methods on SE(3)}. \url{https://arxiv.org/abs/1003.2005}.
+\bibitem{kousik} S. Kousik, P. Holmes, and R. Vasudevan. \emph{Technical Report: Safe, Aggressive Quadrotor Flight via Reachability-based Trajectory Design}. \url{https://arxiv.org/abs/1904.05728}.
+\end{thebibliography}
+\end{document}
