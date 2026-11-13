@@ -41,8 +41,26 @@ def show_grouping_guide(fit, study):
             face[i]=style.tint(O3_IDS[role])
     face[paths]=style.tint(O3_IDS['C'])
     face[~included]='#dddddd'
+    import os, subprocess
+    env=dict(os.environ, MPLBACKEND='Agg', JAX_ENABLE_X64='true')
+    preimage=out/'physical-basin-preimages.npz'
+    subprocess.run([str(ROOT/'.venv-emlp/bin/python'),str(ROOT/'src/o3_physical_preimages.py'),str(fit),str(preimage)],env=env,check=True,capture_output=True)
+    with np.load(preimage) as d:a=d['a'];r=d['r'];q=d['encoded']
+    side=(upper-lower)/64
+    color_grid=np.full((64,64),'#dddddd',dtype=object)
+    ij=np.floor(((boxes[:,:2]+boxes[:,2:])/2-lower)/side).astype(int)
+    color_grid[ij[:,0],ij[:,1]]=face
+    for b in cells:
+        ijcell=np.floor(((b[:2]+b[2:4])/2-lower)/side).astype(int)
+        color_grid[tuple(ijcell)]=O3_COLORS[roles[int(b[4])]]
+    index=np.floor((q-lower)/side).astype(int)
+    valid=np.all((index>=0)&(index<64),axis=-1)
+    physical=np.full(q.shape[:2],'#dddddd',dtype=object)
+    physical[valid]=color_grid[index[valid,0],index[valid,1]]
+    from matplotlib.colors import to_rgba
+    rgba=np.array([to_rgba(c) for c in physical.ravel()]).reshape(*physical.shape,4)
     with plt.rc_context({'font.size':11,'axes.spines.top':False,'axes.spines.right':False}):
-        fig,axes=plt.subplots(1,2,figsize=(11,4.3),layout='constrained',gridspec_kw={'width_ratios':[1.8,1]})
+        fig,axes=plt.subplots(1,3,figsize=(15,4.3),layout='constrained',gridspec_kw={'width_ratios':[1.3,1.3,1]})
         ax=axes[0];ax.set_facecolor('#dddddd')
         patches=[Rectangle(b[:2],*(b[2:]-b[:2])) for b in boxes]
         ax.add_collection(PatchCollection(patches,facecolors=face,edgecolors='none',antialiaseds=False))
@@ -54,7 +72,12 @@ def show_grouping_guide(fit, study):
             ax.annotate(label,center,xytext=offset,textcoords='offset points',color=color,
                         arrowprops={'arrowstyle':'-','color':color,'lw':.8})
         ax.set(xlim=(lower[0],upper[0]),ylim=(-.04,min(upper[1],cells[:,3].max()+.25)),xlabel='$q_1$',ylabel='$q_2$',title='Learned quotient: regions and native cells')
-        ax=axes[1];ax.axis('off');ax.set_title('Color and grouping key',loc='left')
+        ax=axes[1]
+        ax.imshow(rgba,origin='lower',extent=[a[0],a[-1],r[0],r[-1]],aspect='auto',interpolation='nearest')
+        ax.set(xlabel='Physical scalar $a$',ylabel='Physical radius $r$',title='Physical inverse images under the encoder')
+        for x,y,label,role in [(-1,0,'A− · 0','A-'),(1,0,'A+ · 1','A+'),(0,0,'O · 3, 5','O'),(0,1,'C · 2, 4','C')]:
+            ax.annotate(label,(x,y),xytext=(8,18),textcoords='offset points',color=O3_COLORS[role],fontsize=9)
+        ax=axes[2];ax.axis('off');ax.set_title('Color and grouping key',loc='left')
         legend=[Patch(facecolor=style.tint(O3_IDS[r]),edgecolor=O3_COLORS[r],label=f'{names[r]}: native '+', '.join(str(k) for k,v in roles.items() if v==r)) for r in ('A-','A+','O','C')]
         legend += [Patch(facecolor='white',edgecolor='.6',label='White: unresolved in this display'),Patch(facecolor='#dddddd',label='Gray: outside one-step image cover')]
         ax.legend(handles=legend,loc='upper left',frameon=False,labelspacing=1.1,fontsize=10)
@@ -82,6 +105,6 @@ def show_grouping_guide(fit, study):
           [(names[group_roles[int(k)]],str(ids),group['group_cell_counts'][k],str(tuple(group['indices'][k]))) for k,ids in group['groups'].items()])
     display(Markdown('**Grouping retains every native component.** O combines 3 and 5. C combines 2 and 4 and their connecting cells. '
         'The two sinks remain separate. CMGDB checks the grouped index pairs and recomputes their indices on the rectangular domain. '
-        'The basin panel uses the saved restricted graph and one-step-image cover; its colors do not transfer rectangle indices to Atlas. '
+        'The physical panel classifies each sampled (a,r) by E(a,r,0,0), using the same cell labels. Each point represents the full O(3) orbit with vector norm r, not a decoder output. The basin panel uses the saved restricted graph and one-step-image cover; its colors do not transfer rectangle indices to Atlas. '
         'Pale green paths are not a third attracting basin. White means unresolved here, not absence of attraction. '
         'These sampled graph regions are not certified basins of the continuous flow.'))
