@@ -1,0 +1,12 @@
+--find-links https://github.com/bernardorivas/CMGDB/releases/expanded_assets/v1.5.3%2Bfork.7
+cmgdb==1.5.3+fork.7
+numpy==2.5.4
+scipy==1.18.1
+matplotlib==3.11.2
+graphviz==0.21
+pillow==13.0.0
+nbformat>=5.10,<6
+nbclient>=0.10,<1
+nbconvert>=7.16,<8
+ipykernel>=6.29,<8
+jupyterlab>=4.4,<5
