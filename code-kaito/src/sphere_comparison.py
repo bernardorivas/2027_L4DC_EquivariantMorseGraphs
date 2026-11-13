@@ -137,7 +137,7 @@ def show_sphere_comparison(fit,study):
                     '--output',str(folder/'sphere-comparison.png'),str(svg)],check=True)
     (folder/'sphere-reconstruction.json').write_text(json.dumps(dict(checkpoint_sha256=evidence['checkpoint_sha256'],quotient=expected_q,reconstructed=reconstructed,status='Verified local indices of the specified sphere lift' if verified else 'Conditional local-model reconstruction',certificate=str(cert_path.relative_to(ROOT)) if verified else None),indent=2)+'\n')
     gallery([('',folder/'sphere-comparison.svg')],max_height=1150)
-    display(Markdown('**128 cells.** Bands show encoder preimages of native Morse cells, colored by aggregate. S/N are the poles, A−/A+ the attracting latitude circles, and C the repelling central circle. The interval row shows analytical height and learned quotient coordinates. '+('Arb bounds verify local indices for the specified direction-preserving sphere lift.' if verified else 'The learned reconstruction is conditional on the stated local models.')+' [Local index checks](../build/sphere-certification/local-index-argument.md).'))
+    display(Markdown('**128 cells.** Bands show encoder preimages of native Morse cells, colored by aggregate. S/N are the poles, A−/A+ the attracting latitude circles, and C the repelling central circle. The interval row shows analytical height and learned quotient coordinates. '+('Arb bounds verify local indices for the specified direction-preserving sphere lift.' if verified else 'The learned reconstruction is conditional on the stated local models.')+' Local bounds are restored to `build/sphere-certification/local-index-argument.md`.'))
     from conjugacy_summary import show_conjugacy_check
     show_conjugacy_check(fit)
     return evidence

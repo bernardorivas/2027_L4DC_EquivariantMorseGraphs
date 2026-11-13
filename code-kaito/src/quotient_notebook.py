@@ -2,7 +2,7 @@
 from pathlib import Path
 import json
 import numpy as np
-from IPython.display import display, HTML
+from IPython.display import display, HTML, Image
 from IPython.utils.capture import capture_output
 from notebook_support import gallery, table
 
@@ -46,7 +46,7 @@ def show_quotient_fit(run):
         axes[2].set(xlabel='True orbit coordinate',ylabel='Decoded',title='Reconstruction up to symmetry')
         if not sphere:axes[2].legend(frameon=False,fontsize=9)
         for ext in ('pdf','png'):fig.savefig(run/f'quotient-fit.{ext}',dpi=180,bbox_inches='tight')
-        display(fig);plt.close(fig)
+        plt.close(fig);display(Image(filename=str(run/'quotient-fit.png')))
     metrics=result['metrics']
     table(['Held-out orbit RMS / state scale','Reconstruction','One step','Ten steps'],
           [('Raw states',*[f'{100*metrics[k]:.2f}%' if metrics[k] is not None else 'Nonfinite' for k in

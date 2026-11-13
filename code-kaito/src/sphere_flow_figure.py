@@ -60,7 +60,7 @@ def height(ax):
     for a,key in [(-1,'S'),(-.4,'T-'),(0,'E'),(.4,'T+'),(1,'N')]:
         ax.plot(a,a,'o',ms=4.6,mec=COLORS[key],mfc=COLORS[key] if abs(a)==.4 else 'white',mew=1,zorder=5)
     ax.set(aspect='equal',xlim=(-1.07,1.07),ylim=(-1.07,1.07),xlabel='$z$',ylabel='$h_3(z)$')
-    ax.set_xticks([-1,-.4,0,.4,1],['$-1$',r'$-z_t$','$0$',r'$z_t$','$1$'])
+    ax.set_xticks([-1,-.4,0,.4,1],['$-1$','$-0.4$','$0$','$0.4$','$1$'])
     ax.set_yticks([-1,0,1]);ax.tick_params(length=3,width=.65,pad=3)
 
 def render():

@@ -35,7 +35,6 @@ def analytical_graphs(folder,levels=(7,8,9),tau=10.):
 def show_joint_comparison(reference,fit,study):
     from notebook_support import gallery,table
     from quotient_domain_notebook import _domain_figure
-    from IPython.utils.capture import capture_output
     from IPython.display import display,HTML
     folder=ROOT/study['study'];dest=folder/'analytical-matched-time'
     cfg=json.loads((fit/'config.json').read_text());tau=cfg['time_step']*cfg['cmgdb_iterations']
@@ -55,15 +54,10 @@ def show_joint_comparison(reference,fit,study):
         f"{c['one_step_outside']} leave it after one learned step. "
         "These sampled cell hulls are numerical evidence, not certified enclosures. The unaggregated graphs remain available below.</p>"))
     checks=ROOT/study['checks']
-    with capture_output() as captured:
-        _domain_figure(folder,checks,result)
-        gallery([('Learned encoder image — native, no indices',folder/f'restricted-{n}.svg'),
-                 ('Learned rectangle — native indices',folder/f'rectangle-{n}.svg')],max_height=300)
-        display(HTML('<p>The rectangular learned graph also includes points outside the encoder image; its indices are not transferred to the restricted graph.</p>'))
-    html=''.join(item.data.get('text/html','') for item in captured.outputs)
-    with capture_output() as image_capture:gallery([('Encoder image and Morse cells',checks/'domain-diagnostic.png')])
-    html=''.join(item.data.get('text/html','') for item in image_capture.outputs)+html
-    display(HTML('<details><summary>Domain checks and native indices</summary>'+html+'</details>'))
+    _domain_figure(folder,checks,result)
+    gallery([('Encoder image: native graph, no indices',folder/f'restricted-{n}.svg'),
+             ('Rectangle: native graph and indices',folder/f'rectangle-{n}.svg')])
+    display(HTML('<p>Rectangle indices include cells outside the sampled encoder image and are not transferred to the Atlas restriction.</p>'))
     fit_result=json.loads((fit/'result.json').read_text())
     record=dict(fit=str(fit.relative_to(ROOT)),checkpoint_sha256=fit_result['checkpoint_sha256'],
         metrics=fit_result['metrics'],domain_study=study,reference_figures=str(reference.relative_to(ROOT)),

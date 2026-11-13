@@ -119,7 +119,7 @@ def show_reconstruction(fit,show_graphs=False):
     assert cert['checkpoint_sha256']==record['checkpoint_sha256'] and cert['all_local_inequalities_verified']
     display(Markdown(r"""### Original-space reconstruction
 
-The nonzero-radius fibers are $S^2$; they collapse on $P=\{r=0\}$. We use the direction-preserving lift (fiber degree $+1$). For quotient local pairs $(B,L)$,
+The nonzero-radius fibers are $S^2$ and collapse on $P=\{r=0\}$. For the specified direction-preserving lift, let $(B,L)$ be a quotient index pair, with isolating neighborhood $B$ and exit set $L$. Its lifted pair is $(N_X,L_X)$. With coefficients in $\mathbb F_5$,
 
 $$H_k(N_X,L_X) \cong H_k(B,L)\oplus H_{k-2}(B,L\cup(B\cap P)).$$
 
@@ -130,7 +130,7 @@ Arb interval bounds verify local expansion/contraction and unique fixed-point br
                  ('Learned — original space',OUT/'learned-original.svg')],max_height=300)
     table(['Set','Quotient classes','Additional original-space classes','Original-space classes'],
           [('Origin','None','H₄','H₄'),('Saddle sphere','H₁','H₃','H₁, H₃'),('Each sink','H₀','None','H₀')])
-    display(Markdown('The local indices of the specified learned lift are supported by uniform interval bounds. The global graph and basin labels use sampled CMGDB images; transfer to physical coordinates requires an encoder conjugacy, and transfer to the true ODE needs a model-error/continuation argument. The quotient graph alone does not determine the fiber degree. [Bounds and local continuation argument](../build/o3-certification/local-index-argument.md).'))
+    display(Markdown('The quotient graph alone does not determine the fiber degree. The specified lift has degree +1. Local bounds are restored to `build/o3-certification/local-index-argument.md`.'))
     from conjugacy_summary import show_conjugacy_check
     show_conjugacy_check(fit)
     return record

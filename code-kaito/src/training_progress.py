@@ -9,6 +9,8 @@ def read_history(run):
             try:row=json.loads(line)
             except (ValueError,TypeError):continue
             if all(k in row for k in ('stage','update','train','validation')):rows.append(row)
+    if not rows and (Path(run)/'history.json').exists():
+        rows=json.loads((Path(run)/'history.json').read_text())
     return rows
 
 class LossPlot:
@@ -39,7 +41,10 @@ class LossPlot:
             for ext in ('png','pdf'):self.fig.savefig(Path(run)/f'loss-curve.{ext}',dpi=170,bbox_inches='tight')
 
 def show_loss(run):
-    curve=LossPlot();curve.update(read_history(run));curve.save(run)
+    from IPython.display import Image, display
+    curve=LossPlot();curve.display=None
+    curve.update(read_history(run));curve.save(run)
+    if curve.last:display(Image(filename=str(Path(run)/'loss-curve.png')))
 
 def run_with_progress(command,run,env,live=True,timeout=900):
     run=Path(run);curve=LossPlot() if live else None;start=time.monotonic()

@@ -2,7 +2,7 @@
 from pathlib import Path
 import json,tempfile
 import numpy as np
-from IPython.display import HTML,display
+from IPython.display import HTML,Image,display
 from IPython.utils.capture import capture_output
 from notebook_support import gallery,table
 from quotient_domain import ROOT,identity,digest
@@ -72,7 +72,7 @@ def _domain_figure(folder,checks,result):
             ax.scatter(q[:,0],q[:,1],s=28,c='black',zorder=3)
             ax.autoscale_view();ax.set(xlabel='$q_1$',ylabel='$q_2$',title='Restricted Morse cells')
         for ext in ('pdf','png'):fig.savefig(checks/f'domain-diagnostic.{ext}',dpi=180,bbox_inches='tight')
-        display(fig);plt.close(fig)
+        plt.close(fig);display(Image(filename=str(checks/'domain-diagnostic.png')))
 
 
 def show_domain_comparison(reference,fit,study,show_graphs=True):
@@ -108,26 +108,15 @@ def show_domain_comparison(reference,fit,study,show_graphs=True):
             f"{sum(r['inside'] for r in c['roots'])} of {len(c['roots'])} numerically found fixed points lie inside the image. "
             +('The nearby components form one checked interior group with a recomputed index. ' if aggregate else '')+
             'A matching node count alone does not establish matching dynamics.</p>'))
-    display(HTML('<p>These are numerical results for the fixed checkpoint and a sampled encoder image. '
-        'Escaping images are not projected back. Graph agreement and sampled drift do not certify the original ODE.</p>'))
-    with capture_output() as captured:
-        _domain_figure(folder,checks,result)
-        for i in range(0,len(rows),2):
-            gallery([(f"Native restricted graph: {r['n']}"+('' if sphere else '²'),
-                folder/f"{'rectangle' if sphere else 'restricted'}-{r['n']}.svg") for r in rows[i:i+2]],max_height=450)
-        if not sphere:
-            display(HTML('<p>The native Atlas restriction supplies Morse graphs without index annotations. '
-                'The displayed local group index is recomputed using the ordinary CMGDB index-pair routine on identical interior cell images. '
-                'The graph was independently checked by SciPy strongly connected components.</p>'))
-            table(['Fixed point','In encoder image','Residual','Distance to image (numerical inversion)'],
-                [('Saddle' if r['unstable_directions']==1 else 'Attractor',r['inside'],f"{r['residual']:.2g}",f"{r['inverse_check']['residual']:.4g}") for r in result['point_checks']['roots']])
-    html=''.join(item.data.get('text/html','') for item in captured.outputs)
-    # capture_output stores Matplotlib PNG as image/png, not HTML.
-    diagnostic=checks/'domain-diagnostic.png'
-    with capture_output() as captured:
-        gallery([('Point-map and domain checks',diagnostic)])
-    image_html=''.join(item.data.get('text/html','') for item in captured.outputs)
-    display(HTML('<details><summary>Native graphs and domain checks</summary>'+image_html+html+'</details>'))
+    _domain_figure(folder,checks,result)
+    for i in range(0,len(rows),2):
+        gallery([(f"Native graph: {r['n']}"+('' if sphere else '²'),
+            folder/f"{'rectangle' if sphere else 'restricted'}-{r['n']}.svg") for r in rows[i:i+2]])
+    if not sphere:
+        display(HTML('<p>Atlas restriction gives native graphs without index annotations. '
+            'The interior group index is recomputed from the same cell images with the CMGDB index-pair routine.</p>'))
+        table(['Fixed point','In encoder image','Residual','Distance to image (numerical inversion)'],
+              [('Saddle' if r['unstable_directions']==1 else 'Attractor',r['inside'],f"{r['residual']:.2g}",f"{r['inverse_check']['residual']:.4g}") for r in result['point_checks']['roots']])
     latest=ROOT/f"build/notebooks/{result['system']}/latest.json"
     record={'metrics':json.loads((fit/'result.json').read_text()).get('metrics',{}),
             'learned_cmgdb':json.loads((fit/'cmgdb.json').read_text()) if (fit/'cmgdb.json').exists() else {}}
