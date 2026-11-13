@@ -1,0 +1,138 @@
+{
+  "case": "seed0",
+  "uniform_depth": 7,
+  "map_graph_vertex_count": 128,
+  "node_count": 5,
+  "nodes": [
+    {
+      "node": 0,
+      "boxes": [
+        [
+          -0.421875,
+          -0.40625
+        ]
+      ],
+      "cell_indices": [
+        37
+      ],
+      "geometric_name": "T-",
+      "native_annotations": [
+        "x-1",
+        "0"
+      ]
+    },
+    {
+      "node": 1,
+      "boxes": [
+        [
+          -1.0,
+          -0.984375
+        ]
+      ],
+      "cell_indices": [
+        0
+      ],
+      "geometric_name": "S",
+      "native_annotations": [
+        "0",
+        "0"
+      ]
+    },
+    {
+      "node": 2,
+      "boxes": [
+        [
+          0.40625,
+          0.421875
+        ]
+      ],
+      "cell_indices": [
+        90
+      ],
+      "geometric_name": "T+",
+      "native_annotations": [
+        "x-1",
+        "0"
+      ]
+    },
+    {
+      "node": 3,
+      "boxes": [
+        [
+          -0.015625,
+          0.0
+        ],
+        [
+          0.0,
+          0.015625
+        ]
+      ],
+      "cell_indices": [
+        64,
+        63
+      ],
+      "geometric_name": "E",
+      "native_annotations": [
+        "0",
+        "x-1"
+      ]
+    },
+    {
+      "node": 4,
+      "boxes": [
+        [
+          0.984375,
+          1.0
+        ]
+      ],
+      "cell_indices": [
+        127
+      ],
+      "geometric_name": "N",
+      "native_annotations": [
+        "0",
+        "0"
+      ]
+    }
+  ],
+  "edges": [
+    [
+      1,
+      0
+    ],
+    [
+      3,
+      0
+    ],
+    [
+      3,
+      2
+    ],
+    [
+      4,
+      2
+    ]
+  ],
+  "named_edges": [
+    [
+      "E",
+      "T+"
+    ],
+    [
+      "E",
+      "T-"
+    ],
+    [
+      "N",
+      "T+"
+    ],
+    [
+      "S",
+      "T-"
+    ]
+  ],
+  "named_graph_matches": true,
+  "native_annotations_match": true,
+  "callback_count": 128,
+  "images_inside_phase_domain": true
+}
