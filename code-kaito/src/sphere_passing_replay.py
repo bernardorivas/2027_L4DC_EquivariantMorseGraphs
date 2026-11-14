@@ -204,7 +204,8 @@ def _plot_prediction(output, arrays):
             color="0.12",
             linewidth=2.0,
         )
-        colors = ["#D55E00", "#0072B2", "#CC79A7", "#009E73", "#E69F00"]
+        from paper_figure_style import SPHERE_COLORS
+        colors = [SPHERE_COLORS[k] for k in range(5)]
         encoded = arrays["plot_encoded"]
         if encoded[0] < encoded[-1]:
             physical_roots = np.interp(arrays["roots"], encoded, arrays["plot_z"])
@@ -238,21 +239,10 @@ def _inverse_height(q, arrays):
 
 
 def _plot_reconstruction(output, arrays, aggregate):
-    """Plot exact encoder preimages and the specified sphere-lift indices."""
-    import matplotlib.pyplot as plt
-    from matplotlib.patches import Ellipse, FancyArrowPatch
+    """Restore the analytical/learned comparison using current replay data."""
+    from sphere_comparison import render_replay_comparison
 
-    from sphere_pullback import draw_transparent_sphere
-
-    palette = {
-        0: "#D55E00",
-        1: "#0072B2",
-        2: "#CC79A7",
-        3: "#009E73",
-        4: "#E69F00",
-    }
-    names = {0: "S", 1: "A-", 2: "C", 3: "A+", 4: "N"}
-    reverse_group = {
+    assignment = {
         int(native): int(group)
         for group, members in aggregate["groups"].items()
         for native in members
@@ -260,118 +250,13 @@ def _plot_reconstruction(output, arrays, aggregate):
     native_rows = np.loadtxt(
         output / "graph" / "rectangle-128-cells.csv", delimiter=",", ndmin=2
     )
-    sphere_rows = []
-    for q_lo, q_hi, native_node in native_rows:
-        group = reverse_group[int(native_node)]
-        sphere_rows.append(
-            {
-                "node": group,
-                "z": sorted(
-                    (_inverse_height(float(q_lo), arrays), _inverse_height(float(q_hi), arrays))
-                ),
-            }
-        )
-
-    positions = {
-        0: (-1.4, 0.8),
-        2: (0.0, 0.8),
-        4: (1.4, 0.8),
-        1: (-0.7, -0.6),
-        3: (0.7, -0.6),
-    }
-    index_labels = {
-        0: r"$S:\;(0,0,x-1)$",
-        1: r"$A_{-}:\;(x-1,x-1,0)$",
-        2: r"$C:\;(0,x-1,x-1)$",
-        3: r"$A_{+}:\;(x-1,x-1,0)$",
-        4: r"$N:\;(0,0,x-1)$",
-    }
-
-    with plt.rc_context(
-        {"font.family": "serif", "mathtext.fontset": "cm", "font.size": 12}
-    ):
-        fig, axes = plt.subplots(1, 2, figsize=(9.2, 4.2), layout="constrained")
-        sphere_axis, graph_axis = axes
-        draw_transparent_sphere(sphere_axis, sphere_rows, palette)
-        sphere_axis.set(aspect="equal", xlim=(-1.45, 1.55), ylim=(-1.2, 1.2))
-        sphere_axis.axis("off")
-        sphere_axis.set_title(r"Encoder preimages in $S^2$")
-
-        label_targets = {
-            0: ((-0.12, -0.99), (-0.58, -1.08)),
-            1: ((0.78, -0.52), (1.16, -0.78)),
-            2: ((0.98, 0.01), (1.34, 0.0)),
-            3: ((0.78, 0.5), (1.16, 0.72)),
-            4: ((0.0, 0.98), (0.0, 1.12)),
-        }
-        for node, (target, text_position) in label_targets.items():
-            label = {
-                0: "$S$",
-                1: "$A_{-}$",
-                2: "$C$",
-                3: "$A_{+}$",
-                4: "$N$",
-            }[node]
-            sphere_axis.annotate(
-                label,
-                xy=target,
-                xytext=text_position,
-                color=palette[node],
-                ha="center",
-                va="center",
-                arrowprops={
-                    "arrowstyle": "->",
-                    "color": palette[node],
-                    "linewidth": 1.0,
-                    "connectionstyle": "arc3,rad=0.22" if node in (1, 2, 3) else "arc3",
-                },
-            )
-
-        for source, target in aggregate["edges"]:
-            start = positions[int(source)]
-            end = positions[int(target)]
-            graph_axis.add_patch(
-                FancyArrowPatch(
-                    start,
-                    end,
-                    arrowstyle="-|>",
-                    mutation_scale=13,
-                    linewidth=1.1,
-                    color="0.22",
-                    shrinkA=34,
-                    shrinkB=38,
-                    zorder=1,
-                )
-            )
-        for node, (x_value, y_value) in positions.items():
-            width = 1.18 if node in (0, 2, 4) else 1.4
-            graph_axis.add_patch(
-                Ellipse(
-                    (x_value, y_value),
-                    width,
-                    0.48,
-                    facecolor=palette[node],
-                    edgecolor=palette[node],
-                    alpha=0.34,
-                    linewidth=1.2,
-                    zorder=2,
-                )
-            )
-            graph_axis.text(
-                x_value,
-                y_value,
-                index_labels[node],
-                ha="center",
-                va="center",
-                fontsize=10.5,
-                zorder=3,
-            )
-        graph_axis.set(xlim=(-2.1, 2.1), ylim=(-1.05, 1.25), aspect="equal")
-        graph_axis.axis("off")
-        graph_axis.set_title(r"Reconstructed Conley--Morse graph in $S^2$")
-        for extension in ("png", "pdf", "svg"):
-            fig.savefig(output / f"reconstruction.{extension}", dpi=220, bbox_inches="tight")
-        plt.close(fig)
+    learned = [
+        dict(node=assignment[int(node)], q=[float(lo), float(hi)],
+             z=sorted((_inverse_height(float(lo), arrays),
+                       _inverse_height(float(hi), arrays))))
+        for lo, hi, node in native_rows
+    ]
+    render_replay_comparison(output, learned, aggregate)
 
 
 def replay(checkpoint=DEFAULT_CHECKPOINT, output=DEFAULT_OUTPUT):
@@ -515,7 +400,6 @@ def show_dynamics(output=DEFAULT_OUTPUT):
 
     output = Path(output)
     display(Image(filename=str(output / "predicted-height.png")))
-    display(Image(filename=str(output / "graph" / "aggregate-128.png")))
 
 
 def show_pullback_check(verification, output=DEFAULT_OUTPUT):
@@ -545,7 +429,7 @@ def show_reconstruction(output=DEFAULT_OUTPUT):
     """Display encoder preimages and the reconstructed sphere indices."""
     from IPython.display import Image, display
 
-    display(Image(filename=str(Path(output) / "reconstruction.png")))
+    display(Image(filename=str(Path(output) / "sphere-comparison.png")))
 
 
 def show(verification, output=DEFAULT_OUTPUT):

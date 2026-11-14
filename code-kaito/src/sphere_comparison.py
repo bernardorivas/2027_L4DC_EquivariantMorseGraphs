@@ -26,9 +26,32 @@ def show_sphere_comparison(fit,study):
     agg=row['aggregate'];assert agg['matches_analytical']
     assignment={node:int(k) for k,vs in agg['groups'].items() for node in vs}
     exact=ROOT/'vendor/latent-equivariant/code/examples/data/sphere/exact-K128'
+    learned=[dict(z=r['z'],q=r['q'],node=assignment[r['node']]) for r in evidence['cells']]
+    render_replay_comparison(folder, learned, agg)
+    expected_q={int(k):v for k,v in agg['annotations'].items()}
+    reconstructed={0:['0','0','x-1'],1:['x-1','x-1','0'],2:['0','x-1','x-1'],3:['x-1','x-1','0'],4:['0','0','x-1']}
+    (folder/'sphere-reconstruction.json').write_text(json.dumps(dict(checkpoint_sha256=evidence['checkpoint_sha256'],quotient=expected_q,reconstructed=reconstructed,status='Verified local indices of the specified sphere lift' if verified else 'Conditional local-model reconstruction',certificate=str(cert_path.relative_to(ROOT)) if verified else None),indent=2)+'\n')
+    gallery([('',folder/'sphere-comparison.svg')],max_height=1150)
+    display(Markdown('**128 interval cells.** Colored bands are encoder preimages of native Morse cells. The graph rows show recomputed aggregates and the local indices of the specified sphere lift.'))
+    return evidence
+
+
+def render_replay_comparison(folder, learned, agg):
+    """Render the original comparison layout from the current replay's cells.
+
+    Quotient indices and edges are checked against the saved analytical graph.
+    Sphere indices below are supplied local-model tuples, not a new computation.
+    """
+    import matplotlib.pyplot as plt
+    import xml.etree.ElementTree as ET
+    import CMGDB
+    from CMGDB.morse_lattice import DerivedGraph
+    from sphere_pullback import draw_transparent_sphere
+
+    folder = Path(folder)
+    exact = ROOT/'vendor/latent-equivariant/code/examples/data/sphere/exact-K128'
     physical_to_role={1:0,0:1,3:2,2:3,4:4}
     explicit=[dict(z=[lo,hi],node=physical_to_role[int(k)]) for lo,hi,k in np.loadtxt(exact/'morse-sets.csv',delimiter=',',ndmin=2)]
-    learned=[dict(z=r['z'],q=r['q'],node=assignment[r['node']]) for r in evidence['cells']]
     # The pole fibers collapse; interior circle fibers add a degree-one copy.
     # These are local normal-model reconstructions, not a new learned-map certificate.
     reconstructed={0:['0','0','x-1'],1:['x-1','x-1','0'],2:['0','x-1','x-1'],3:['x-1','x-1','0'],4:['0','0','x-1']}
@@ -95,7 +118,7 @@ def show_sphere_comparison(fit,study):
                 other.set_visible(True)
 
             plt.close(fig)
-        for suffix,title,indices in [('quotient','Quotient',expected_q if case=='analytical' else {int(k):v for k,v in agg['annotations'].items()}),('reconstructed','Original space',reconstructed)]:
+        for suffix,title,indices in [('quotient','Quotient',expected_q if case=='analytical' else {int(k):v for k,v in agg['annotations'].items()}),('reconstructed','Sphere lift (local-model indices)',reconstructed)]:
             edges=exact_edges if case=='analytical' else agg['edges']
             graph=DerivedGraph(nodes=list(NAMES),edges={k:[b for a,b in edges if a==k] for k in NAMES},labels={k:'('+', '.join(indices[k])+')' for k in NAMES})
             source=CMGDB.plot_derived_graph(graph).source.replace('digraph {',f'digraph {{\ngraph [label="{title}",labelloc=t,fontname="Times-Roman",fontsize=18];')
@@ -103,7 +126,7 @@ def show_sphere_comparison(fit,study):
                 source=source.replace(f'label="{k} : ',f'label="{name} : ')
                 source=re.sub(rf'({k} \[.*?fillcolor=")[^"]+',lambda m:m[1]+style.tint(SPHERE_IDS[k]),source)
                 source=source.replace(f'{k} [label=',f'{k} [color="{COLORS[k]}", fontcolor="{style.INK}", penwidth=1.2, label=')
-            save_graph(source,folder/f'{case}-sphere-{suffix}')
+            save_graph(source,folder/f'{case}-sphere-{suffix}',crop=False)
     ns='http://www.w3.org/2000/svg';ET.register_namespace('',ns)
     # Size each row from its vector panels, with only a short inter-row gap.
     panel_width=580
@@ -135,7 +158,3 @@ def show_sphere_comparison(fit,study):
     subprocess.run([converter,'--format=pdf','--output',str(folder/'sphere-comparison.pdf'),str(svg)],check=True)
     subprocess.run([converter,'--format=png','--width=1800','--background-color=white',
                     '--output',str(folder/'sphere-comparison.png'),str(svg)],check=True)
-    (folder/'sphere-reconstruction.json').write_text(json.dumps(dict(checkpoint_sha256=evidence['checkpoint_sha256'],quotient=expected_q,reconstructed=reconstructed,status='Verified local indices of the specified sphere lift' if verified else 'Conditional local-model reconstruction',certificate=str(cert_path.relative_to(ROOT)) if verified else None),indent=2)+'\n')
-    gallery([('',folder/'sphere-comparison.svg')],max_height=1150)
-    display(Markdown('**128 interval cells.** Colored bands are encoder preimages of native Morse cells. The graph rows show recomputed aggregates and the local indices of the specified sphere lift.'))
-    return evidence

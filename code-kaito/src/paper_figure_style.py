@@ -24,7 +24,7 @@ def size_panel_title(fig, ax):
     ax.title.set_fontsize(TITLE_SIZE_BP * width / PANEL_WIDTH_BP)
 
 
-def save_graph(source, path):
+def save_graph(source, path, *, crop=True):
     """Use identical 10 bp headings at the LaTeX panel width."""
     import re
     import subprocess
@@ -34,9 +34,10 @@ def save_graph(source, path):
         raw, cropped = Path(tmp)/'raw.pdf', Path(tmp)/'cropped.pdf'
         for _ in range(4):
             raw.write_bytes(Source(source).pipe(format='pdf'))
-            subprocess.run(['pdfcrop','--margins','3',str(raw),str(cropped)],
-                           check=True,capture_output=True)
-            width=style.pdf_size_bp(cropped)[0]
+            if crop:
+                subprocess.run(['pdfcrop','--margins','3',str(raw),str(cropped)],
+                               check=True,capture_output=True)
+            width=style.pdf_size_bp(cropped if crop else raw)[0]
             current=float(re.search(r'fontsize=([\d.]+)',source)[1])
             desired=TITLE_SIZE_BP*width/PANEL_WIDTH_BP
             if abs(current-desired)<.005:break
