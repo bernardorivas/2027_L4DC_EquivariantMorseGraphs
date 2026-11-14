@@ -150,3 +150,16 @@ def test_merge_groups_an_extra_morse_set_with_its_reference_set():
     assert [row["original_nodes"] for row in merged.nodes if row["role"] == "C"] == [[2, 3]]
     agreement = m.compare_with_reference(merged, m.reference_graph())
     assert agreement["same_order"] and agreement["same_annotations"]
+
+
+def test_reconstructed_indices_of_the_reference_graph_are_the_proved_ones():
+    graph = m.reference_graph()
+    indices = m.reconstructed_indices({"reference": graph})["reference"]
+    assert {role: row["in_X"] for role, row in indices.items()} == m.PROVED
+    assert all(row["agree"] for row in indices.values())
+
+
+def test_quotient_flow_matches_the_time_log3_map():
+    ar = np.array([[.39, .22], [-.34, .59], [0., .3], [.7, 0.]])
+    a, r = m.quotient_flow(ar[:, 0], ar[:, 1], m.TAU)
+    assert np.allclose(np.column_stack((a, r)), m.quotient_step(ar), atol=1e-14)
