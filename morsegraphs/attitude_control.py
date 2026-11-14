@@ -758,7 +758,9 @@ def train(folder, data, seed, settings=DEFAULTS, progress=None):
     `weights.npz`, `normalization.npz`, `config.json` and `history.json`.
     """
     folder = Path(folder)
-    folder.mkdir(parents=True, exist_ok=False)
+    if (folder / "weights.npz").exists():
+        raise FileExistsError(folder / "weights.npz")
+    folder.mkdir(parents=True, exist_ok=True)  # a progress record may already be there
     settings = DEFAULTS | dict(settings)
     policy = data["policy"]
     model = AttitudeModel(policy, seed, settings)

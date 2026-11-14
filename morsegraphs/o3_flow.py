@@ -372,7 +372,9 @@ def train(folder, data, seed, settings=DEFAULTS, progress=None):
     """Fit E, d and f jointly from the pairs at times 0 and tau, keeping the weights of
     the lowest validation objective."""
     folder = Path(folder)
-    folder.mkdir(parents=True, exist_ok=False)
+    if (folder / "weights.npz").exists():
+        raise FileExistsError(folder / "weights.npz")
+    folder.mkdir(parents=True, exist_ok=True)  # a progress record may already be there
     options, recipe = settings["training"], settings["recipe"]
     steps, batch, every = options["steps"], options["batch"], options["validate_every"]
     np.random.seed(seed)
