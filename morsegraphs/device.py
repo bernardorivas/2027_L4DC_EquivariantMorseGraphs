@@ -42,6 +42,9 @@ def configure(precision="float64", device=None):
     os.environ["JAX_PLATFORM_NAME"] = device
     os.environ["JAX_ENABLE_X64"] = "1" if precision == "float64" else "0"
     if device == "cpu":
+        # Fixed thread settings make the float32 results of Section 5.3 reproducible; the
+        # float64 results of Sections 5.1 and 5.2 are the same with or without them.
         os.environ.setdefault("OMP_NUM_THREADS", "1")
         os.environ.setdefault("OPENBLAS_NUM_THREADS", "1")
+        os.environ.setdefault("XLA_FLAGS", "--xla_cpu_multi_thread_eigen=false intra_op_parallelism_threads=2")
     return dict(device=device, precision=precision, remarks=remarks)
