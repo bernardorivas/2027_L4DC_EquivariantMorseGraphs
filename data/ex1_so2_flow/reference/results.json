@@ -1,0 +1,1436 @@
+{
+  "example": "ex1_so2_flow",
+  "fit": {
+    "run": "seed0",
+    "weights_sha256": "2adee0ce6f9f6d1e4f4b6c151ca720ea406fc8d76f28885b74b9c58347abf73e"
+  },
+  "diagnostics": {
+    "forecasts": {
+      "0": {
+        "height_rms": 0.00039468026170850584,
+        "orbit_chordal_rms": 0.00046878724903749936,
+        "height_maximum": 0.0007528908738024809
+      },
+      "1": {
+        "height_rms": 0.0028949199307010875,
+        "orbit_chordal_rms": 0.004298702221176671,
+        "height_maximum": 0.009727879514195514
+      },
+      "10": {
+        "height_rms": 0.010018616884146006,
+        "orbit_chordal_rms": 0.013824430186783676,
+        "height_maximum": 0.041408258859576
+      }
+    },
+    "sampled_encoder_invariance_error": 0.0,
+    "sampled_residual_rms": 0.002803085264510098,
+    "sampled_residual_maximum": 0.011138510674771118,
+    "sampled_time_ten_residual_rms": 0.010198637264670973,
+    "sampled_time_ten_residual_maximum": 0.04233192969001452,
+    "minimum_sampled_encoder_derivative": 0.5729242930554018,
+    "minimum_sampled_time_map_derivative": 0.6462900933839449,
+    "encoder_endpoints": [
+      -1.0,
+      1.0
+    ],
+    "time_map_endpoints": [
+      -1.0,
+      1.0
+    ],
+    "sampled_encoder_increasing": true,
+    "sampled_time_map_increasing": true,
+    "observed_sign_change_fixed_points": [
+      {
+        "latent": -1.0,
+        "physical_height": -1.0,
+        "decoded_height": -1.0
+      },
+      {
+        "latent": -0.5994217725553783,
+        "physical_height": -0.40002023580164886,
+        "decoded_height": -0.4003784553468947
+      },
+      {
+        "latent": -0.2628664075491034,
+        "physical_height": -0.00811602047618179,
+        "decoded_height": -0.008817309590979022
+      },
+      {
+        "latent": 0.1628657302205929,
+        "physical_height": 0.3944216002464026,
+        "decoded_height": 0.39480533021268294
+      },
+      {
+        "latent": 1.0,
+        "physical_height": 1.0,
+        "decoded_height": 1.0
+      }
+    ],
+    "evidence_status": "sampled diagnostics; no uniform residual certificate"
+  },
+  "graphs": {
+    "reference": {
+      "cells": 128,
+      "nodes": [
+        {
+          "node": 0,
+          "cell_ids": [
+            38
+          ],
+          "annotations": [
+            "x-1",
+            "0"
+          ],
+          "hull": [
+            -0.40625,
+            -0.390625
+          ],
+          "role": "A-"
+        },
+        {
+          "node": 1,
+          "cell_ids": [
+            0
+          ],
+          "annotations": [
+            "0",
+            "0"
+          ],
+          "hull": [
+            -1.0,
+            -0.984375
+          ],
+          "role": "S"
+        },
+        {
+          "node": 2,
+          "cell_ids": [
+            89
+          ],
+          "annotations": [
+            "x-1",
+            "0"
+          ],
+          "hull": [
+            0.390625,
+            0.40625
+          ],
+          "role": "A+"
+        },
+        {
+          "node": 3,
+          "cell_ids": [
+            63,
+            64
+          ],
+          "annotations": [
+            "0",
+            "x-1"
+          ],
+          "hull": [
+            -0.015625,
+            0.015625
+          ],
+          "role": "C"
+        },
+        {
+          "node": 4,
+          "cell_ids": [
+            127
+          ],
+          "annotations": [
+            "0",
+            "0"
+          ],
+          "hull": [
+            0.984375,
+            1.0
+          ],
+          "role": "N"
+        }
+      ],
+      "edges": [
+        [
+          1,
+          0
+        ],
+        [
+          3,
+          0
+        ],
+        [
+          3,
+          2
+        ],
+        [
+          4,
+          2
+        ]
+      ],
+      "minimal": [
+        0,
+        2
+      ],
+      "coefficient_field": 5
+    },
+    "raw": {
+      "cells": 128,
+      "nodes": [
+        {
+          "node": 0,
+          "cell_ids": [
+            25
+          ],
+          "annotations": [
+            "x-1",
+            "0"
+          ],
+          "hull": [
+            -0.609375,
+            -0.59375
+          ],
+          "role": "A-"
+        },
+        {
+          "node": 1,
+          "cell_ids": [
+            0
+          ],
+          "annotations": [
+            "0",
+            "0"
+          ],
+          "hull": [
+            -1.0,
+            -0.984375
+          ],
+          "role": "S"
+        },
+        {
+          "node": 2,
+          "cell_ids": [
+            46
+          ],
+          "annotations": [
+            "0",
+            "0"
+          ],
+          "hull": [
+            -0.28125,
+            -0.265625
+          ],
+          "role": "C"
+        },
+        {
+          "node": 3,
+          "cell_ids": [
+            74
+          ],
+          "annotations": [
+            "x-1",
+            "0"
+          ],
+          "hull": [
+            0.15625,
+            0.171875
+          ],
+          "role": "A+"
+        },
+        {
+          "node": 4,
+          "cell_ids": [
+            47
+          ],
+          "annotations": [
+            "0",
+            "x-1"
+          ],
+          "hull": [
+            -0.265625,
+            -0.25
+          ],
+          "role": "C"
+        },
+        {
+          "node": 5,
+          "cell_ids": [
+            127
+          ],
+          "annotations": [
+            "0",
+            "0"
+          ],
+          "hull": [
+            0.984375,
+            1.0
+          ],
+          "role": "N"
+        }
+      ],
+      "edges": [
+        [
+          1,
+          0
+        ],
+        [
+          2,
+          0
+        ],
+        [
+          4,
+          2
+        ],
+        [
+          4,
+          3
+        ],
+        [
+          5,
+          3
+        ]
+      ],
+      "minimal": [
+        0,
+        3
+      ],
+      "coefficient_field": 5
+    },
+    "merged": {
+      "cells": 128,
+      "nodes": [
+        {
+          "node": 0,
+          "original_nodes": [
+            0
+          ],
+          "cell_ids": [
+            25
+          ],
+          "annotations": [
+            "x-1",
+            "0"
+          ],
+          "hull": [
+            -0.609375,
+            -0.59375
+          ],
+          "role": "A-"
+        },
+        {
+          "node": 1,
+          "original_nodes": [
+            1
+          ],
+          "cell_ids": [
+            0
+          ],
+          "annotations": [
+            "0",
+            "0"
+          ],
+          "hull": [
+            -1.0,
+            -0.984375
+          ],
+          "role": "S"
+        },
+        {
+          "node": 2,
+          "original_nodes": [
+            2,
+            4
+          ],
+          "cell_ids": [
+            46,
+            47
+          ],
+          "annotations": [
+            "0",
+            "x-1"
+          ],
+          "hull": [
+            -0.28125,
+            -0.25
+          ],
+          "role": "C"
+        },
+        {
+          "node": 3,
+          "original_nodes": [
+            3
+          ],
+          "cell_ids": [
+            74
+          ],
+          "annotations": [
+            "x-1",
+            "0"
+          ],
+          "hull": [
+            0.15625,
+            0.171875
+          ],
+          "role": "A+"
+        },
+        {
+          "node": 4,
+          "original_nodes": [
+            5
+          ],
+          "cell_ids": [
+            127
+          ],
+          "annotations": [
+            "0",
+            "0"
+          ],
+          "hull": [
+            0.984375,
+            1.0
+          ],
+          "role": "N"
+        }
+      ],
+      "edges": [
+        [
+          1,
+          0
+        ],
+        [
+          2,
+          0
+        ],
+        [
+          2,
+          3
+        ],
+        [
+          4,
+          3
+        ]
+      ],
+      "minimal": [
+        0,
+        3
+      ],
+      "coefficient_field": 5
+    }
+  },
+  "comparison": {
+    "nodes": [
+      {
+        "role": "S",
+        "reference_cells": [
+          0
+        ],
+        "reference_annotations": [
+          "0",
+          "0"
+        ],
+        "learned_cells": [
+          0
+        ],
+        "learned_annotations": [
+          "0",
+          "0"
+        ],
+        "learned_morse_sets": [
+          1
+        ],
+        "agree": true
+      },
+      {
+        "role": "A-",
+        "reference_cells": [
+          38
+        ],
+        "reference_annotations": [
+          "x-1",
+          "0"
+        ],
+        "learned_cells": [
+          25
+        ],
+        "learned_annotations": [
+          "x-1",
+          "0"
+        ],
+        "learned_morse_sets": [
+          0
+        ],
+        "agree": true
+      },
+      {
+        "role": "C",
+        "reference_cells": [
+          63,
+          64
+        ],
+        "reference_annotations": [
+          "0",
+          "x-1"
+        ],
+        "learned_cells": [
+          46,
+          47
+        ],
+        "learned_annotations": [
+          "0",
+          "x-1"
+        ],
+        "learned_morse_sets": [
+          2,
+          4
+        ],
+        "agree": true
+      },
+      {
+        "role": "A+",
+        "reference_cells": [
+          89
+        ],
+        "reference_annotations": [
+          "x-1",
+          "0"
+        ],
+        "learned_cells": [
+          74
+        ],
+        "learned_annotations": [
+          "x-1",
+          "0"
+        ],
+        "learned_morse_sets": [
+          3
+        ],
+        "agree": true
+      },
+      {
+        "role": "N",
+        "reference_cells": [
+          127
+        ],
+        "reference_annotations": [
+          "0",
+          "0"
+        ],
+        "learned_cells": [
+          127
+        ],
+        "learned_annotations": [
+          "0",
+          "0"
+        ],
+        "learned_morse_sets": [
+          5
+        ],
+        "agree": true
+      }
+    ],
+    "reference_edges": [
+      [
+        "S",
+        "A-"
+      ],
+      [
+        "C",
+        "A-"
+      ],
+      [
+        "C",
+        "A+"
+      ],
+      [
+        "N",
+        "A+"
+      ]
+    ],
+    "learned_edges": [
+      [
+        "S",
+        "A-"
+      ],
+      [
+        "C",
+        "A-"
+      ],
+      [
+        "C",
+        "A+"
+      ],
+      [
+        "N",
+        "A+"
+      ]
+    ],
+    "edges_agree": true,
+    "agree": true
+  },
+  "regions": {
+    "rows": [
+      {
+        "node": 0,
+        "cells": 45,
+        "available": true,
+        "hull": [
+          -0.984375,
+          -0.28125
+        ],
+        "tolerance": 0.08058973612434234,
+        "witness": {
+          "cell": 45,
+          "image": [
+            -0.4296146686023599,
+            -0.36183973612434234
+          ]
+        },
+        "samples": 27326,
+        "max_residual": 0.01533644084908592,
+        "worst_sample": 36784,
+        "passed": true,
+        "metric": "euclidean",
+        "label": "sampled residual; binary64, not validated",
+        "map_time": 10.0
+      },
+      {
+        "node": 3,
+        "cells": 79,
+        "available": true,
+        "hull": [
+          -0.25,
+          0.984375
+        ],
+        "tolerance": 0.05932145075473402,
+        "witness": {
+          "cell": 48,
+          "image": [
+            -0.19067854924526598,
+            -0.1116635482447522
+          ]
+        },
+        "samples": 29746,
+        "max_residual": 0.04233578242577887,
+        "worst_sample": 34336,
+        "passed": true,
+        "metric": "euclidean",
+        "label": "sampled residual; binary64, not validated",
+        "map_time": 10.0
+      },
+      {
+        "node": 0,
+        "cells": 45,
+        "available": true,
+        "hull": [
+          -0.984375,
+          -0.28125
+        ],
+        "tolerance": 0.08511843955087742,
+        "witness": {
+          "cell": 45,
+          "image": [
+            -0.4296146686023599,
+            -0.36183973612434234
+          ]
+        },
+        "samples": 27326,
+        "max_residual": 0.01809422708639402,
+        "worst_sample": 36838,
+        "passed": true,
+        "metric": "chordal",
+        "label": "sampled residual; binary64, not validated",
+        "map_time": 10.0
+      },
+      {
+        "node": 3,
+        "cells": 79,
+        "available": true,
+        "hull": [
+          -0.25,
+          0.984375
+        ],
+        "tolerance": 0.06081754652466092,
+        "witness": {
+          "cell": 48,
+          "image": [
+            -0.19067854924526598,
+            -0.1116635482447522
+          ]
+        },
+        "samples": 29746,
+        "max_residual": 0.042753049797092234,
+        "worst_sample": 34358,
+        "passed": true,
+        "metric": "chordal",
+        "label": "sampled residual; binary64, not validated",
+        "map_time": 10.0
+      }
+    ],
+    "meridian_samples": 69537,
+    "labels": [
+      -1,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      -1,
+      -1,
+      3,
+      3,
+      3,
+      3,
+      3,
+      3,
+      3,
+      3,
+      3,
+      3,
+      3,
+      3,
+      3,
+      3,
+      3,
+      3,
+      3,
+      3,
+      3,
+      3,
+      3,
+      3,
+      3,
+      3,
+      3,
+      3,
+      3,
+      3,
+      3,
+      3,
+      3,
+      3,
+      3,
+      3,
+      3,
+      3,
+      3,
+      3,
+      3,
+      3,
+      3,
+      3,
+      3,
+      3,
+      3,
+      3,
+      3,
+      3,
+      3,
+      3,
+      3,
+      3,
+      3,
+      3,
+      3,
+      3,
+      3,
+      3,
+      3,
+      3,
+      3,
+      3,
+      3,
+      3,
+      3,
+      3,
+      3,
+      3,
+      3,
+      3,
+      3,
+      3,
+      3,
+      3,
+      3,
+      3,
+      3,
+      3,
+      3,
+      -1
+    ]
+  },
+  "indices": {
+    "reference": {
+      "S": {
+        "cells": [
+          0
+        ],
+        "index_pair_cells": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23,
+          24,
+          25,
+          26,
+          27,
+          28,
+          29,
+          30,
+          31,
+          32,
+          33,
+          34,
+          35,
+          36
+        ],
+        "exit_cells": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23,
+          24,
+          25,
+          26,
+          27,
+          28,
+          29,
+          30,
+          31,
+          32,
+          33,
+          34,
+          35,
+          36
+        ],
+        "fixed_point_cells": 1,
+        "quotient": [
+          "0",
+          "0"
+        ],
+        "relative": [
+          "0",
+          "x-1"
+        ],
+        "in_X": [
+          "0",
+          "0",
+          "x-1"
+        ],
+        "proved": [
+          "0",
+          "0",
+          "x-1"
+        ],
+        "agree": true
+      },
+      "A-": {
+        "cells": [
+          38
+        ],
+        "index_pair_cells": [
+          38
+        ],
+        "exit_cells": [],
+        "fixed_point_cells": 0,
+        "quotient": [
+          "x-1",
+          "0"
+        ],
+        "relative": [
+          "x-1",
+          "0"
+        ],
+        "in_X": [
+          "x-1",
+          "x-1",
+          "0"
+        ],
+        "proved": [
+          "x-1",
+          "x-1",
+          "0"
+        ],
+        "agree": true
+      },
+      "C": {
+        "cells": [
+          63,
+          64
+        ],
+        "index_pair_cells": [
+          59,
+          60,
+          61,
+          62,
+          63,
+          64,
+          65,
+          66,
+          67,
+          68
+        ],
+        "exit_cells": [
+          59,
+          60,
+          61,
+          62,
+          65,
+          66,
+          67,
+          68
+        ],
+        "fixed_point_cells": 0,
+        "quotient": [
+          "0",
+          "x-1"
+        ],
+        "relative": [
+          "0",
+          "x-1"
+        ],
+        "in_X": [
+          "0",
+          "x-1",
+          "x-1"
+        ],
+        "proved": [
+          "0",
+          "x-1",
+          "x-1"
+        ],
+        "agree": true
+      },
+      "A+": {
+        "cells": [
+          89
+        ],
+        "index_pair_cells": [
+          89
+        ],
+        "exit_cells": [],
+        "fixed_point_cells": 0,
+        "quotient": [
+          "x-1",
+          "0"
+        ],
+        "relative": [
+          "x-1",
+          "0"
+        ],
+        "in_X": [
+          "x-1",
+          "x-1",
+          "0"
+        ],
+        "proved": [
+          "x-1",
+          "x-1",
+          "0"
+        ],
+        "agree": true
+      },
+      "N": {
+        "cells": [
+          127
+        ],
+        "index_pair_cells": [
+          91,
+          92,
+          93,
+          94,
+          95,
+          96,
+          97,
+          98,
+          99,
+          100,
+          101,
+          102,
+          103,
+          104,
+          105,
+          106,
+          107,
+          108,
+          109,
+          110,
+          111,
+          112,
+          113,
+          114,
+          115,
+          116,
+          117,
+          118,
+          119,
+          120,
+          121,
+          122,
+          123,
+          124,
+          125,
+          126,
+          127
+        ],
+        "exit_cells": [
+          91,
+          92,
+          93,
+          94,
+          95,
+          96,
+          97,
+          98,
+          99,
+          100,
+          101,
+          102,
+          103,
+          104,
+          105,
+          106,
+          107,
+          108,
+          109,
+          110,
+          111,
+          112,
+          113,
+          114,
+          115,
+          116,
+          117,
+          118,
+          119,
+          120,
+          121,
+          122,
+          123,
+          124,
+          125,
+          126
+        ],
+        "fixed_point_cells": 1,
+        "quotient": [
+          "0",
+          "0"
+        ],
+        "relative": [
+          "0",
+          "x-1"
+        ],
+        "in_X": [
+          "0",
+          "0",
+          "x-1"
+        ],
+        "proved": [
+          "0",
+          "0",
+          "x-1"
+        ],
+        "agree": true
+      }
+    },
+    "learned": {
+      "S": {
+        "cells": [
+          0
+        ],
+        "index_pair_cells": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23,
+          24
+        ],
+        "exit_cells": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23,
+          24
+        ],
+        "fixed_point_cells": 1,
+        "quotient": [
+          "0",
+          "0"
+        ],
+        "relative": [
+          "0",
+          "x-1"
+        ],
+        "in_X": [
+          "0",
+          "0",
+          "x-1"
+        ],
+        "proved": [
+          "0",
+          "0",
+          "x-1"
+        ],
+        "agree": true
+      },
+      "A-": {
+        "cells": [
+          25
+        ],
+        "index_pair_cells": [
+          25
+        ],
+        "exit_cells": [],
+        "fixed_point_cells": 0,
+        "quotient": [
+          "x-1",
+          "0"
+        ],
+        "relative": [
+          "x-1",
+          "0"
+        ],
+        "in_X": [
+          "x-1",
+          "x-1",
+          "0"
+        ],
+        "proved": [
+          "x-1",
+          "x-1",
+          "0"
+        ],
+        "agree": true
+      },
+      "C": {
+        "cells": [
+          46,
+          47
+        ],
+        "index_pair_cells": [
+          40,
+          41,
+          42,
+          43,
+          44,
+          45,
+          46,
+          47,
+          48,
+          49,
+          50,
+          51
+        ],
+        "exit_cells": [
+          40,
+          41,
+          42,
+          43,
+          44,
+          45,
+          48,
+          49,
+          50,
+          51
+        ],
+        "fixed_point_cells": 0,
+        "quotient": [
+          "0",
+          "x-1"
+        ],
+        "relative": [
+          "0",
+          "x-1"
+        ],
+        "in_X": [
+          "0",
+          "x-1",
+          "x-1"
+        ],
+        "proved": [
+          "0",
+          "x-1",
+          "x-1"
+        ],
+        "agree": true
+      },
+      "A+": {
+        "cells": [
+          74
+        ],
+        "index_pair_cells": [
+          74
+        ],
+        "exit_cells": [],
+        "fixed_point_cells": 0,
+        "quotient": [
+          "x-1",
+          "0"
+        ],
+        "relative": [
+          "x-1",
+          "0"
+        ],
+        "in_X": [
+          "x-1",
+          "x-1",
+          "0"
+        ],
+        "proved": [
+          "x-1",
+          "x-1",
+          "0"
+        ],
+        "agree": true
+      },
+      "N": {
+        "cells": [
+          127
+        ],
+        "index_pair_cells": [
+          76,
+          77,
+          78,
+          79,
+          80,
+          81,
+          82,
+          83,
+          84,
+          85,
+          86,
+          87,
+          88,
+          89,
+          90,
+          91,
+          92,
+          93,
+          94,
+          95,
+          96,
+          97,
+          98,
+          99,
+          100,
+          101,
+          102,
+          103,
+          104,
+          105,
+          106,
+          107,
+          108,
+          109,
+          110,
+          111,
+          112,
+          113,
+          114,
+          115,
+          116,
+          117,
+          118,
+          119,
+          120,
+          121,
+          122,
+          123,
+          124,
+          125,
+          126,
+          127
+        ],
+        "exit_cells": [
+          76,
+          77,
+          78,
+          79,
+          80,
+          81,
+          82,
+          83,
+          84,
+          85,
+          86,
+          87,
+          88,
+          89,
+          90,
+          91,
+          92,
+          93,
+          94,
+          95,
+          96,
+          97,
+          98,
+          99,
+          100,
+          101,
+          102,
+          103,
+          104,
+          105,
+          106,
+          107,
+          108,
+          109,
+          110,
+          111,
+          112,
+          113,
+          114,
+          115,
+          116,
+          117,
+          118,
+          119,
+          120,
+          121,
+          122,
+          123,
+          124,
+          125,
+          126
+        ],
+        "fixed_point_cells": 1,
+        "quotient": [
+          "0",
+          "0"
+        ],
+        "relative": [
+          "0",
+          "x-1"
+        ],
+        "in_X": [
+          "0",
+          "0",
+          "x-1"
+        ],
+        "proved": [
+          "0",
+          "0",
+          "x-1"
+        ],
+        "agree": true
+      }
+    }
+  }
+}

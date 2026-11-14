@@ -2,6 +2,7 @@
 import copy
 from pathlib import Path
 import json
+import shutil
 
 import numpy as np
 import objax
@@ -158,3 +159,54 @@ def test_training_smoke(tmp_path):
     assert np.array_equal(so2_flow.functions(reloaded)["advance"](u), so2_flow.functions(trained)["advance"](u))
     with pytest.raises(FileExistsError):
         so2_flow.train(tmp_path / "seed0", data, 0, settings)
+
+
+def test_reference_roles_and_indices_in_the_sphere():
+    graph = so2_flow.reference_graph()
+    roles = so2_flow.reference_roles(graph)
+    assert sorted(roles.values()) == sorted(so2_flow.ORDER)
+    assert so2_flow.role_edges(graph) == [["S", "A-"], ["C", "A-"], ["C", "A+"], ["N", "A+"]]
+    comparison = so2_flow.compare_graphs(graph, graph)
+    assert comparison["agree"] and all(row["agree"] for row in comparison["nodes"])
+    indices = so2_flow.reconstructed_indices({"reference": graph})["reference"]
+    assert {role: row["in_X"] for role, row in indices.items()} == so2_flow.PROVED
+    assert indices["S"]["fixed_point_cells"] == 1 and indices["C"]["fixed_point_cells"] == 0
+    assert so2_flow.homology_degrees(so2_flow.PROVED["C"]) == "H_1 = H_2 = F"
+
+
+def test_compare_records_is_exact_on_graphs_and_relative_elsewhere():
+    saved = {"graphs": {"nodes": [{"hull": [0.5, 0.75], "annotations": ["x-1", "0"]}]},
+             "regions": {"rows": [{"tolerance": 0.08, "cells": 45, "passed": True}]}}
+    assert so2_flow.compare_records(saved, saved) == (7, [])
+    close = copy.deepcopy(saved)
+    close["regions"]["rows"][0]["tolerance"] *= 1 + 1e-12
+    assert so2_flow.compare_records(close, saved)[1] == []
+    far = copy.deepcopy(saved)
+    far["regions"]["rows"][0]["tolerance"] *= 1 + 1e-6
+    assert [d[0] for d in so2_flow.compare_records(far, saved)[1]] == ["/regions/rows/0/tolerance"]
+    moved = copy.deepcopy(saved)
+    moved["graphs"]["nodes"][0]["hull"][0] += 1e-15
+    assert [d[0] for d in so2_flow.compare_records(moved, saved)[1]] == ["/graphs/nodes/0/hull/0"]
+    renamed = copy.deepcopy(saved)
+    renamed["graphs"]["nodes"][0]["annotations"] = ["0", "0"]
+    assert len(so2_flow.compare_records(renamed, saved)[1]) == 1
+
+
+def test_height_flow_and_bands():
+    z = np.array([-1., -.7, -.4, 0., .2, .4, .9, 1.])
+    values = so2_flow.height_flow(z, 3.)
+    assert np.allclose(values, height_flow(z, 3.), rtol=0, atol=1e-10)
+    assert values[[0, 3, 7]].tolist() == [-1., 0., 1.]
+    graph = so2_flow.reference_graph()
+    bands = so2_flow.morse_bands(graph, np.linspace(-1, 1, len(graph.boxes) + 1))
+    assert sorted(role for _, _, role in bands) == sorted(so2_flow.ORDER)
+    equator = [band for band in bands if band[2] == "C"]
+    assert equator == [(-0.015625, 0.015625, "C")]
+
+
+@pytest.mark.skipif(not all(shutil.which(tool) for tool in ("dot", "pdftoppm")), reason="needs Graphviz and Poppler")
+def test_appendix_height_panels(tmp_path):
+    panels = so2_flow.figure_sphere_height(tmp_path)
+    assert list(panels) == ["dynamics/sphere-trajectories", "dynamics/sphere-height-map"]
+    for path in panels.values():
+        assert path.suffix == ".pdf" and path.exists() and path.with_suffix(".svg").exists()
