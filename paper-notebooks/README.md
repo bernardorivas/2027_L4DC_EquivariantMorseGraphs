@@ -1,4 +1,4 @@
-# Interactive examples
+# Paper notebooks
 
 Open the executed notebooks to inspect the equations, training losses, learned
 maps, and analytical-versus-learned CMGDB comparisons:
@@ -7,15 +7,24 @@ maps, and analytical-versus-learned CMGDB comparisons:
   O(2)-invariant EMLP encoder, interval map, and orbit decoder.
 - [02_o3_flow.ipynb](notebooks/02_o3_flow.ipynb): O(3) quotient dynamics, with a
   joint invariant EMLP encoder, quotient map, and orbit decoder.
+- [03_attitude.ipynb](notebooks/03_attitude.ipynb): reduced attitude control,
+  comparing nominal stabilization and coning with saved models and sphere figures.
 
-These are Kaito's saved experiments and figure assemblies. They are separate
-from the current numbered workflows in [`../code/examples`](../code/examples).
-The analytical replay code is pinned to Bernardo's commit `21acca6`; its source
+These notebooks are the main reading companion to Sections 5.1–5.3. The
+root-level implementation notebooks use the current [`morsegraphs/`](../morsegraphs/)
+package. Each notebook specifies the experiment and checkpoint it uses.
+For Examples 1 and 2, the analytical replay code is pinned to Bernardo's commit `21acca6`; its source
 and numerical inputs are included under `vendor/`, with checksums in
 `upstream.json`. The two learned checkpoints and associated numerical evidence
 are pinned in `reproducibility/manifest.json`.
 
 ## Run locally
+
+The instructions below apply to Examples 1 and 2. For Example 3, follow the
+setup cell in [03_attitude.ipynb](notebooks/03_attitude.ipynb): it reproduces
+six saved fits using legacy revision `eaf94a7c45c150e2d2f0b42dec204e82a3c14a66`
+in a separate checkout. The legacy source is no longer part of current `main`.
+Its saved outputs remain readable here without that checkout.
 
 The notebooks use a Python 3.13 environment for CMGDB and plotting, and a separate
 Python 3.11 environment for the official EMLP/Objax implementation. Graphviz,
@@ -23,7 +32,7 @@ Poppler and librsvg must be available on your PATH. On macOS:
 
 ```bash
 brew install graphviz poppler librsvg
-cd code-kaito
+cd paper-notebooks
 python3.13 -m venv .venv
 .venv/bin/python -m pip install -r requirements.txt
 sh setup_fitting.sh
@@ -49,7 +58,7 @@ For a command-line replay:
 
 ## Train and interpret
 
-Each notebook exposes one `fit_quotient(...)` call. Set `retrain=True` to train
+Examples 1 and 2 expose one `fit_quotient(...)` call. Set `retrain=True` to train
 again; sample counts, seed and time interval are explicit. EMLP/Objax provides
 the network layers, differentiation and optimizer. `src/quotient_fitting.py`
 contains the joint reconstruction, prediction and latent-consistency losses.

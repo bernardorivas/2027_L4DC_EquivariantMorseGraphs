@@ -13,10 +13,10 @@ def workspace():
     candidates = [Path.cwd(), *Path.cwd().parents]
     root = next((p for p in candidates if (p / 'upstream.json').is_file()), None)
     if root is None:
-        root = next((p / 'code-kaito' for p in candidates
-                     if (p / 'code-kaito/upstream.json').is_file()), None)
+        root = next((p / 'paper-notebooks' for p in candidates
+                     if (p / 'paper-notebooks/upstream.json').is_file()), None)
     if root is None:
-        raise FileNotFoundError('Open the notebook from code-kaito.')
+        raise FileNotFoundError('Open the notebook from paper-notebooks.')
     from replay_bundle import restore
     restore(root)
     pin = json.loads((root / 'upstream.json').read_text())
@@ -36,7 +36,7 @@ def workspace():
     from render import verify_data
     from importlib.metadata import version
     if version('CMGDB') != '1.5.3+fork.7':
-        raise RuntimeError('This replay requires CMGDB 1.5.3+fork.7; use code-kaito/.venv.')
+        raise RuntimeError('This replay requires CMGDB 1.5.3+fork.7; use paper-notebooks/.venv.')
     data = examples / 'data'
     verify_data(data)
     print(f"Pinned dependencies {pin['revision'][:7]} and numerical input checksums verified.")

@@ -2,16 +2,27 @@
 
 Code for the paper *An Equivariant Approach to Topological Dynamics* by Bernardo Rivas, Kaito Iwasaki and Ram Vasudevan, submitted to L4DC 2027.
 
-For a map that commutes with the action of a compact group, the paper computes Morse graphs and Conley indices on the orbit space with CMGDB, learns the reduced dynamics with equivariant networks (EMLP), pulls attracting blocks back through the learned encoder, and reconstructs the Conley indices in the original space. Each example of Section 5 has one notebook that regenerates its numbers and the panels of its figures.
+For a map that commutes with the action of a compact group, the paper computes Morse graphs and Conley indices on the orbit space with CMGDB, learns the reduced dynamics with equivariant networks (EMLP), pulls attracting blocks back through the learned encoder, and reconstructs the Conley indices in the original space. The paper notebooks below introduce each example and explain its equations, learned model, and figures.
 
-| In the paper | Notebook |
+## Start with the paper notebooks
+
+For a guided reading of the paper's examples, start with these notebooks. They include explanations and saved figures, so you can read them directly on GitHub without installing Python.
+
+| In the paper | Paper notebook |
 |---|---|
-| Section 5.1, an SO(2)-equivariant flow on $S^2$ | [ex1_so2_flow.ipynb](ex1_so2_flow.ipynb) |
-| Section 5.2, an O(3)-equivariant flow on $\mathbb R^4$ | [ex2_o3_flow.ipynb](ex2_o3_flow.ipynb) |
-| Section 5.3, reduced attitude control on $S^2$ | [ex3_attitude_control.ipynb](ex3_attitude_control.ipynb) |
-| Section 6 and Table `tab:timing`, CMGDB times on the quotient and original spaces | [timings.ipynb](timings.ipynb) |
+| Section 5.1, an SO(2)-equivariant flow on $S^2$ | [01_sphere.ipynb](paper-notebooks/notebooks/01_sphere.ipynb) |
+| Section 5.2, an O(3)-equivariant flow on $\mathbb R^4$ | [02_o3_flow.ipynb](paper-notebooks/notebooks/02_o3_flow.ipynb) |
+| Section 5.3, reduced attitude control on $S^2$ | [03_attitude.ipynb](paper-notebooks/notebooks/03_attitude.ipynb) |
 
-The notebooks are saved with their outputs, so they can be read without running them.
+See [paper notebook setup and reproduction](paper-notebooks/README.md) before running them. Examples 1 and 2 use bundled, pinned experiments. Example 3 currently requires the legacy source checkout specified in its setup cell. These requirements differ from the root-level workflows below.
+
+## Implementation workflows
+
+The root-level [ex1_so2_flow.ipynb](ex1_so2_flow.ipynb), [ex2_o3_flow.ipynb](ex2_o3_flow.ipynb), and [ex3_attitude_control.ipynb](ex3_attitude_control.ipynb) provide the workflows for the current `morsegraphs/` package. Use them to run that implementation or retrain its models. Each workflow identifies its own data and checkpoints; they are not interchangeable with the pinned paper-notebook experiments.
+
+For Section 6 and the timing table, use [timings.ipynb](timings.ipynb).
+
+The following installation and execution instructions apply to these root-level workflows.
 
 ## Install
 
@@ -59,7 +70,7 @@ python scripts/record_reference.py ex1_so2_flow --replace
 - `scripts/`: data, training, selection, reference records, and the timing runs (`run_timings.py`, which refuses to start on a busy machine).
 - `data/`: data, fits and reference results of each example.
 - `tests/`: `python -m pytest`.
-- `code-kaito/`: separate notebooks for Sections 5.1 and 5.2, with their own setup.
+- `paper-notebooks/`: the guided paper notebooks for Sections 5.1–5.3, plotting helpers, and pinned reproduction material. Start here to read the examples.
 
 ## Citation
 
