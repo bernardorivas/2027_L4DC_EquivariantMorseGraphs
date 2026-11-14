@@ -22,7 +22,7 @@ from nbconvert import HTMLExporter
 from jupyter_client import KernelManager
 
 name = sys.argv[1] if len(sys.argv) > 1 else "01_sphere.ipynb"
-if name not in {"01_sphere.ipynb", "02_o3_flow.ipynb"}:
+if name not in {"01_sphere.ipynb", "02_o3_flow.ipynb", "03_attitude.ipynb"}:
     raise ValueError("Choose an existing example notebook.")
 path = root / "notebooks" / name
 notebook = nbformat.read(path, as_version=4)
@@ -35,8 +35,9 @@ nbformat.validate(notebook)
 nbformat.write(notebook, path)
 html, _ = HTMLExporter().from_notebook_node(notebook)
 html = html.replace('<head>', '<head>\n<base href="../../../notebooks/">', 1)
-example = 'sphere' if name == '01_sphere.ipynb' else 'o3'
+example = {'01_sphere.ipynb': 'sphere', '02_o3_flow.ipynb': 'o3', '03_attitude.ipynb': 'attitude'}[name]
 preview = root / 'build/notebooks' / example / 'preview.html'
+preview.parent.mkdir(parents=True, exist_ok=True)
 preview.write_text(html)
 print('Notebook executed top-to-bottom and saved with outputs.')
 print('Analytical figures, fit diagnostics, and CMGDB comparisons saved. Cell outputs record whether the fit was loaded or trained.')

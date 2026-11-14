@@ -14,7 +14,7 @@ For a guided reading of the paper's examples, start with these notebooks. They i
 | Section 5.2, an O(3)-equivariant flow on $\mathbb R^4$ | [02_o3_flow.ipynb](paper-notebooks/notebooks/02_o3_flow.ipynb) |
 | Section 5.3, reduced attitude control on $S^2$ | [03_attitude.ipynb](paper-notebooks/notebooks/03_attitude.ipynb) |
 
-See [paper notebook setup and reproduction](paper-notebooks/README.md) before running them. Examples 1 and 2 use bundled, pinned experiments. Example 3 currently requires the legacy source checkout specified in its setup cell. These requirements differ from the root-level workflows below.
+See [paper notebook setup and reproduction](paper-notebooks/README.md) before running them. Examples 1 and 2 use bundled, pinned experiments. Example 3’s setup script retrieves its pinned legacy source and installs the matching replay environment. These requirements differ from the root-level workflows below.
 
 ## Implementation workflows
 

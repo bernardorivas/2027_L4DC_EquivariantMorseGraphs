@@ -20,33 +20,36 @@ are pinned in `reproducibility/manifest.json`.
 
 ## Run locally
 
-The instructions below apply to Examples 1 and 2. For Example 3, follow the
-setup cell in [03_attitude.ipynb](notebooks/03_attitude.ipynb): it reproduces
-six saved fits using legacy revision `eaf94a7c45c150e2d2f0b42dec204e82a3c14a66`
-in a separate checkout. The legacy source is no longer part of current `main`.
-Its saved outputs remain readable here without that checkout.
+Example 3 uses the pinned legacy experiment at revision
+`eaf94a7c45c150e2d2f0b42dec204e82a3c14a66`. The setup command below retrieves
+that source and its reference data into ignored `build/attitude-legacy/`,
+without changing the current implementation. All three notebooks run here.
 
 The notebooks use a Python 3.13 environment for CMGDB and plotting, and a separate
-Python 3.11 environment for the official EMLP/Objax implementation. Graphviz,
+Python 3.11 environment for the Examples 1–2 EMLP/Objax implementation.
+Example 3 uses its own pinned Python 3.13 environment. Graphviz,
 Poppler and librsvg must be available on your PATH. On macOS:
 
 ```bash
-brew install graphviz poppler librsvg
+brew install uv graphviz poppler librsvg
 cd paper-notebooks
-python3.13 -m venv .venv
-.venv/bin/python -m pip install -r requirements.txt
+uv venv .venv --python 3.13
+uv pip install --python .venv/bin/python -r requirements.txt
 sh setup_fitting.sh
+sh setup_attitude.sh
 sh launch_jupyter.sh
 ```
 
 The CMGDB requirement is Bernardo's `1.5.3+fork.7` release, including the Atlas,
 aggregation, and relative-homology interfaces used here. Its wheel must support
-your platform; this package was checked on Apple Silicon macOS. EMLP is 1.0.3,
+your platform; this package was checked on Apple Silicon macOS. For Examples 1–2, EMLP is 1.0.3,
 Objax is 1.8.0, and JAX is 0.4.23; see `requirements-emlp.txt`.
+Example 3 uses the requirements from its pinned legacy source, including JAX 0.4.38.
 
-Choose **Restart Kernel and Run All**. The first setup cell restores the bundled
-checkpoints and numerical evidence into ignored `build/`. It checks the archive
-and pinned source hashes. Default execution reuses the saved fits and regenerates
+Choose **Restart Kernel and Run All**. In Examples 1–2, the first setup cell restores
+the bundled checkpoints and numerical evidence into ignored `build/` and checks
+the archive and pinned source hashes. Example 3 reads the files installed by
+`setup_attitude.sh`. Default execution reuses the saved fits and regenerates
 the notebook outputs; no training is required just to inspect the comparisons.
 
 For a command-line replay:
@@ -54,6 +57,7 @@ For a command-line replay:
 ```bash
 .venv/bin/python tools/execute_notebook.py 01_sphere.ipynb
 .venv/bin/python tools/execute_notebook.py 02_o3_flow.ipynb
+.venv/bin/python tools/execute_notebook.py 03_attitude.ipynb
 ```
 
 ## Train and interpret

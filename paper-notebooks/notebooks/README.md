@@ -12,8 +12,8 @@ For Examples 1 and 2, follow the [environment setup](../README.md#run-locally),
 select `paper-notebooks/.venv`, and run the cells in order. Saved checkpoints
 are loaded by default.
 
-For Example 3, follow its setup cell to create a separate checkout of the pinned
-legacy source. The notebook evaluates six saved fits without retraining and
+For Example 3, run `sh setup_attitude.sh` from `paper-notebooks/` to install the
+pinned legacy source and replay environment. The notebook evaluates six saved fits without retraining and
 compares ungrouped and grouped interval graphs, latent-sphere preimages, and
 analytical thrust-axis indices. Its final cell runs the original replay check.
 
