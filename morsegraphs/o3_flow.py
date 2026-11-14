@@ -1025,9 +1025,9 @@ def orbits_panel(model, graph, metrics, path, steps=40):
 
 
 def cell_colors(graph, basins_, image=None):
-    """The color of each cell: the ink of the role of its Morse set, the tint of the role of the
-    minimal Morse set whose attracting region contains it, the tint of C on a path from O to C,
-    OUTSIDE where `image` (a mask) is False, and None (white) otherwise."""
+    """The color of each cell: the ink of the role of its Morse set, OUTSIDE where `image` (a
+    mask) is False, the tint of the role of the minimal Morse set whose attracting region
+    contains it, the tint of C on a path from O to C, and None (white) otherwise."""
     roles = node_roles(graph)
     labels, path = basins_["labels"], basins_["path"]
     colors = []
@@ -1035,12 +1035,12 @@ def cell_colors(graph, basins_, image=None):
         node = graph.membership[cell]
         if node >= 0:
             colors.append(plotting.color(roles[node]))
+        elif image is not None and not image[cell]:
+            colors.append(OUTSIDE)
         elif labels[cell] >= 0:
             colors.append(plotting.tint(roles[labels[cell]]))
         elif path[cell]:
             colors.append(plotting.tint("C"))
-        elif image is not None and not image[cell]:
-            colors.append(OUTSIDE)
         else:
             colors.append(None)
     return colors
@@ -1089,7 +1089,7 @@ def graph_panel(graph, annotations, path, scale=GRAPH_SCALE):
 
 def preimage_panel(model, graph, basins_, path, points=None):
     """Left, the cells of Z in the colors of `cell_colors`, gray where no encoded section point
-    lies; right, the color of the cell that contains E(a, r, 0, 0) on a uniform grid of X/G.
+    lies outside the Morse sets; right, the color of the cell that contains E(a, r, 0, 0) on a uniform grid of X/G.
 
     Every point (a, r) stands for its orbit {(a, v) : |v| = r}, so the right side shows the
     preimages under E of the latent regions, not decoded sets.
