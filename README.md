@@ -9,6 +9,7 @@ For a map that commutes with the action of a compact group, the paper computes M
 | Section 5.1, an SO(2)-equivariant flow on $S^2$ | [ex1_so2_flow.ipynb](ex1_so2_flow.ipynb) |
 | Section 5.2, an O(3)-equivariant flow on $\mathbb R^4$ | [ex2_o3_flow.ipynb](ex2_o3_flow.ipynb) |
 | Section 5.3, reduced attitude control on $S^2$ | [ex3_attitude_control.ipynb](ex3_attitude_control.ipynb) |
+| Section 6 and Table `tab:timing`, CMGDB times on the quotient and original spaces | [timings.ipynb](timings.ipynb) |
 
 The notebooks are saved with their outputs, so they can be read without running them.
 
@@ -54,8 +55,8 @@ python scripts/record_reference.py ex1_so2_flow --replace
 
 ## Layout
 
-- `morsegraphs/`: the package. `grids.py` (grids, cell images, CMGDB, merged Morse sets), `regions.py` (attracting regions, tolerances, residuals), `homology.py` (Conley indices in the original space), `plotting.py`, `training.py`, `device.py`, and one module per example: `so2_flow.py`, `o3_flow.py`, `attitude_control.py`.
-- `scripts/`: data, training, selection and reference records.
+- `morsegraphs/`: the package. `grids.py` (grids, cell images, CMGDB, merged Morse sets), `regions.py` (attracting regions, tolerances, residuals), `homology.py` (Conley indices in the original space), `timing.py` (CMGDB timings), `plotting.py`, `training.py`, `device.py`, and one module per example: `so2_flow.py`, `o3_flow.py`, `attitude_control.py`.
+- `scripts/`: data, training, selection, reference records, and the timing runs (`run_timings.py`, which refuses to start on a busy machine).
 - `data/`: data, fits and reference results of each example.
 - `tests/`: `python -m pytest`.
 - `code-kaito/`: separate notebooks for Sections 5.1 and 5.2, with their own setup.
