@@ -1,0 +1,72 @@
+{
+ "schema": "morsegraphs/cost-estimate/v1",
+ "status": "estimated, not run",
+ "system": "Full quadrotor plant",
+ "intrinsic_dimension": 12,
+ "state": "R^3 x R^3 x SO(3) x R^3",
+ "grid_assumption": "A bounded normalized coordinate window, with m = 2^ell intervals on every axis. This is not a specified physical grid or a global chart of SO(3).",
+ "cells_formula": "m^12 = 2^(12*ell)",
+ "memory_assumption": "A materialized image-hull table with 24 binary64 coordinates per cell; excludes the grid, graph edges, and homology. This is storage for the specified table, not a universal algorithmic lower bound.",
+ "hull_table_bytes_per_cell": 192,
+ "calibration": {
+  "source_record": "full-float-uniform-L32.json",
+  "source_record_sha256": "bd73d0d4ed65c464c218be1eb4d21243bdcad84c2d1541114f1c6bb8cccf87cf",
+  "description": "Saved uniform original-space O(3) timing, measured on Apple M4 Pro with 14 cores and 48 GiB RAM, one numerical thread.",
+  "cells": 8388608,
+  "map_s": 15.562370104074944,
+  "morse_graph_s": 4.866843957279343,
+  "map_plus_morse_seconds_per_cell": 2.435352094334875e-06
+ },
+ "time_assumption": "Linear projection of the saved O(3) map-plus-Morse time per cell. The O(3) closed-form hull is cheaper than full-plant integration. This is an optimistic illustration, not a measured time or a proved lower bound.",
+ "conley_index_time": "Not estimated; no linear scaling assumption is made.",
+ "comparison_scope": "The learned interval describes the sphere subsystem on eta=0. The SO(2) quotient of the full plant has dimension 11. No full-plant-to-interval timing speedup is claimed.",
+ "domain_scope": "The plant state space is noncompact and position is unregulated. Coordinate ranges, attitude charts, and window exits must be specified before an actual full-state computation.",
+ "seconds_per_year": 31557600.0,
+ "rows": [
+  {
+   "ell": 3,
+   "intervals_per_axis": 8,
+   "cell_count_exponent": 36,
+   "cells": 68719476736,
+   "hull_table_bytes": 13194139533312,
+   "projected_map_plus_morse_s": 167356.12159061432,
+   "projected_map_plus_morse_years": 0.0053031954771786925
+  },
+  {
+   "ell": 4,
+   "intervals_per_axis": 16,
+   "cell_count_exponent": 48,
+   "cells": 281474976710656,
+   "hull_table_bytes": 54043195528445952,
+   "projected_map_plus_morse_s": 685490674.0351562,
+   "projected_map_plus_morse_years": 21.721888674523925
+  },
+  {
+   "ell": 5,
+   "intervals_per_axis": 32,
+   "cell_count_exponent": 60,
+   "cells": 1152921504606846976,
+   "hull_table_bytes": 221360928884514619392,
+   "projected_map_plus_morse_s": 2807769800848.0,
+   "projected_map_plus_morse_years": 88972.85601085
+  },
+  {
+   "ell": 6,
+   "intervals_per_axis": 64,
+   "cell_count_exponent": 72,
+   "cells": 4722366482869645213696,
+   "hull_table_bytes": 906694364710971881029632,
+   "projected_map_plus_morse_s": 1.1500625104273408e+16,
+   "projected_map_plus_morse_years": 364432818.2204416
+  },
+  {
+   "ell": 7,
+   "intervals_per_axis": 128,
+   "cell_count_exponent": 84,
+   "cells": 19342813113834066795298816,
+   "hull_table_bytes": 3713820117856140824697372672,
+   "projected_map_plus_morse_s": 4.710656042710388e+19,
+   "projected_map_plus_morse_years": 1492716823430.9287
+  }
+ ]
+}

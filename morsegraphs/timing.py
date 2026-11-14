@@ -1030,15 +1030,32 @@ def notebook_discussion(session):
     return _html_table(["Computation", "Section 6", "Measured", "Status"], rows, "Times quoted in Section 6")
 
 
+def notebook_plant_estimate():
+    """Display the arithmetic cost projection without evaluating any plant dynamics."""
+    path = REPOSITORY / "data/timings/plant-cost-estimate.json"
+    record = json.loads(path.read_text())
+    rows = []
+    for row in record["rows"]:
+        seconds = row["projected_map_plus_morse_s"]
+        years = row["projected_map_plus_morse_years"]
+        duration = f"{seconds / 86400:.2g} days" if years < 1 else f"{years:.2g} years"
+        rows.append([format_cells(row["intervals_per_axis"]), format_cells(row["cells"]),
+                     f'{row["hull_table_bytes"]:.3g} bytes', duration])
+    return _html_table(["Intervals per axis", "Cells", "Image-hull table only", "Projected map + Morse"],
+                       rows, "Full 12-dimensional plant: arithmetic projection only, never run")
+
+
 def notebook_table(session):
     rows = []
     for row, config in ROWS.items():
         record = session.records.get(row)
         dim = (1 if config["side"] == "reduced" else 3) if config["example"] == "sphere" else (2 if config["side"] == "reduced" else 4)
-        cells = record["graph"]["final_cells"] if record else config["cells"]
-        common = [dim, "SO(2)" if config["example"] == "sphere" else "O(3)", config["mode"], format_cells(cells)]
-        rows.append(common + ["manuscript"] + [format_seconds(v) for v in config["paper"]])
+        common = [dim, "SO(2)" if config["example"] == "sphere" else "O(3)", config["mode"]]
+        rows.append(common + [format_cells(config["cells"]), "manuscript"]
+                    + [format_seconds(v) for v in config["paper"]])
+        measured_cells = record["graph"]["final_cells"] if record else config["cells"]
         values = [record["totals"][k] for k in ("map_s", "morse_graph_s", "conley_index_s", "total_s")] if record else [None] * 4
-        rows.append(common + [record["purpose"] if record else "waiting for idle run"] + [format_seconds(v) for v in values])
+        rows.append(common + [format_cells(measured_cells), record["purpose"] if record else "waiting for idle run"]
+                    + [format_seconds(v) for v in values])
     return _html_table(["Dimension", "G", "Grid", "Cells", "Source", "Map", "Morse graph", "Conley index", "Total"],
                        rows, "Table tab:timing: manuscript values and new measurements")
