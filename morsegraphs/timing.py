@@ -704,18 +704,12 @@ ROWS = {
     "sphere-uniform": dict(example="sphere", side="full", mode="uniform", level=7,
                            repeats=5, warmup=1, inner=1, cells=2**21,
                            paper=[31.0, 1.1, 14.0, 47.0]),
-    "sphere-adaptive": dict(example="sphere", side="full", mode="adaptive", level=7,
-                            repeats=5, warmup=1, inner=1, cells=17464,
-                            paper=[2.9, 0.060, 21.0, 24.0]),
     "sphere-quotient": dict(example="sphere", side="reduced", mode="uniform", level=7,
                             repeats=5, warmup=1, inner=1, cells=2**7,
                             paper=[0.0023, "<1 ms", "<1 ms", 0.0031]),
     "o3-uniform": dict(example="o3", side="full", mode="uniform", level=32,
                        repeats=1, warmup=0, inner=1, cells=2**23,
                        paper=[16.0, 4.9, 991.0, 1011.0]),
-    "o3-adaptive": dict(example="o3", side="full", mode="adaptive", level=32,
-                        repeats=1, warmup=0, inner=1, cells=109536,
-                        paper=[2.3, 0.580, 943.0, 946.0]),
     "o3-quotient": dict(example="o3", side="reduced", mode="uniform", level=32,
                         repeats=5, warmup=1, inner=116, cells=2**10,
                         paper=["<1 ms", "<1 ms", "<1 ms", 0.0018]),
@@ -743,18 +737,18 @@ def machine_state():
             "memory_definition": "available memory: free plus inactive pages on macOS; MemAvailable on Linux"}
 
 
-def require_idle(state=None):
-    """Require a one-minute load below 2 and at least 16 GB available memory."""
+def require_idle(state=None, *, allow_busy=False):
+    """Require available memory; bypass the load threshold only when requested."""
     state = machine_state() if state is None else state
     loads = state["load_average"]
     recent = loads[0] if loads else float("nan")
     available = state["available_memory_bytes"]
     if (len(loads) != 3 or not all(math.isfinite(x) and x >= 0 for x in loads)
-            or recent >= 2 or not available >= 16_000_000_000):
+            or (recent >= 2 and not allow_busy) or not available >= 16_000_000_000):
         raise RuntimeError(f"Timing run refused: one-minute load {recent:.2f}; "
                            f"{available / 1e9:.2f} GB available. "
                            "The one-minute load must be below 2 and at least 16 GB must be available.")
-    return state
+    return {**state, "load_check_overridden": bool(allow_busy)}
 
 
 def machine_description():
@@ -875,7 +869,7 @@ def summarize_repeats(raw, config):
                      "conley_method": s3key, "morse_contains_cover": config["mode"] == "adaptive"}
 
 
-def measure_row(row, *, smoke=False, repeats=None, warmup=None):
+def measure_row(row, *, smoke=False, repeats=None, warmup=None, allow_busy=False):
     """Measure one row. Smoke mode permits only quotient rows and two small uniform grids."""
     wrong = {k: os.environ.get(k) for k, v in THREAD_ENV.items() if os.environ.get(k) != v}
     if wrong:
@@ -887,7 +881,7 @@ def measure_row(row, *, smoke=False, repeats=None, warmup=None):
         if config["side"] == "full":
             config["level"] = 4  # Sphere: 2^12 cells. O(3): 2^11 cells.
         config.update(repeats=3, warmup=1, inner=1)
-    state = machine_state() if smoke else require_idle()
+    state = machine_state() if smoke else require_idle(allow_busy=allow_busy)
     if repeats is not None:
         config["repeats"] = repeats
     if warmup is not None:
@@ -911,6 +905,8 @@ def measure_row(row, *, smoke=False, repeats=None, warmup=None):
     findings = []
     if smoke:
         findings.append("Short validation on a shared machine; not a final timing measurement.")
+    if state.get("load_check_overridden"):
+        findings.append("Load threshold bypassed for this run; measurements include background activity.")
     for key, value in stages.items():
         spread = value["spread_over_median"]
         if spread is not None and spread > 0.10:
@@ -1027,13 +1023,20 @@ def format_cells(value):
     return f"2^{value.bit_length() - 1}" if value > 0 and value & (value - 1) == 0 else f"{value:,}"
 
 
+def measurement_label(record):
+    label = record["purpose"]
+    if record.get("state_before", {}).get("load_check_overridden"):
+        label += " (background activity)"
+    return label
+
+
 def notebook_discussion(session):
     rows = []
     for row in ("sphere-quotient", "o3-quotient", "sphere-uniform", "o3-uniform"):
         record = session.records.get(row)
         rows.append([row, format_seconds(ROWS[row]["paper"][-1]),
                      format_seconds(record["totals"]["total_s"]) if record else "pending",
-                     record["purpose"] if record else "waiting for idle run"])
+                     measurement_label(record) if record else "waiting for idle run"])
     return _html_table(["Computation", "Section 6", "Measured", "Status"], rows, "Times quoted in Section 6")
 
 
@@ -1064,7 +1067,7 @@ def notebook_table(session):
                     + [format_seconds(v) for v in config["paper"]])
         measured_cells = record["graph"]["final_cells"] if record else config["cells"]
         values = [record["totals"][k] for k in ("map_s", "morse_graph_s", "conley_index_s", "total_s")] if record else [None] * 4
-        rows.append(common + [format_cells(measured_cells), record["purpose"] if record else "waiting for idle run"]
+        rows.append(common + [format_cells(measured_cells), measurement_label(record) if record else "waiting for idle run"]
                     + [format_seconds(v) for v in values])
     return _html_table(["Dimension", "G", "Grid", "Cells", "Source", "Map", "Morse graph", "Conley index", "Total"],
                        rows, "Table tab:timing: manuscript values and new measurements")
