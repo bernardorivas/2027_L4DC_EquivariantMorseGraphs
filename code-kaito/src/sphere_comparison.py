@@ -32,7 +32,7 @@ def show_sphere_comparison(fit,study):
     reconstructed={0:['0','0','x-1'],1:['x-1','x-1','0'],2:['0','x-1','x-1'],3:['x-1','x-1','0'],4:['0','0','x-1']}
     (folder/'sphere-reconstruction.json').write_text(json.dumps(dict(checkpoint_sha256=evidence['checkpoint_sha256'],quotient=expected_q,reconstructed=reconstructed,status='Verified local indices of the specified sphere lift' if verified else 'Conditional local-model reconstruction',certificate=str(cert_path.relative_to(ROOT)) if verified else None),indent=2)+'\n')
     gallery([('',folder/'sphere-comparison.svg')],max_height=1150)
-    display(Markdown('**128 interval cells.** Colored bands are encoder preimages of native Morse cells. The graph rows show recomputed aggregates and the local indices of the specified sphere lift.'))
+    display(Markdown('**128 interval cells.** Colored bands are encoder preimages of native Morse cells. The graph rows show recomputed aggregates and the indices of the specified sphere lift.'))
     return evidence
 
 
@@ -40,7 +40,8 @@ def render_replay_comparison(folder, learned, agg):
     """Render the original comparison layout from the current replay's cells.
 
     Quotient indices and edges are checked against the saved analytical graph.
-    Sphere indices below are supplied local-model tuples, not a new computation.
+    Sphere-lift indices below are supplied by the specified lift construction,
+    not independently computed by this replay.
     """
     import matplotlib.pyplot as plt
     import xml.etree.ElementTree as ET
@@ -118,7 +119,7 @@ def render_replay_comparison(folder, learned, agg):
                 other.set_visible(True)
 
             plt.close(fig)
-        for suffix,title,indices in [('quotient','Quotient',expected_q if case=='analytical' else {int(k):v for k,v in agg['annotations'].items()}),('reconstructed','Sphere lift (local-model indices)',reconstructed)]:
+        for suffix,title,indices in [('quotient','Quotient',expected_q if case=='analytical' else {int(k):v for k,v in agg['annotations'].items()}),('reconstructed','Sphere-lift indices',reconstructed)]:
             edges=exact_edges if case=='analytical' else agg['edges']
             graph=DerivedGraph(nodes=list(NAMES),edges={k:[b for a,b in edges if a==k] for k in NAMES},labels={k:'('+', '.join(indices[k])+')' for k in NAMES})
             source=CMGDB.plot_derived_graph(graph).source.replace('digraph {',f'digraph {{\ngraph [label="{title}",labelloc=t,fontname="Times-Roman",fontsize=18];')
