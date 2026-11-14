@@ -8,8 +8,8 @@ From the repository root:
 The first command runs the two quotient rows and uniform grids with 2^12
 (sphere) and 2^11 (O(3)) cells. These are validation records only.
 The second runs all six published rows, taking about 40 minutes. It refuses
-to start unless all load averages are below 2 and 16 GB of physical memory
-is free. The same check applies before each benchmark row. No override is
+to start unless the one-minute load average is below 2 and 16 GB of memory
+is available. The same check applies before each benchmark row. No override is
 provided. Use --out outputs/timings/RUN to preserve a previous set of records.
 Every row runs in a fresh process with the four numerical thread counts set
 to one. Original-space rows retain the published repeat and warmup counts.

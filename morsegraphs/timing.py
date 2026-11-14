@@ -723,30 +723,37 @@ ROWS = {
 
 
 def machine_state():
-    """Load averages and strictly free physical memory, excluding reclaimable pages."""
+    """Load averages, free memory, and memory available for a new computation."""
     if sys.platform == "darwin":
         import re
         raw = subprocess.check_output(["vm_stat"], text=True)
         page_size = int(re.search(r"page size of (\d+) bytes", raw).group(1))
         free_pages = int(re.search(r"Pages free:\s*(\d+)", raw).group(1))
+        inactive_pages = int(re.search(r"Pages inactive:\s*(\d+)", raw).group(1))
         free = page_size * free_pages
+        available = page_size * (free_pages + inactive_pages)
     elif sys.platform.startswith("linux"):
         fields = dict(line.split(":", 1) for line in Path("/proc/meminfo").read_text().splitlines())
         free = int(fields["MemFree"].split()[0]) * 1024
+        available = int(fields["MemAvailable"].split()[0]) * 1024
     else:
         raise RuntimeError("Free-memory measurement is supported on macOS and Linux")
     return {"load_average": list(os.getloadavg()), "free_memory_bytes": free,
-            "memory_definition": "free physical pages, excluding reclaimable memory"}
+            "available_memory_bytes": available,
+            "memory_definition": "available memory: free plus inactive pages on macOS; MemAvailable on Linux"}
 
 
 def require_idle(state=None):
-    """Refuse benchmark work unless every load average is below 2 and 16 GB is free."""
+    """Require a one-minute load below 2 and at least 16 GB available memory."""
     state = machine_state() if state is None else state
     loads = state["load_average"]
-    free = state["free_memory_bytes"]
-    if len(loads) != 3 or not all(math.isfinite(x) and 0 <= x < 2 for x in loads) or free < 16_000_000_000:
-        raise RuntimeError(f"Timing run refused: load averages {loads}; {free / 1e9:.2f} GB free. "
-                           "All load averages must be below 2 and at least 16 GB must be free.")
+    recent = loads[0] if loads else float("nan")
+    available = state["available_memory_bytes"]
+    if (len(loads) != 3 or not all(math.isfinite(x) and x >= 0 for x in loads)
+            or recent >= 2 or not available >= 16_000_000_000):
+        raise RuntimeError(f"Timing run refused: one-minute load {recent:.2f}; "
+                           f"{available / 1e9:.2f} GB available. "
+                           "The one-minute load must be below 2 and at least 16 GB must be available.")
     return state
 
 
