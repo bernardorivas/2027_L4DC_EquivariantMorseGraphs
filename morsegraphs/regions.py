@@ -129,66 +129,65 @@ def attracting_regions(graph, faces, available=None):
     return labels
 
 
-def tolerance(boxes, images, cells, metric, faces, geometry=None):
+def tolerance(boxes, images, cells, metric, faces, chunk=256):
     """The distance from the image boxes of the cells of the set to its complement.
 
-    `faces[i, side]` is True where that face of the box is a face of the space
-    itself; image boxes are cut there, and beyond the other faces the complement
-    continues. `geometry` gives the cells in the coordinates of the metric when
-    these differ from the grid coordinates. Returns the value and a witness: the
-    cell whose image comes closest and the exposed face it comes closest to.
+    `boxes` and `images` are rows (lower, upper) in the coordinates of the metric,
+    one image box per cell. `faces[i, side]` is True where that face of the box tiled
+    by the cells is a face of the space itself, as the poles z = -1 and z = 1: image
+    boxes are cut there. Beyond the other faces the complement continues. The
+    complement is every cell outside the set together with those outer half-spaces,
+    so an image box that meets it gives 0. Returns the value and a witness: the cell
+    whose image comes closest. The empty set has infinite tolerance.
     """
-    boxes = np.asarray(boxes, float)
-    geometry = boxes if geometry is None else np.asarray(geometry, float)
-    images = np.asarray(images, float)
+    boxes, images = np.asarray(boxes, float), np.asarray(images, float)
     k = boxes.shape[1] // 2
+    lower, upper = boxes[:, :k], boxes[:, k:]
     mask = as_mask(cells, len(boxes))
+    faces = np.asarray(faces, bool)
     if not mask.any():
         return dict(value=float("inf"), witness=None)
-    index = CellIndex(boxes[:, :k], boxes[:, k:])
-    positions = np.rint((boxes[:, :k] - index.domain_lower) / index.side).astype(int)
-    exposed, owners = [], []
-    for cell in np.flatnonzero(mask):
-        for axis in range(k):
-            for side in (0, 1):
-                neighbor = positions[cell].copy()
-                neighbor[axis] += 2 * side - 1
-                inside = bool(np.all((neighbor >= 0) & (neighbor < np.array(index.shape))))
-                if inside and mask[index.ids[tuple(neighbor)]]:
-                    continue
-                if not inside and faces[axis][side]:
-                    continue
-                low, high = geometry[cell, :k].copy(), geometry[cell, k:].copy()
-                low[axis] = high[axis] = low[axis] if side == 0 else high[axis]
-                exposed.append(np.r_[low, high])
-                owners.append(int(cell))
-    if not exposed:
-        return dict(value=float("inf"), witness=None)
-    exposed = np.asarray(exposed)
-    lower_face = np.asarray(faces, bool)[:, 0]
-    upper_face = np.asarray(faces, bool)[:, 1]
-    best, witness = np.inf, None
+    domain_lower, domain_upper = lower.min(axis=0), upper.max(axis=0)
     ids = np.flatnonzero(mask)
-    for start in range(0, len(ids), 128):
-        part = ids[start:start + 128]
-        low = np.where(lower_face, np.maximum(images[part, :k], geometry[:, :k].min(axis=0)), images[part, :k])
-        high = np.where(upper_face, np.minimum(images[part, k:], geometry[:, k:].max(axis=0)), images[part, k:])
-        distance = metric.lower(low[:, None], high[:, None], exposed[None, :, :k], exposed[None, :, k:])
-        row, column = np.unravel_index(distance.argmin(), distance.shape)
-        if distance[row, column] < best:
-            best = float(distance[row, column])
-            witness = dict(cell=int(part[row]), exposed_face=exposed[column].tolist(),
-                           face_of_cell=owners[column], image=images[part[row]].tolist())
-    return dict(value=best, witness=witness)
+    low = np.where(faces[:, 0], np.maximum(images[ids, :k], domain_lower), images[ids, :k])
+    high = np.where(faces[:, 1], np.minimum(images[ids, k:], domain_upper), images[ids, k:])
+    if np.any(low > high):
+        raise ValueError("An image box lies beyond a face of the space.")
+    best = np.full(len(ids), np.inf)
+    for axis in range(k):
+        for side in (0, 1):
+            if faces[axis, side]:
+                continue
+            outside_low, outside_high = np.full(k, -np.inf), np.full(k, np.inf)
+            if side == 0:
+                outside_high[axis] = domain_lower[axis]
+            else:
+                outside_low[axis] = domain_upper[axis]
+            best = np.minimum(best, metric.lower(low, high, outside_low[None], outside_high[None]))
+    other_low, other_high = lower[~mask], upper[~mask]
+    if len(other_low):
+        for start in range(0, len(ids), chunk):
+            part = slice(start, start + chunk)
+            distance = metric.lower(low[part, None, :], high[part, None, :], other_low[None], other_high[None])
+            best[part] = np.minimum(best[part], distance.min(axis=1))
+    value = float(best.min())
+    if not np.isfinite(value):
+        return dict(value=value, witness=None)
+    worst = int(ids[int(best.argmin())])
+    return dict(value=value, witness=dict(cell=worst, image=images[worst].tolist()))
 
 
-def compare(graph, labels, codes, predicted, encoded_image, metric, faces, geometry=None):
+def compare(graph, labels, codes, predicted, encoded_image, metric, faces,
+            metric_boxes=None, metric_images=None):
     """Compare, for each minimal Morse set, the tolerance of its region with the residual.
 
     `codes` are the encoded samples E(x) in the grid coordinates, `predicted` the
-    learned map applied to them and `encoded_image` the encoding E(F(x)) of the
-    true image, both in the coordinates of the metric. The residual is maximized
-    over the samples whose code lies in the region.
+    learned map applied to them and `encoded_image` the encoding E(F(x)) of the true
+    image, both in the coordinates of the metric. The residual is maximized over the
+    samples whose code lies in the region. When the metric uses other coordinates
+    than the grid, as after undoing a learned coordinate, `metric_boxes` and
+    `metric_images` give the cells and their images in those coordinates; region
+    membership is always decided in the grid coordinates.
     """
     k = graph.boxes.shape[1] // 2
     index = CellIndex(graph.boxes[:, :k], graph.boxes[:, k:])
@@ -196,8 +195,8 @@ def compare(graph, labels, codes, predicted, encoded_image, metric, faces, geome
     residual = metric.point(np.asarray(predicted, float).reshape(len(codes), -1),
                             np.asarray(encoded_image, float).reshape(len(codes), -1))
     rows = []
-    images = graph.images if geometry is None else geometry["images"]
-    boxes = graph.boxes if geometry is None else geometry["boxes"]
+    boxes = graph.boxes if metric_boxes is None else np.asarray(metric_boxes, float)
+    images = graph.images if metric_images is None else np.asarray(metric_images, float)
     for node in graph.minimal:
         selected = labels == node
         if not selected.any():
