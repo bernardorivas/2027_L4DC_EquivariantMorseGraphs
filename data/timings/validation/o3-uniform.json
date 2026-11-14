@@ -1,0 +1,1020 @@
+{
+ "schema": "morsegraphs/timing/v1",
+ "row": "o3-uniform",
+ "status": "complete",
+ "purpose": "validation",
+ "config": {
+  "example": "o3",
+  "side": "full",
+  "mode": "uniform",
+  "level": 4,
+  "repeats": 3,
+  "warmup": 1,
+  "inner": 1,
+  "cells": 8388608,
+  "paper": [
+   16.0,
+   4.9,
+   991.0,
+   1011.0
+  ]
+ },
+ "grid": {
+  "dim": 4,
+  "depth": 11,
+  "shape": [
+   8,
+   8,
+   8,
+   4
+  ],
+  "lower": [
+   -1.5,
+   -1.5,
+   -1.5,
+   -1.5
+  ],
+  "upper": [
+   1.5,
+   1.5,
+   1.5,
+   1.5
+  ],
+  "cell": [
+   0.375,
+   0.375,
+   0.375,
+   0.75
+  ],
+  "cells": 2048,
+  "k": 2,
+  "subdiv_init": 11
+ },
+ "cmgdb_options": {
+  "batch_chunk_size": 512,
+  "cache_transition_graph": true,
+  "max_cached_edges": 0,
+  "reserve_edges": 0,
+  "reserve_min_edges": 0
+ },
+ "machine": {
+  "system": "Darwin",
+  "release": "27.2.0",
+  "architecture": "arm64",
+  "cpu": null,
+  "logical_cpus": 14,
+  "memory_bytes": null,
+  "python": "3.13.18",
+  "numpy": "2.3.5",
+  "cmgdb": "1.5.3+fork.7",
+  "native_sha256": "c2c0774ddf8b39f1deaa0f11f5756f0cf3cd530d2cc1f46f3dcdcd200c5b7679",
+  "boxmapdata_sha256": "f47de66f8423b818086f3dd16b2be168e31a5333ba9dd0a6fa3025296263ee54",
+  "thread_environment": {
+   "OMP_NUM_THREADS": "1",
+   "OPENBLAS_NUM_THREADS": "1",
+   "VECLIB_MAXIMUM_THREADS": "1",
+   "MKL_NUM_THREADS": "1"
+  }
+ },
+ "state_before": {
+  "load_average": [
+   2.91357421875,
+   3.83984375,
+   4.115234375
+  ],
+  "free_memory_bytes": 1518780416,
+  "memory_definition": "free physical pages, excluding reclaimable memory"
+ },
+ "finished_utc": "2026-11-14T04:19:51.718911+00:00",
+ "source_sha256": "4a398b77d479d514fb711b96cc0bb2085334dff35338574ad5c0710cf00b6d9a",
+ "stages": {
+  "S1_enc": {
+   "median_s": 0.00031462498009204865,
+   "samples_s": [
+    0.00031462498009204865,
+    0.0003363330033607781,
+    0.0003137500025331974
+   ],
+   "spread_over_median": 0.07177752008430376
+  },
+  "S2": {
+   "median_s": 0.004464334022486582,
+   "samples_s": [
+    0.004464334022486582,
+    0.004380540980491787,
+    0.004680041980464011
+   ],
+   "spread_over_median": 0.0670874980374801
+  },
+  "S1_cover": {
+   "median_s": 0.0032048759749159217,
+   "samples_s": [
+    0.003210501017747447,
+    0.0032048759749159217,
+    0.0031709170434623957
+   ],
+   "spread_over_median": 0.01235117196261852
+  },
+  "S3": {
+   "median_s": 0.046236000052886084,
+   "samples_s": [
+    0.050291123043280095,
+    0.04521421002573334,
+    0.046236000052886084
+   ],
+   "spread_over_median": 0.1098043302132459
+  },
+  "S3_direct": {
+   "median_s": 0.046438375022262335,
+   "samples_s": [
+    0.049519374006194994,
+    0.04494008398614824,
+    0.046438375022262335
+   ],
+   "spread_over_median": 0.09861004003373214
+  },
+  "S1_enc_miss": {
+   "median_s": 0.0,
+   "samples_s": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "spread_over_median": null
+  },
+  "S1_enc_conley": {
+   "median_s": 0.0,
+   "samples_s": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "spread_over_median": null
+  },
+  "S2_graph": {
+   "median_s": 0.0012538330047391355,
+   "samples_s": [
+    0.0012538330047391355,
+    0.0011756650055758655,
+    0.0015091249370016158
+   ],
+   "spread_over_median": 0.26595242760827453
+  }
+ },
+ "totals": {
+  "map_s": 0.0035195009550079703,
+  "morse_graph_s": 0.0012538330047391355,
+  "conley_index_s": 0.046236000052886084,
+  "total_s": 0.05100933401263319,
+  "conley_method": "S3",
+  "morse_contains_cover": false
+ },
+ "graph": {
+  "morse_nodes": 3,
+  "morse_edges": [
+   [
+    2,
+    0
+   ],
+   [
+    2,
+    1
+   ]
+  ],
+  "morse_set_sizes": [
+   8,
+   8,
+   432
+  ],
+  "annotations": {
+   "0": [
+    "x-1",
+    "0",
+    "0",
+    "0",
+    "0"
+   ],
+   "1": [
+    "x-1",
+    "0",
+    "0",
+    "0",
+    "0"
+   ],
+   "2": [
+    "0",
+    "x-1",
+    "0",
+    "0",
+    "0"
+   ]
+  },
+  "final_cells": 2048,
+  "S3_sets": {
+   "graph_rects": 2048,
+   "graph_pass_aligned": true,
+   "matched": true,
+   "graph_phase_seconds": 0.004476291011087596,
+   "sets": [
+    {
+     "node": 0,
+     "cells": 8,
+     "seconds": 0.0009264580148737878,
+     "callback_seconds": 4.229196929372847e-05,
+     "calls": 2,
+     "rects": 10,
+     "peak_rss_bytes_at_next_set": 88391680
+    },
+    {
+     "node": 1,
+     "cells": 8,
+     "seconds": 0.0009399170230608433,
+     "callback_seconds": 3.454097895883024e-05,
+     "calls": 2,
+     "rects": 10,
+     "peak_rss_bytes_at_next_set": 88391680
+    },
+    {
+     "node": 2,
+     "cells": 432,
+     "seconds": 0.044571999984327704,
+     "callback_seconds": 0.00015887501649558544,
+     "calls": 5,
+     "rects": 448,
+     "peak_rss_bytes_at_next_set": null
+    }
+   ],
+   "sets_total_seconds": 0.046438375022262335,
+   "conley_phase_calls": 9,
+   "conley_phase_rects": 468,
+   "peak_rss_bytes_end_of_graph_pass": 88391680
+  }
+ },
+ "repeats": [
+  {
+   "stages": {
+    "S1_enc": {
+     "seconds": 0.00031462498009204865,
+     "cpu_s": 0.0003170000000000117
+    },
+    "S2": {
+     "wall_s": 0.0046950000105425715,
+     "cpu_s": 0.004699999999999982,
+     "callback": {
+      "seconds": 0.00023066598805598915,
+      "calls": 4,
+      "rects": 2048,
+      "eval_seconds": 0.0002205829950980842,
+      "miss_seconds": 0.0,
+      "overhead_seconds": 1.0082992957904935e-05,
+      "scalar_calls": 0,
+      "batch_calls": 4,
+      "lookup_misses": 0,
+      "inexact_hits": 0,
+      "peak_rss_bytes_at_end": 88260608
+     },
+     "seconds": 0.004464334022486582
+    },
+    "S1_cover": {
+     "method": "lazy MapGraph.build_cache()",
+     "wall_s": 0.003432083991356194,
+     "cpu_s": 0.0034330000000000194,
+     "callback": {
+      "seconds": 0.00022158297360874712,
+      "calls": 4,
+      "rects": 2048,
+      "eval_seconds": 0.00021387398010119796,
+      "miss_seconds": 0.0,
+      "overhead_seconds": 7.708993507549167e-06,
+      "scalar_calls": 0,
+      "batch_calls": 4,
+      "lookup_misses": 0,
+      "inexact_hits": 0,
+      "peak_rss_bytes_at_end": 88276992
+     },
+     "seconds": 0.003210501017747447,
+     "edges": 55568
+    },
+    "S3": {
+     "wall_s": 0.05537862499477342,
+     "cpu_s": 0.055346000000000006,
+     "callback": {
+      "seconds": 0.0006231679290067405,
+      "calls": 13,
+      "rects": 2516,
+      "eval_seconds": 0.0005804590182378888,
+      "miss_seconds": 0.0,
+      "overhead_seconds": 4.270891076885164e-05,
+      "scalar_calls": 0,
+      "batch_calls": 13,
+      "lookup_misses": 0,
+      "inexact_hits": 0,
+      "peak_rss_bytes_at_end": 88342528
+     },
+     "seconds": 0.050291123043280095
+    },
+    "S3_direct": {
+     "seconds": 0.049519374006194994
+    },
+    "S1_enc_miss": {
+     "seconds": 0.0
+    },
+    "S1_enc_conley": {
+     "seconds": 0.0
+    },
+    "S2_graph": {
+     "seconds": 0.0012538330047391355
+    }
+   },
+   "graph": {
+    "morse_nodes": 3,
+    "morse_edges": [
+     [
+      2,
+      0
+     ],
+     [
+      2,
+      1
+     ]
+    ],
+    "morse_set_sizes": [
+     8,
+     8,
+     432
+    ],
+    "annotations": {
+     "0": [
+      "x-1",
+      "0",
+      "0",
+      "0",
+      "0"
+     ],
+     "1": [
+      "x-1",
+      "0",
+      "0",
+      "0",
+      "0"
+     ],
+     "2": [
+      "0",
+      "x-1",
+      "0",
+      "0",
+      "0"
+     ]
+    },
+    "final_cells": 2048,
+    "S3_sets": {
+     "graph_rects": 2048,
+     "graph_pass_aligned": true,
+     "matched": true,
+     "graph_phase_seconds": 0.005233333067735657,
+     "sets": [
+      {
+       "node": 0,
+       "cells": 8,
+       "seconds": 0.0011325420055072755,
+       "callback_seconds": 5.52500132471323e-05,
+       "calls": 2,
+       "rects": 10,
+       "peak_rss_bytes_at_next_set": 88276992
+      },
+      {
+       "node": 1,
+       "cells": 8,
+       "seconds": 0.0011867920111399144,
+       "callback_seconds": 4.612398333847523e-05,
+       "calls": 2,
+       "rects": 10,
+       "peak_rss_bytes_at_next_set": 88293376
+      },
+      {
+       "node": 2,
+       "cells": 432,
+       "seconds": 0.047200039989547804,
+       "callback_seconds": 0.00020575200323946774,
+       "calls": 5,
+       "rects": 448,
+       "peak_rss_bytes_at_next_set": null
+      }
+     ],
+     "sets_total_seconds": 0.049519374006194994,
+     "conley_phase_calls": 9,
+     "conley_phase_rects": 468,
+     "peak_rss_bytes_end_of_graph_pass": 88276992
+    }
+   },
+   "peak_rss_bytes": 88375296,
+   "load_average": [
+    2.91357421875,
+    3.83984375,
+    4.115234375
+   ],
+   "stage_samples": {
+    "S1_enc": [
+     0.00031462498009204865
+    ],
+    "S2": [
+     0.004464334022486582
+    ],
+    "S1_cover": [
+     0.003210501017747447
+    ],
+    "S3": [
+     0.050291123043280095
+    ],
+    "S3_direct": [
+     0.049519374006194994
+    ],
+    "S1_enc_miss": [
+     0.0
+    ],
+    "S1_enc_conley": [
+     0.0
+    ],
+    "S2_graph": [
+     0.0012538330047391355
+    ]
+   }
+  },
+  {
+   "stages": {
+    "S1_enc": {
+     "seconds": 0.0003363330033607781,
+     "cpu_s": 0.0003390000000000337
+    },
+    "S2": {
+     "wall_s": 0.004611292009940371,
+     "cpu_s": 0.004614000000000007,
+     "callback": {
+      "seconds": 0.00023075102944858372,
+      "calls": 4,
+      "rects": 2048,
+      "eval_seconds": 0.00022045799414627254,
+      "miss_seconds": 0.0,
+      "overhead_seconds": 1.0293035302311182e-05,
+      "scalar_calls": 0,
+      "batch_calls": 4,
+      "lookup_misses": 0,
+      "inexact_hits": 0,
+      "peak_rss_bytes_at_end": 88375296
+     },
+     "seconds": 0.004380540980491787
+    },
+    "S1_cover": {
+     "method": "lazy MapGraph.build_cache()",
+     "wall_s": 0.003412291989661753,
+     "cpu_s": 0.003414000000000028,
+     "callback": {
+      "seconds": 0.0002074160147458315,
+      "calls": 4,
+      "rects": 2048,
+      "eval_seconds": 0.00019991598674096167,
+      "miss_seconds": 0.0,
+      "overhead_seconds": 7.500028004869819e-06,
+      "scalar_calls": 0,
+      "batch_calls": 4,
+      "lookup_misses": 0,
+      "inexact_hits": 0,
+      "peak_rss_bytes_at_end": 88375296
+     },
+     "seconds": 0.0032048759749159217,
+     "edges": 55568
+    },
+    "S3": {
+     "wall_s": 0.05011616600677371,
+     "cpu_s": 0.05009600000000003,
+     "callback": {
+      "seconds": 0.0005214150005485862,
+      "calls": 13,
+      "rects": 2516,
+      "eval_seconds": 0.00049153997679241,
+      "miss_seconds": 0.0,
+      "overhead_seconds": 2.9875023756176233e-05,
+      "scalar_calls": 0,
+      "batch_calls": 13,
+      "lookup_misses": 0,
+      "inexact_hits": 0,
+      "peak_rss_bytes_at_end": 88375296
+     },
+     "seconds": 0.04521421002573334
+    },
+    "S3_direct": {
+     "seconds": 0.04494008398614824
+    },
+    "S1_enc_miss": {
+     "seconds": 0.0
+    },
+    "S1_enc_conley": {
+     "seconds": 0.0
+    },
+    "S2_graph": {
+     "seconds": 0.0011756650055758655
+    }
+   },
+   "graph": {
+    "morse_nodes": 3,
+    "morse_edges": [
+     [
+      2,
+      0
+     ],
+     [
+      2,
+      1
+     ]
+    ],
+    "morse_set_sizes": [
+     8,
+     8,
+     432
+    ],
+    "annotations": {
+     "0": [
+      "x-1",
+      "0",
+      "0",
+      "0",
+      "0"
+     ],
+     "1": [
+      "x-1",
+      "0",
+      "0",
+      "0",
+      "0"
+     ],
+     "2": [
+      "0",
+      "x-1",
+      "0",
+      "0",
+      "0"
+     ]
+    },
+    "final_cells": 2048,
+    "S3_sets": {
+     "graph_rects": 2048,
+     "graph_pass_aligned": true,
+     "matched": true,
+     "graph_phase_seconds": 0.004653459007386118,
+     "sets": [
+      {
+       "node": 0,
+       "cells": 8,
+       "seconds": 0.0008939169929362833,
+       "callback_seconds": 6.84160040691495e-05,
+       "calls": 2,
+       "rects": 10,
+       "peak_rss_bytes_at_next_set": 88375296
+      },
+      {
+       "node": 1,
+       "cells": 8,
+       "seconds": 0.0009438749693799764,
+       "callback_seconds": 3.687501884996891e-05,
+       "calls": 2,
+       "rects": 10,
+       "peak_rss_bytes_at_next_set": 88375296
+      },
+      {
+       "node": 2,
+       "cells": 432,
+       "seconds": 0.04310229202383198,
+       "callback_seconds": 0.00020195796969346702,
+       "calls": 5,
+       "rects": 448,
+       "peak_rss_bytes_at_next_set": null
+      }
+     ],
+     "sets_total_seconds": 0.04494008398614824,
+     "conley_phase_calls": 9,
+     "conley_phase_rects": 468,
+     "peak_rss_bytes_end_of_graph_pass": 88375296
+    }
+   },
+   "peak_rss_bytes": 88391680,
+   "load_average": [
+    2.91357421875,
+    3.83984375,
+    4.115234375
+   ],
+   "stage_samples": {
+    "S1_enc": [
+     0.0003363330033607781
+    ],
+    "S2": [
+     0.004380540980491787
+    ],
+    "S1_cover": [
+     0.0032048759749159217
+    ],
+    "S3": [
+     0.04521421002573334
+    ],
+    "S3_direct": [
+     0.04494008398614824
+    ],
+    "S1_enc_miss": [
+     0.0
+    ],
+    "S1_enc_conley": [
+     0.0
+    ],
+    "S2_graph": [
+     0.0011756650055758655
+    ]
+   }
+  },
+  {
+   "stages": {
+    "S1_enc": {
+     "seconds": 0.0003137500025331974,
+     "cpu_s": 0.00031500000000006523
+    },
+    "S2": {
+     "wall_s": 0.004923917003907263,
+     "cpu_s": 0.004912999999999945,
+     "callback": {
+      "seconds": 0.00024387502344325185,
+      "calls": 4,
+      "rects": 2048,
+      "eval_seconds": 0.0002274590078741312,
+      "miss_seconds": 0.0,
+      "overhead_seconds": 1.6416015569120646e-05,
+      "scalar_calls": 0,
+      "batch_calls": 4,
+      "lookup_misses": 0,
+      "inexact_hits": 0,
+      "peak_rss_bytes_at_end": 88391680
+     },
+     "seconds": 0.004680041980464011
+    },
+    "S1_cover": {
+     "method": "lazy MapGraph.build_cache()",
+     "wall_s": 0.0034079999895766377,
+     "cpu_s": 0.0034009999999999874,
+     "callback": {
+      "seconds": 0.00023708294611424208,
+      "calls": 4,
+      "rects": 2048,
+      "eval_seconds": 0.00022820799495093524,
+      "miss_seconds": 0.0,
+      "overhead_seconds": 8.874951163306832e-06,
+      "scalar_calls": 0,
+      "batch_calls": 4,
+      "lookup_misses": 0,
+      "inexact_hits": 0,
+      "peak_rss_bytes_at_end": 88391680
+     },
+     "seconds": 0.0031709170434623957,
+     "edges": 55568
+    },
+    "S3": {
+     "wall_s": 0.051388708990998566,
+     "cpu_s": 0.05137500000000006,
+     "callback": {
+      "seconds": 0.000472666957648471,
+      "calls": 13,
+      "rects": 2516,
+      "eval_seconds": 0.00043874906259588897,
+      "miss_seconds": 0.0,
+      "overhead_seconds": 3.3917895052582026e-05,
+      "scalar_calls": 0,
+      "batch_calls": 13,
+      "lookup_misses": 0,
+      "inexact_hits": 0,
+      "peak_rss_bytes_at_end": 88391680
+     },
+     "seconds": 0.046236000052886084
+    },
+    "S3_direct": {
+     "seconds": 0.046438375022262335
+    },
+    "S1_enc_miss": {
+     "seconds": 0.0
+    },
+    "S1_enc_conley": {
+     "seconds": 0.0
+    },
+    "S2_graph": {
+     "seconds": 0.0015091249370016158
+    }
+   },
+   "graph": {
+    "morse_nodes": 3,
+    "morse_edges": [
+     [
+      2,
+      0
+     ],
+     [
+      2,
+      1
+     ]
+    ],
+    "morse_set_sizes": [
+     8,
+     8,
+     432
+    ],
+    "annotations": {
+     "0": [
+      "x-1",
+      "0",
+      "0",
+      "0",
+      "0"
+     ],
+     "1": [
+      "x-1",
+      "0",
+      "0",
+      "0",
+      "0"
+     ],
+     "2": [
+      "0",
+      "x-1",
+      "0",
+      "0",
+      "0"
+     ]
+    },
+    "final_cells": 2048,
+    "S3_sets": {
+     "graph_rects": 2048,
+     "graph_pass_aligned": true,
+     "matched": true,
+     "graph_phase_seconds": 0.004476291011087596,
+     "sets": [
+      {
+       "node": 0,
+       "cells": 8,
+       "seconds": 0.0009264580148737878,
+       "callback_seconds": 4.229196929372847e-05,
+       "calls": 2,
+       "rects": 10,
+       "peak_rss_bytes_at_next_set": 88391680
+      },
+      {
+       "node": 1,
+       "cells": 8,
+       "seconds": 0.0009399170230608433,
+       "callback_seconds": 3.454097895883024e-05,
+       "calls": 2,
+       "rects": 10,
+       "peak_rss_bytes_at_next_set": 88391680
+      },
+      {
+       "node": 2,
+       "cells": 432,
+       "seconds": 0.044571999984327704,
+       "callback_seconds": 0.00015887501649558544,
+       "calls": 5,
+       "rects": 448,
+       "peak_rss_bytes_at_next_set": null
+      }
+     ],
+     "sets_total_seconds": 0.046438375022262335,
+     "conley_phase_calls": 9,
+     "conley_phase_rects": 468,
+     "peak_rss_bytes_end_of_graph_pass": 88391680
+    }
+   },
+   "peak_rss_bytes": 88424448,
+   "load_average": [
+    2.91357421875,
+    3.83984375,
+    4.115234375
+   ],
+   "stage_samples": {
+    "S1_enc": [
+     0.0003137500025331974
+    ],
+    "S2": [
+     0.004680041980464011
+    ],
+    "S1_cover": [
+     0.0031709170434623957
+    ],
+    "S3": [
+     0.046236000052886084
+    ],
+    "S3_direct": [
+     0.046438375022262335
+    ],
+    "S1_enc_miss": [
+     0.0
+    ],
+    "S1_enc_conley": [
+     0.0
+    ],
+    "S2_graph": [
+     0.0015091249370016158
+    ]
+   }
+  }
+ ],
+ "warmup": [
+  {
+   "stages": {
+    "S1_enc": {
+     "seconds": 0.00042033300269395113,
+     "cpu_s": 0.00043099999999998695
+    },
+    "S2": {
+     "wall_s": 0.005378041998483241,
+     "cpu_s": 0.005380999999999997,
+     "callback": {
+      "seconds": 0.00027774900081567466,
+      "calls": 4,
+      "rects": 2048,
+      "eval_seconds": 0.0002556240069679916,
+      "miss_seconds": 0.0,
+      "overhead_seconds": 2.2124993847683072e-05,
+      "scalar_calls": 0,
+      "batch_calls": 4,
+      "lookup_misses": 0,
+      "inexact_hits": 0,
+      "peak_rss_bytes_at_end": 72400896
+     },
+     "seconds": 0.005100292997667566
+    },
+    "S1_cover": {
+     "method": "lazy MapGraph.build_cache()",
+     "wall_s": 0.0035366670053917915,
+     "cpu_s": 0.0035290000000000044,
+     "callback": {
+      "seconds": 0.0002925430308096111,
+      "calls": 4,
+      "rects": 2048,
+      "eval_seconds": 0.000280542008113116,
+      "miss_seconds": 0.0,
+      "overhead_seconds": 1.2001022696495056e-05,
+      "scalar_calls": 0,
+      "batch_calls": 4,
+      "lookup_misses": 0,
+      "inexact_hits": 0,
+      "peak_rss_bytes_at_end": 72630272
+     },
+     "seconds": 0.0032441239745821804,
+     "edges": 55568
+    },
+    "S3": {
+     "wall_s": 0.052778709010453895,
+     "cpu_s": 0.052771999999999986,
+     "callback": {
+      "seconds": 0.0005031240289099514,
+      "calls": 13,
+      "rects": 2516,
+      "eval_seconds": 0.0004663330619223416,
+      "miss_seconds": 0.0,
+      "overhead_seconds": 3.679096698760986e-05,
+      "scalar_calls": 0,
+      "batch_calls": 13,
+      "lookup_misses": 0,
+      "inexact_hits": 0,
+      "peak_rss_bytes_at_end": 88145920
+     },
+     "seconds": 0.04717529198387638
+    },
+    "S3_direct": {
+     "seconds": 0.04779820900876075
+    },
+    "S1_enc_miss": {
+     "seconds": 0.0
+    },
+    "S1_enc_conley": {
+     "seconds": 0.0
+    },
+    "S2_graph": {
+     "seconds": 0.0018561690230853856
+    }
+   },
+   "graph": {
+    "morse_nodes": 3,
+    "morse_edges": [
+     [
+      2,
+      0
+     ],
+     [
+      2,
+      1
+     ]
+    ],
+    "morse_set_sizes": [
+     8,
+     8,
+     432
+    ],
+    "annotations": {
+     "0": [
+      "x-1",
+      "0",
+      "0",
+      "0",
+      "0"
+     ],
+     "1": [
+      "x-1",
+      "0",
+      "0",
+      "0",
+      "0"
+     ],
+     "2": [
+      "0",
+      "x-1",
+      "0",
+      "0",
+      "0"
+     ]
+    },
+    "final_cells": 2048,
+    "S3_sets": {
+     "graph_rects": 2048,
+     "graph_pass_aligned": true,
+     "matched": true,
+     "graph_phase_seconds": 0.004474291956285015,
+     "sets": [
+      {
+       "node": 0,
+       "cells": 8,
+       "seconds": 0.001171667012386024,
+       "callback_seconds": 4.0749990148469806e-05,
+       "calls": 2,
+       "rects": 10,
+       "peak_rss_bytes_at_next_set": 72974336
+      },
+      {
+       "node": 1,
+       "cells": 8,
+       "seconds": 0.0011282919731456786,
+       "callback_seconds": 4.1875027818605304e-05,
+       "calls": 2,
+       "rects": 10,
+       "peak_rss_bytes_at_next_set": 73269248
+      },
+      {
+       "node": 2,
+       "cells": 432,
+       "seconds": 0.04549825002322905,
+       "callback_seconds": 0.0001779999874997884,
+       "calls": 5,
+       "rects": 448,
+       "peak_rss_bytes_at_next_set": null
+      }
+     ],
+     "sets_total_seconds": 0.04779820900876075,
+     "conley_phase_calls": 9,
+     "conley_phase_rects": 468,
+     "peak_rss_bytes_end_of_graph_pass": 72630272
+    }
+   },
+   "peak_rss_bytes": 88260608,
+   "load_average": [
+    2.91357421875,
+    3.83984375,
+    4.115234375
+   ],
+   "stage_samples": {
+    "S1_enc": [
+     0.00042033300269395113
+    ],
+    "S2": [
+     0.005100292997667566
+    ],
+    "S1_cover": [
+     0.0032441239745821804
+    ],
+    "S3": [
+     0.04717529198387638
+    ],
+    "S3_direct": [
+     0.04779820900876075
+    ],
+    "S1_enc_miss": [
+     0.0
+    ],
+    "S1_enc_conley": [
+     0.0
+    ],
+    "S2_graph": [
+     0.0018561690230853856
+    ]
+   }
+  }
+ ],
+ "findings": [
+  "Short validation on a shared machine; not a final timing measurement.",
+  "S3: timing spread exceeds 10% of the median.",
+  "S2_graph: timing spread exceeds 10% of the median."
+ ],
+ "peak_rss_bytes": 89227264,
+ "interpretation": "Native indices of the computed multivalued map; physical index transfer is not certified."
+}
