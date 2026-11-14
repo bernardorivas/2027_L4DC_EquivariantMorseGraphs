@@ -1,0 +1,111 @@
+{
+  "initial_validation_max": 0.04854339528630605,
+  "best_validation_max": 0.0072554458786096565,
+  "fresh_test_max": 0.012710893961661529,
+  "encoder_decoder_exactly_preserved": true,
+  "steps": 4000,
+  "objective": "mean squared ten-step residual + mean largest 32 squared residuals per 256-sample batch + 0.1 mean squared one-step residual",
+  "selection": "lowest validation maximum ten-step latent residual",
+  "history": [
+    {
+      "update": 200,
+      "loss": 0.0010241158674412095,
+      "validation_max_residual": 0.031159000301811624
+    },
+    {
+      "update": 400,
+      "loss": 0.00039501207990526565,
+      "validation_max_residual": 0.01820581204165414
+    },
+    {
+      "update": 600,
+      "loss": 0.0002194802182904867,
+      "validation_max_residual": 0.015411125111216395
+    },
+    {
+      "update": 800,
+      "loss": 0.0002089148951216794,
+      "validation_max_residual": 0.012268462630759053
+    },
+    {
+      "update": 1000,
+      "loss": 0.00015765540069623596,
+      "validation_max_residual": 0.011587562717487648
+    },
+    {
+      "update": 1200,
+      "loss": 0.00013403620209175243,
+      "validation_max_residual": 0.01329457583500811
+    },
+    {
+      "update": 1400,
+      "loss": 0.00011630861150817711,
+      "validation_max_residual": 0.012416013371632284
+    },
+    {
+      "update": 1600,
+      "loss": 9.86443435444044e-05,
+      "validation_max_residual": 0.01151952048596028
+    },
+    {
+      "update": 1800,
+      "loss": 9.861639273276873e-05,
+      "validation_max_residual": 0.011082632479190908
+    },
+    {
+      "update": 2000,
+      "loss": 8.430910031494463e-05,
+      "validation_max_residual": 0.009263855560577666
+    },
+    {
+      "update": 2200,
+      "loss": 0.00010088068506253118,
+      "validation_max_residual": 0.008450446048437199
+    },
+    {
+      "update": 2400,
+      "loss": 7.876677583195956e-05,
+      "validation_max_residual": 0.008045512861303117
+    },
+    {
+      "update": 2600,
+      "loss": 7.507042373086788e-05,
+      "validation_max_residual": 0.009113018722538446
+    },
+    {
+      "update": 2800,
+      "loss": 7.758613888487186e-05,
+      "validation_max_residual": 0.007785292303673641
+    },
+    {
+      "update": 3000,
+      "loss": 7.681934471702142e-05,
+      "validation_max_residual": 0.0077162080575081116
+    },
+    {
+      "update": 3200,
+      "loss": 8.450823675838275e-05,
+      "validation_max_residual": 0.007777347301642312
+    },
+    {
+      "update": 3400,
+      "loss": 7.811197670177467e-05,
+      "validation_max_residual": 0.0072554458786096565
+    },
+    {
+      "update": 3600,
+      "loss": 7.618004641423989e-05,
+      "validation_max_residual": 0.007963995790978562
+    },
+    {
+      "update": 3800,
+      "loss": 8.354279312203184e-05,
+      "validation_max_residual": 0.007544745083931614
+    },
+    {
+      "update": 4000,
+      "loss": 7.742624311076855e-05,
+      "validation_max_residual": 0.007327043213721945
+    }
+  ]
+}

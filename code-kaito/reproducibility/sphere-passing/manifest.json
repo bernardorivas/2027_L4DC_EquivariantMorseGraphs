@@ -1,0 +1,46 @@
+{
+  "experiment": "sphere pullback check",
+  "checkpoint_sha256": "5d1fe3db7c2c4f5befcecfa78f8c56bc6187c6bb7b736a0e81c52458bf84be97",
+  "map_iterations": 10,
+  "grid_cells": 128,
+  "graph_image_samples_per_cell": 1025,
+  "block_image_samples_per_cell": 65,
+  "expected": {
+    "fixed_points": [
+      -1.0,
+      -0.2645414696901848,
+      -0.08024871320906023,
+      0.10226003862102394,
+      1.0
+    ],
+    "native_morse_components": 6,
+    "grouped_morse_components": 5,
+    "grouped_members": {
+      "0": [1],
+      "1": [0],
+      "2": [3, 4],
+      "3": [2],
+      "4": [5]
+    },
+    "grouped_edges": [[0, 1], [2, 1], [2, 3], [4, 3]],
+    "blocks": {
+      "A-": {
+        "cells": 57,
+        "first_cell": 1,
+        "last_cell": 57,
+        "interval": [-0.984375, -0.09375],
+        "tolerance": 0.04137024460637412,
+        "maximum_sampled_residual": 0.007262919698424047
+      },
+      "A+": {
+        "cells": 67,
+        "first_cell": 60,
+        "last_cell": 126,
+        "interval": [-0.0625, 0.984375],
+        "tolerance": 0.05667171826197834,
+        "maximum_sampled_residual": 0.007379896016566995
+      }
+    }
+  },
+  "claim_scope": "The reported residual maxima are sampled numerical estimates. They are not uniform error bounds."
+}

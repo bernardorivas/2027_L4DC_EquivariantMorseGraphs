@@ -1,0 +1,32 @@
+{
+  "system": "sphere",
+  "seed": 0,
+  "width": 32,
+  "layers": 2,
+  "batch_size": 256,
+  "learning_rate": 0.001,
+  "minimum_learning_rate": 2e-05,
+  "cycle_weight": 0.1,
+  "spread_weight": 0.01,
+  "grid_depth": 7,
+  "train_starts": 4096,
+  "validation_starts": 512,
+  "test_starts": 512,
+  "autoencoder_steps": 0,
+  "latent_steps": 0,
+  "horizon": 10,
+  "rollout_steps": [
+    1
+  ],
+  "map_warmup_steps": 0,
+  "training_boundary_fraction": 0.0,
+  "validation_boundary_fraction": 0.0625,
+  "training": "joint",
+  "parameterization": "direct",
+  "trajectory_steps": 1,
+  "data_seed": 0,
+  "joint_steps": 20000,
+  "consistency_weight": 1.0,
+  "time_step": 1.0,
+  "cmgdb_iterations": 10
+}
