@@ -2,11 +2,10 @@
 __pycache__/
 *.pyc
 *.egg-info/
-dist/
 build/
+dist/
 .ipynb_checkpoints/
 .pytest_cache/
-.lake/
 .DS_Store
-homology-results.json
 outputs/
+.lake/
