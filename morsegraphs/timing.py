@@ -1,8 +1,9 @@
 """CMGDB timings for Section 6 and Table tab:timing.
 
 S1 constructs image hulls and their cell covers; S2 computes the Morse graph;
-S3 computes native Conley indices. These numerical maps are sampled (sphere)
-or floating-point padded (O(3)), without a uniform enclosure certificate.
+S3 computes native Conley indices. These numerical maps are sampled (sphere and
+attitude) or floating-point padded (O(3)), without a uniform enclosure certificate.
+The attitude rows use the coning gain of Section 5.3 on the thrust-axis sphere.
 Use scripts/run_timings.py to run rows in fresh single-threaded processes.
 """
 
@@ -31,6 +32,7 @@ LIMIT = 10000
 PAD = 1e-12
 C = 0.16
 RATE = 67.2
+CONE = 0.25
 TOL = 1e-6
 ADAPTIVE_INIT = 12
 GEOMETRY = {
@@ -170,6 +172,39 @@ def h10_float(z):
     return np.sign(z) * np.sqrt(out)
 
 
+def h1_coning_float(z):
+    """Float time-1 height map of z' = (1/4 - z)(1 - z^2), the coning gain of Section 5.3.
+
+    By partial fractions, G(z) = -(16/15) log|1/4 - z| + (2/3) log(1 - z) + (2/5) log(1 + z)
+    satisfies G(z_t) = G(z_0) + t; the root is found by bisection (float, unvalidated).
+    """
+    z = np.asarray(z, dtype=float)
+    out = np.array(z, copy=True)
+    move = (z > -1) & (z < 1) & (z != CONE)
+    w = z[move]
+
+    def g(v):
+        return -16 / 15 * np.log(np.abs(CONE - v)) + 2 / 3 * np.log1p(-v) + 2 / 5 * np.log1p(v)
+
+    target = g(w) + 1.0
+    below = w < CONE  # G increases on (-1, 1/4) and decreases on (1/4, 1); z_1 lies between z_0 and 1/4
+    lo = np.where(below, w, CONE)
+    hi = np.where(below, CONE, w)
+    for _ in range(64):
+        mid = 0.5 * (lo + hi)
+        with np.errstate(divide="ignore"):
+            value = g(mid)
+        go_up = np.where(below, value < target, value > target)
+        lo = np.where(go_up, mid, lo)
+        hi = np.where(go_up, hi, mid)
+    out[move] = 0.5 * (lo + hi)
+    return out
+
+
+HEIGHT = {"sphere": h10_float, "attitude": h1_coning_float}
+REFERENCE_NODES = {"sphere": 5, "o3": 4, "attitude": 3}
+
+
 def sample_grid(n, points=True):
     """Latitude x longitude grid on S^2 with spacing at most 1/n (half the cell side 2/n) along both.
 
@@ -194,9 +229,9 @@ def sample_grid(n, points=True):
     return heights, points, sampling
 
 
-def sphere_map(points):
-    """(x, y, z) -> (s' cos th, s' sin th, h_10(z)), s' = sqrt(1 - h^2), th = atan2(y, x); h evaluated per point."""
-    h = h10_float(points[:, 2])
+def sphere_map(points, height=h10_float):
+    """(x, y, z) -> (s' cos th, s' sin th, h(z)), s' = sqrt(1 - h^2), th = atan2(y, x); h evaluated per point."""
+    h = height(points[:, 2])
     s = np.sqrt(np.maximum(0.0, 1.0 - h * h))
     th = np.arctan2(points[:, 1], points[:, 0])
     return np.column_stack([s * np.cos(th), s * np.sin(th), h])
@@ -275,12 +310,12 @@ class StageMap(TimedMap):
         return snap
 
 
-def build_data(level, dim, table=True):
+def build_data(level, dim, table=True, height=h10_float):
     """Samples, sample images, BoxMapData; and, if table, BoxMapData.compute on every top cell."""
     n = 2**level
     (heights, points, sampling), s0, _ = timed(sample_grid, n, dim == 3)
     x = heights[:, None] if dim == 1 else points
-    y, t_img, c_img = timed(lambda: h10_float(heights)[:, None] if dim == 1 else sphere_map(points))
+    y, t_img, c_img = timed(lambda: height(heights)[:, None] if dim == 1 else sphere_map(points, height))
     lower, upper = [-1.0] * dim, [1.0] * dim
     bmd, t_idx, c_idx = timed(CMGDB.BoxMapData, x, y, map_empty="outside", lower_bounds=lower,
                                       upper_bounds=upper)
@@ -713,7 +748,14 @@ ROWS = {
     "o3-quotient": dict(example="o3", side="reduced", mode="uniform", level=32,
                         repeats=5, warmup=1, inner=116, cells=2**10,
                         paper=["<1 ms", "<1 ms", "<1 ms", 0.0018]),
+    "attitude-uniform": dict(example="attitude", side="full", mode="uniform", level=7,
+                             repeats=5, warmup=1, inner=1, cells=2**21,
+                             paper=[None, None, None, None]),
+    "attitude-quotient": dict(example="attitude", side="reduced", mode="uniform", level=7,
+                              repeats=5, warmup=1, inner=1, cells=2**7,
+                              paper=[None, None, None, None]),
 }
+DIMENSIONS = {"sphere": (1, 3), "attitude": (1, 3), "o3": (2, 4)}
 
 
 def machine_state():
@@ -781,7 +823,7 @@ def sphere_repeat(config):
     side, mode, level = (config[k] for k in ("side", "mode", "level"))
     grid = grid_record(side, mode, level)
     dim = len(grid["shape"])
-    table, parts, counts, extra = build_data(level, dim, table=mode == "uniform")
+    table, parts, counts, extra = build_data(level, dim, table=mode == "uniform", height=HEIGHT[config["example"]])
     lookup = TableLookup(table, grid["lower_bounds"], grid["cell_side"][0], 2**level,
                          extra["bmd"].compute) if mode == "uniform" else None
     cb = StageMap(lookup.scalar, lookup.batch, lookup) if lookup is not None else StageMap(extra["bmd"].compute, extra["bmd"].batch)
@@ -888,7 +930,7 @@ def measure_row(row, *, smoke=False, repeats=None, warmup=None, allow_busy=False
         config["warmup"] = warmup
     if config["repeats"] < 1 or config["warmup"] < 0:
         raise ValueError("Repeats must be positive; warmups must be nonnegative")
-    runner = sphere_repeat if config["example"] == "sphere" else o3_repeat
+    runner = o3_repeat if config["example"] == "o3" else sphere_repeat
     raw, warm = [], []
     for index in range(config["warmup"] + config["repeats"]):
         warmup_run = index < config["warmup"]
@@ -915,7 +957,7 @@ def measure_row(row, *, smoke=False, repeats=None, warmup=None, allow_busy=False
             findings.append(f"{key}: negative difference at the timer floor; retained in raw results.")
     if any(s.get("cpu_s", 1) / s.get("wall_s", 1) < 0.95 for r in raw for s in r["stages"].values() if s.get("wall_s", 0) > 0):
         findings.append("At least one stage has CPU/wall time below 0.95.")
-    if config["example"] == "sphere":
+    if config["example"] in ("sphere", "attitude"):
         grid = grid_record(config["side"], config["mode"], config["level"])
         options = {"batch_chunk_size": 65536, "cache_transition_graph": None, "max_cached_edges": 0,
                    "reserve_edges": 0, "reserve_min_edges": 16777216}
@@ -925,7 +967,7 @@ def measure_row(row, *, smoke=False, repeats=None, warmup=None, allow_busy=False
         grid["subdiv_init"] = geom["depth"] if config["mode"] == "uniform" else 15
         options = {"batch_chunk_size": 512, "cache_transition_graph": True, "max_cached_edges": 0,
                    "reserve_edges": 0, "reserve_min_edges": 0}
-    if config["side"] == "reduced" and graph["morse_nodes"] != (5 if config["example"] == "sphere" else 4):
+    if config["side"] == "reduced" and graph["morse_nodes"] != REFERENCE_NODES[config["example"]]:
         findings.append("Quotient Morse-node count differs from the reference.")
     if config["mode"] == "adaptive":
         findings.append("Morse-graph time includes the cover, which cannot be isolated on the adaptive grid.")
@@ -950,7 +992,7 @@ class TimingSession:
 
     def _repr_html_(self):
         complete = sum(r.get("purpose") == "benchmark" for r in self.records.values())
-        return (f"<p>Mode: {escape(self.mode)}. {complete} of 6 benchmark rows available. "
+        return (f"<p>Mode: {escape(self.mode)}. {complete} of {len(ROWS)} benchmark rows available. "
                 "Validation records are labeled separately. Times are sums of stage medians.</p>")
 
 
@@ -1032,7 +1074,8 @@ def measurement_label(record):
 
 def notebook_discussion(session):
     rows = []
-    for row in ("sphere-quotient", "o3-quotient", "sphere-uniform", "o3-uniform"):
+    for row in ("sphere-quotient", "o3-quotient", "attitude-quotient", "sphere-uniform", "o3-uniform",
+                "attitude-uniform"):
         record = session.records.get(row)
         rows.append([row, format_seconds(ROWS[row]["paper"][-1]),
                      format_seconds(record["totals"]["total_s"]) if record else "pending",
@@ -1046,13 +1089,13 @@ def notebook_table(session):
     rows = []
     for row, config in ROWS.items():
         record = session.records.get(row)
-        dim = (1 if config["side"] == "reduced" else 3) if config["example"] == "sphere" else (2 if config["side"] == "reduced" else 4)
-        common = [dim, "SO(2)" if config["example"] == "sphere" else "O(3)", config["mode"]]
+        dim = DIMENSIONS[config["example"]][config["side"] == "full"]
+        common = [config["example"], dim, "O(3)" if config["example"] == "o3" else "SO(2)", config["mode"]]
         rows.append(common + [format_cells(config["cells"]), "manuscript"]
                     + [format_seconds(v) for v in config["paper"]])
         measured_cells = record["graph"]["final_cells"] if record else config["cells"]
         values = [record["totals"][k] for k in ("map_s", "morse_graph_s", "conley_index_s", "total_s")] if record else [None] * 4
         rows.append(common + [format_cells(measured_cells), measurement_label(record) if record else "waiting for idle run"]
                     + [format_seconds(v) for v in values])
-    return _html_table(["Dimension", "G", "Grid", "Cells", "Source", "Map", "Morse graph", "Conley index", "Total"],
+    return _html_table(["Example", "Dimension", "G", "Grid", "Cells", "Source", "Map", "Morse graph", "Conley index", "Total"],
                        rows, "Table tab:timing: manuscript values and new measurements")

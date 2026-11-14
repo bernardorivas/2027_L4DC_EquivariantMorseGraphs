@@ -1,0 +1,1185 @@
+{
+ "schema": "morsegraphs/timing/v1",
+ "row": "attitude-quotient",
+ "status": "complete",
+ "purpose": "benchmark",
+ "config": {
+  "example": "attitude",
+  "side": "reduced",
+  "mode": "uniform",
+  "level": 7,
+  "repeats": 5,
+  "warmup": 1,
+  "inner": 1,
+  "cells": 128,
+  "paper": [
+   null,
+   null,
+   null,
+   null
+  ]
+ },
+ "grid": {
+  "model": "CMGDB.Model",
+  "constructor": [
+   7,
+   7,
+   7,
+   10000,
+   [
+    -1.0
+   ],
+   [
+    1.0
+   ]
+  ],
+  "lower_bounds": [
+   -1.0
+  ],
+  "upper_bounds": [
+   1.0
+  ],
+  "periodic": [
+   false
+  ],
+  "depths": {
+   "subdiv_min": 7,
+   "subdiv_max": 7,
+   "subdiv_init": 7,
+   "subdiv_limit": 10000
+  },
+  "shape": [
+   128
+  ],
+  "cell_side": [
+   0.015625
+  ],
+  "cell_side_coordinates": "height z",
+  "top_cells": 128,
+  "initial_cells": 128
+ },
+ "cmgdb_options": {
+  "batch_chunk_size": 65536,
+  "cache_transition_graph": null,
+  "max_cached_edges": 0,
+  "reserve_edges": 0,
+  "reserve_min_edges": 16777216
+ },
+ "machine": {
+  "system": "Darwin",
+  "release": "27.2.0",
+  "architecture": "arm64",
+  "cpu": "Apple M4 Pro",
+  "logical_cpus": 14,
+  "memory_bytes": 51539607552,
+  "python": "3.13.18",
+  "numpy": "2.3.5",
+  "cmgdb": "1.5.3+fork.7",
+  "native_sha256": "c2c0774ddf8b39f1deaa0f11f5756f0cf3cd530d2cc1f46f3dcdcd200c5b7679",
+  "boxmapdata_sha256": "f47de66f8423b818086f3dd16b2be168e31a5333ba9dd0a6fa3025296263ee54",
+  "thread_environment": {
+   "OMP_NUM_THREADS": "1",
+   "OPENBLAS_NUM_THREADS": "1",
+   "VECLIB_MAXIMUM_THREADS": "1",
+   "MKL_NUM_THREADS": "1"
+  }
+ },
+ "state_before": {
+  "load_average": [
+   6.32373046875,
+   6.29150390625,
+   5.9619140625
+  ],
+  "free_memory_bytes": 1172111360,
+  "available_memory_bytes": 19107840000,
+  "memory_definition": "available memory: free plus inactive pages on macOS; MemAvailable on Linux",
+  "load_check_overridden": true
+ },
+ "finished_utc": "2026-11-14T09:39:40.978352+00:00",
+ "source_sha256": "6bdf785ac4d1d57ef56bd31c62307e99b914190f082e6d83f64a3799ed1f5954",
+ "stages": {
+  "S0_samples": {
+   "median_s": 3.841597936116159e-05,
+   "samples_s": [
+    3.854098031297326e-05,
+    4.358397563919425e-05,
+    3.841597936116159e-05,
+    2.6958994567394257e-05,
+    3.7124991649761796e-05
+   ],
+   "spread_over_median": 0.43276213045365663
+  },
+  "S1_enc": {
+   "median_s": 0.0020572080102283508,
+   "samples_s": [
+    0.002317791018867865,
+    0.0021955830161459744,
+    0.0020130830234847963,
+    0.0019557919877115637,
+    0.0020572080102283508
+   ],
+   "spread_over_median": 0.17596617811930426
+  },
+  "S2": {
+   "median_s": 0.0002084170118905604,
+   "samples_s": [
+    0.0002084170118905604,
+    0.00034237399813719094,
+    0.00023304199567064643,
+    0.00018274900503456593,
+    0.00019237498054280877
+   ],
+   "spread_over_median": 0.7658923408154608
+  },
+  "S1_cover": {
+   "median_s": 8.908301242627203e-05,
+   "samples_s": [
+    9.05419874470681e-05,
+    8.908301242627203e-05,
+    0.00010362500324845314,
+    7.879201439209282e-05,
+    8.491601329296827e-05
+   ],
+   "spread_over_median": 0.27876233840781817
+  },
+  "S3": {
+   "median_s": 0.00022050199913792312,
+   "samples_s": [
+    0.00022470494150184095,
+    6.508393562398851e-05,
+    0.0001893330190796405,
+    0.00022050199913792312,
+    0.0002963329607155174
+   ],
+   "spread_over_median": 1.0487389048426883
+  },
+  "S1_enc_misses": {
+   "median_s": 0.0,
+   "samples_s": [
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "spread_over_median": null
+  },
+  "S2_graph": {
+   "median_s": 0.0001178750244434923,
+   "samples_s": [
+    0.0001178750244434923,
+    0.0002532909857109189,
+    0.0001294169924221933,
+    0.0001039569906424731,
+    0.0001074589672498405
+   ],
+   "spread_over_median": 1.2668841069045507
+  }
+ },
+ "totals": {
+  "map_s": 0.002146291022654623,
+  "morse_graph_s": 0.0001178750244434923,
+  "conley_index_s": 0.00022050199913792312,
+  "total_s": 0.002484668046236038,
+  "conley_method": "S3",
+  "morse_contains_cover": false
+ },
+ "graph": {
+  "morse_nodes": 5,
+  "morse_edges": [
+   [
+    1,
+    0
+   ],
+   [
+    2,
+    1
+   ],
+   [
+    3,
+    0
+   ],
+   [
+    4,
+    3
+   ]
+  ],
+  "morse_set_sizes": [
+   2,
+   1,
+   2,
+   1,
+   2
+  ],
+  "annotations": {
+   "0": [
+    "x-1",
+    "0"
+   ],
+   "1": [
+    "0",
+    "0"
+   ],
+   "2": [
+    "0",
+    "0"
+   ],
+   "3": [
+    "0",
+    "0"
+   ],
+   "4": [
+    "0",
+    "0"
+   ]
+  },
+  "final_cells": 128
+ },
+ "repeats": [
+  {
+   "stages": {
+    "S0_samples": {
+     "seconds": 3.854098031297326e-05
+    },
+    "S1_enc": {
+     "seconds": 0.002317791018867865,
+     "cpu_s": 0.0023019999999999707,
+     "parts": {
+      "images": 0.0006843750015832484,
+      "boxmapdata_index": 2.4250010028481483e-05,
+      "table": 0.0016091660072561353
+     }
+    },
+    "S2": {
+     "wall_s": 0.0002634999982547015,
+     "cpu_s": 0.0002689999999999637,
+     "callback": {
+      "seconds": 5.5082986364141107e-05,
+      "calls": 1,
+      "rects": 128,
+      "misses": 0,
+      "miss_seconds": 0.0
+     },
+     "seconds": 0.0002084170118905604
+    },
+    "S1_cover": {
+     "method": "lazy MapGraph.build_cache()",
+     "wall_s": 0.00014937500236555934,
+     "cpu_s": 0.00015199999999998548,
+     "callback": {
+      "seconds": 5.8833014918491244e-05,
+      "calls": 1,
+      "rects": 128,
+      "misses": 0,
+      "miss_seconds": 0.0
+     },
+     "seconds": 9.05419874470681e-05,
+     "edges": 462
+    },
+    "S3": {
+     "wall_s": 0.000560290995053947,
+     "cpu_s": 0.0005630000000000357,
+     "callback": {
+      "seconds": 0.00012716904166154563,
+      "calls": 7,
+      "rects": 137,
+      "misses": 0,
+      "miss_seconds": 0.0
+     },
+     "seconds": 0.00022470494150184095
+    },
+    "S1_enc_misses": {
+     "seconds": 0.0
+    },
+    "S2_graph": {
+     "seconds": 0.0001178750244434923
+    }
+   },
+   "counts": {
+    "sample_points": 405,
+    "sample_heights": 405,
+    "sampling": {
+     "latitudes": 405,
+     "longitudes": 808,
+     "latitude_step": 0.0077762194395786955,
+     "equator_longitude_step": 0.0077762194395786955
+    },
+    "boxmapdata_index": false,
+    "boxmapdata_bins_per_dim": null,
+    "unique_enclosures": 128,
+    "cells_with_data": 128,
+    "cells_without_data": 0
+   },
+   "graph": {
+    "morse_nodes": 5,
+    "morse_edges": [
+     [
+      1,
+      0
+     ],
+     [
+      2,
+      1
+     ],
+     [
+      3,
+      0
+     ],
+     [
+      4,
+      3
+     ]
+    ],
+    "morse_set_sizes": [
+     2,
+     1,
+     2,
+     1,
+     2
+    ],
+    "annotations": {
+     "0": [
+      "x-1",
+      "0"
+     ],
+     "1": [
+      "0",
+      "0"
+     ],
+     "2": [
+      "0",
+      "0"
+     ],
+     "3": [
+      "0",
+      "0"
+     ],
+     "4": [
+      "0",
+      "0"
+     ]
+    },
+    "final_cells": 128
+   },
+   "peak_rss_bytes": 72122368,
+   "load_average": [
+    6.32373046875,
+    6.29150390625,
+    5.9619140625
+   ],
+   "stage_samples": {
+    "S0_samples": [
+     3.854098031297326e-05
+    ],
+    "S1_enc": [
+     0.002317791018867865
+    ],
+    "S2": [
+     0.0002084170118905604
+    ],
+    "S1_cover": [
+     9.05419874470681e-05
+    ],
+    "S3": [
+     0.00022470494150184095
+    ],
+    "S1_enc_misses": [
+     0.0
+    ],
+    "S2_graph": [
+     0.0001178750244434923
+    ]
+   }
+  },
+  {
+   "stages": {
+    "S0_samples": {
+     "seconds": 4.358397563919425e-05
+    },
+    "S1_enc": {
+     "seconds": 0.0021955830161459744,
+     "cpu_s": 0.0022010000000000085,
+     "parts": {
+      "images": 0.0007781670137774199,
+      "boxmapdata_index": 1.9333005184307694e-05,
+      "table": 0.0013980829971842468
+     }
+    },
+    "S2": {
+     "wall_s": 0.0004204580036457628,
+     "cpu_s": 0.00039000000000000146,
+     "callback": {
+      "seconds": 7.808400550857186e-05,
+      "calls": 1,
+      "rects": 128,
+      "misses": 0,
+      "miss_seconds": 0.0
+     },
+     "seconds": 0.00034237399813719094
+    },
+    "S1_cover": {
+     "method": "lazy MapGraph.build_cache()",
+     "wall_s": 0.0001511670125182718,
+     "cpu_s": 0.00015700000000001824,
+     "callback": {
+      "seconds": 6.208400009199977e-05,
+      "calls": 1,
+      "rects": 128,
+      "misses": 0,
+      "miss_seconds": 0.0
+     },
+     "seconds": 8.908301242627203e-05,
+     "edges": 462
+    },
+    "S3": {
+     "wall_s": 0.0005439579836092889,
+     "cpu_s": 0.0005459999999999909,
+     "callback": {
+      "seconds": 0.00013650004984810948,
+      "calls": 7,
+      "rects": 137,
+      "misses": 0,
+      "miss_seconds": 0.0
+     },
+     "seconds": 6.508393562398851e-05
+    },
+    "S1_enc_misses": {
+     "seconds": 0.0
+    },
+    "S2_graph": {
+     "seconds": 0.0002532909857109189
+    }
+   },
+   "counts": {
+    "sample_points": 405,
+    "sample_heights": 405,
+    "sampling": {
+     "latitudes": 405,
+     "longitudes": 808,
+     "latitude_step": 0.0077762194395786955,
+     "equator_longitude_step": 0.0077762194395786955
+    },
+    "boxmapdata_index": false,
+    "boxmapdata_bins_per_dim": null,
+    "unique_enclosures": 128,
+    "cells_with_data": 128,
+    "cells_without_data": 0
+   },
+   "graph": {
+    "morse_nodes": 5,
+    "morse_edges": [
+     [
+      1,
+      0
+     ],
+     [
+      2,
+      1
+     ],
+     [
+      3,
+      0
+     ],
+     [
+      4,
+      3
+     ]
+    ],
+    "morse_set_sizes": [
+     2,
+     1,
+     2,
+     1,
+     2
+    ],
+    "annotations": {
+     "0": [
+      "x-1",
+      "0"
+     ],
+     "1": [
+      "0",
+      "0"
+     ],
+     "2": [
+      "0",
+      "0"
+     ],
+     "3": [
+      "0",
+      "0"
+     ],
+     "4": [
+      "0",
+      "0"
+     ]
+    },
+    "final_cells": 128
+   },
+   "peak_rss_bytes": 72171520,
+   "load_average": [
+    6.32373046875,
+    6.29150390625,
+    5.9619140625
+   ],
+   "stage_samples": {
+    "S0_samples": [
+     4.358397563919425e-05
+    ],
+    "S1_enc": [
+     0.0021955830161459744
+    ],
+    "S2": [
+     0.00034237399813719094
+    ],
+    "S1_cover": [
+     8.908301242627203e-05
+    ],
+    "S3": [
+     6.508393562398851e-05
+    ],
+    "S1_enc_misses": [
+     0.0
+    ],
+    "S2_graph": [
+     0.0002532909857109189
+    ]
+   }
+  },
+  {
+   "stages": {
+    "S0_samples": {
+     "seconds": 3.841597936116159e-05
+    },
+    "S1_enc": {
+     "seconds": 0.0020130830234847963,
+     "cpu_s": 0.0020240000000000258,
+     "parts": {
+      "images": 0.0006350000039674342,
+      "boxmapdata_index": 2.066700835712254e-05,
+      "table": 0.0013574160111602396
+     }
+    },
+    "S2": {
+     "wall_s": 0.0003066670033149421,
+     "cpu_s": 0.00031000000000003247,
+     "callback": {
+      "seconds": 7.362500764429569e-05,
+      "calls": 1,
+      "rects": 128,
+      "misses": 0,
+      "miss_seconds": 0.0
+     },
+     "seconds": 0.00023304199567064643
+    },
+    "S1_cover": {
+     "method": "lazy MapGraph.build_cache()",
+     "wall_s": 0.00017675000708550215,
+     "cpu_s": 0.00017899999999992922,
+     "callback": {
+      "seconds": 7.312500383704901e-05,
+      "calls": 1,
+      "rects": 128,
+      "misses": 0,
+      "miss_seconds": 0.0
+     },
+     "seconds": 0.00010362500324845314,
+     "edges": 462
+    },
+    "S3": {
+     "wall_s": 0.0005470000032801181,
+     "cpu_s": 0.0005489999999999107,
+     "callback": {
+      "seconds": 0.00012462498852983117,
+      "calls": 7,
+      "rects": 137,
+      "misses": 0,
+      "miss_seconds": 0.0
+     },
+     "seconds": 0.0001893330190796405
+    },
+    "S1_enc_misses": {
+     "seconds": 0.0
+    },
+    "S2_graph": {
+     "seconds": 0.0001294169924221933
+    }
+   },
+   "counts": {
+    "sample_points": 405,
+    "sample_heights": 405,
+    "sampling": {
+     "latitudes": 405,
+     "longitudes": 808,
+     "latitude_step": 0.0077762194395786955,
+     "equator_longitude_step": 0.0077762194395786955
+    },
+    "boxmapdata_index": false,
+    "boxmapdata_bins_per_dim": null,
+    "unique_enclosures": 128,
+    "cells_with_data": 128,
+    "cells_without_data": 0
+   },
+   "graph": {
+    "morse_nodes": 5,
+    "morse_edges": [
+     [
+      1,
+      0
+     ],
+     [
+      2,
+      1
+     ],
+     [
+      3,
+      0
+     ],
+     [
+      4,
+      3
+     ]
+    ],
+    "morse_set_sizes": [
+     2,
+     1,
+     2,
+     1,
+     2
+    ],
+    "annotations": {
+     "0": [
+      "x-1",
+      "0"
+     ],
+     "1": [
+      "0",
+      "0"
+     ],
+     "2": [
+      "0",
+      "0"
+     ],
+     "3": [
+      "0",
+      "0"
+     ],
+     "4": [
+      "0",
+      "0"
+     ]
+    },
+    "final_cells": 128
+   },
+   "peak_rss_bytes": 72187904,
+   "load_average": [
+    6.32373046875,
+    6.29150390625,
+    5.9619140625
+   ],
+   "stage_samples": {
+    "S0_samples": [
+     3.841597936116159e-05
+    ],
+    "S1_enc": [
+     0.0020130830234847963
+    ],
+    "S2": [
+     0.00023304199567064643
+    ],
+    "S1_cover": [
+     0.00010362500324845314
+    ],
+    "S3": [
+     0.0001893330190796405
+    ],
+    "S1_enc_misses": [
+     0.0
+    ],
+    "S2_graph": [
+     0.0001294169924221933
+    ]
+   }
+  },
+  {
+   "stages": {
+    "S0_samples": {
+     "seconds": 2.6958994567394257e-05
+    },
+    "S1_enc": {
+     "seconds": 0.0019557919877115637,
+     "cpu_s": 0.0019649999999999945,
+     "parts": {
+      "images": 0.0005850419984199107,
+      "boxmapdata_index": 1.6875012079253793e-05,
+      "table": 0.0013538749772123992
+     }
+    },
+    "S2": {
+     "wall_s": 0.00023404101375490427,
+     "cpu_s": 0.0002380000000000715,
+     "callback": {
+      "seconds": 5.1292008720338345e-05,
+      "calls": 1,
+      "rects": 128,
+      "misses": 0,
+      "miss_seconds": 0.0
+     },
+     "seconds": 0.00018274900503456593
+    },
+    "S1_cover": {
+     "method": "lazy MapGraph.build_cache()",
+     "wall_s": 0.00013616701471619308,
+     "cpu_s": 0.00014099999999994672,
+     "callback": {
+      "seconds": 5.7375000324100256e-05,
+      "calls": 1,
+      "rects": 128,
+      "misses": 0,
+      "miss_seconds": 0.0
+     },
+     "seconds": 7.879201439209282e-05,
+     "edges": 462
+    },
+    "S3": {
+     "wall_s": 0.0005428750009741634,
+     "cpu_s": 0.0005450000000000177,
+     "callback": {
+      "seconds": 0.00013962399680167437,
+      "calls": 7,
+      "rects": 137,
+      "misses": 0,
+      "miss_seconds": 0.0
+     },
+     "seconds": 0.00022050199913792312
+    },
+    "S1_enc_misses": {
+     "seconds": 0.0
+    },
+    "S2_graph": {
+     "seconds": 0.0001039569906424731
+    }
+   },
+   "counts": {
+    "sample_points": 405,
+    "sample_heights": 405,
+    "sampling": {
+     "latitudes": 405,
+     "longitudes": 808,
+     "latitude_step": 0.0077762194395786955,
+     "equator_longitude_step": 0.0077762194395786955
+    },
+    "boxmapdata_index": false,
+    "boxmapdata_bins_per_dim": null,
+    "unique_enclosures": 128,
+    "cells_with_data": 128,
+    "cells_without_data": 0
+   },
+   "graph": {
+    "morse_nodes": 5,
+    "morse_edges": [
+     [
+      1,
+      0
+     ],
+     [
+      2,
+      1
+     ],
+     [
+      3,
+      0
+     ],
+     [
+      4,
+      3
+     ]
+    ],
+    "morse_set_sizes": [
+     2,
+     1,
+     2,
+     1,
+     2
+    ],
+    "annotations": {
+     "0": [
+      "x-1",
+      "0"
+     ],
+     "1": [
+      "0",
+      "0"
+     ],
+     "2": [
+      "0",
+      "0"
+     ],
+     "3": [
+      "0",
+      "0"
+     ],
+     "4": [
+      "0",
+      "0"
+     ]
+    },
+    "final_cells": 128
+   },
+   "peak_rss_bytes": 72187904,
+   "load_average": [
+    6.32373046875,
+    6.29150390625,
+    5.9619140625
+   ],
+   "stage_samples": {
+    "S0_samples": [
+     2.6958994567394257e-05
+    ],
+    "S1_enc": [
+     0.0019557919877115637
+    ],
+    "S2": [
+     0.00018274900503456593
+    ],
+    "S1_cover": [
+     7.879201439209282e-05
+    ],
+    "S3": [
+     0.00022050199913792312
+    ],
+    "S1_enc_misses": [
+     0.0
+    ],
+    "S2_graph": [
+     0.0001039569906424731
+    ]
+   }
+  },
+  {
+   "stages": {
+    "S0_samples": {
+     "seconds": 3.7124991649761796e-05
+    },
+    "S1_enc": {
+     "seconds": 0.0020572080102283508,
+     "cpu_s": 0.002035000000000009,
+     "parts": {
+      "images": 0.0006980829930398613,
+      "boxmapdata_index": 2.3125001462176442e-05,
+      "table": 0.001336000015726313
+     }
+    },
+    "S2": {
+     "wall_s": 0.0002538749831728637,
+     "cpu_s": 0.00025799999999998047,
+     "callback": {
+      "seconds": 6.150000263005495e-05,
+      "calls": 1,
+      "rects": 128,
+      "misses": 0,
+      "miss_seconds": 0.0
+     },
+     "seconds": 0.00019237498054280877
+    },
+    "S1_cover": {
+     "method": "lazy MapGraph.build_cache()",
+     "wall_s": 0.00015300000086426735,
+     "cpu_s": 0.00015500000000001624,
+     "callback": {
+      "seconds": 6.808398757129908e-05,
+      "calls": 1,
+      "rects": 128,
+      "misses": 0,
+      "miss_seconds": 0.0
+     },
+     "seconds": 8.491601329296827e-05,
+     "edges": 462
+    },
+    "S3": {
+     "wall_s": 0.0006145839870441705,
+     "cpu_s": 0.0006040000000000489,
+     "callback": {
+      "seconds": 0.00012587604578584433,
+      "calls": 7,
+      "rects": 137,
+      "misses": 0,
+      "miss_seconds": 0.0
+     },
+     "seconds": 0.0002963329607155174
+    },
+    "S1_enc_misses": {
+     "seconds": 0.0
+    },
+    "S2_graph": {
+     "seconds": 0.0001074589672498405
+    }
+   },
+   "counts": {
+    "sample_points": 405,
+    "sample_heights": 405,
+    "sampling": {
+     "latitudes": 405,
+     "longitudes": 808,
+     "latitude_step": 0.0077762194395786955,
+     "equator_longitude_step": 0.0077762194395786955
+    },
+    "boxmapdata_index": false,
+    "boxmapdata_bins_per_dim": null,
+    "unique_enclosures": 128,
+    "cells_with_data": 128,
+    "cells_without_data": 0
+   },
+   "graph": {
+    "morse_nodes": 5,
+    "morse_edges": [
+     [
+      1,
+      0
+     ],
+     [
+      2,
+      1
+     ],
+     [
+      3,
+      0
+     ],
+     [
+      4,
+      3
+     ]
+    ],
+    "morse_set_sizes": [
+     2,
+     1,
+     2,
+     1,
+     2
+    ],
+    "annotations": {
+     "0": [
+      "x-1",
+      "0"
+     ],
+     "1": [
+      "0",
+      "0"
+     ],
+     "2": [
+      "0",
+      "0"
+     ],
+     "3": [
+      "0",
+      "0"
+     ],
+     "4": [
+      "0",
+      "0"
+     ]
+    },
+    "final_cells": 128
+   },
+   "peak_rss_bytes": 72204288,
+   "load_average": [
+    6.32373046875,
+    6.29150390625,
+    5.9619140625
+   ],
+   "stage_samples": {
+    "S0_samples": [
+     3.7124991649761796e-05
+    ],
+    "S1_enc": [
+     0.0020572080102283508
+    ],
+    "S2": [
+     0.00019237498054280877
+    ],
+    "S1_cover": [
+     8.491601329296827e-05
+    ],
+    "S3": [
+     0.0002963329607155174
+    ],
+    "S1_enc_misses": [
+     0.0
+    ],
+    "S2_graph": [
+     0.0001074589672498405
+    ]
+   }
+  }
+ ],
+ "warmup": [
+  {
+   "stages": {
+    "S0_samples": {
+     "seconds": 8.112500654533505e-05
+    },
+    "S1_enc": {
+     "seconds": 0.0022777510166633874,
+     "cpu_s": 0.002289000000000041,
+     "parts": {
+      "images": 0.0006791670166421682,
+      "boxmapdata_index": 5.09590026922524e-05,
+      "table": 0.0015476249973289669
+     }
+    },
+    "S2": {
+     "wall_s": 0.0005629159859381616,
+     "cpu_s": 0.0005719999999999614,
+     "callback": {
+      "seconds": 8.570798672735691e-05,
+      "calls": 1,
+      "rects": 128,
+      "misses": 0,
+      "miss_seconds": 0.0
+     },
+     "seconds": 0.0004772079992108047
+    },
+    "S1_cover": {
+     "method": "lazy MapGraph.build_cache()",
+     "wall_s": 0.00037525000516325235,
+     "cpu_s": 0.0003810000000000202,
+     "callback": {
+      "seconds": 0.00020454198238439858,
+      "calls": 1,
+      "rects": 128,
+      "misses": 0,
+      "miss_seconds": 0.0
+     },
+     "seconds": 0.00017070802277885377,
+     "edges": 462
+    },
+    "S3": {
+     "wall_s": 0.0006965420034248382,
+     "cpu_s": 0.0007000000000000339,
+     "callback": {
+      "seconds": 0.0001664169831201434,
+      "calls": 7,
+      "rects": 137,
+      "misses": 0,
+      "miss_seconds": 0.0
+     },
+     "seconds": 5.291702109389007e-05
+    },
+    "S1_enc_misses": {
+     "seconds": 0.0
+    },
+    "S2_graph": {
+     "seconds": 0.0003064999764319509
+    }
+   },
+   "counts": {
+    "sample_points": 405,
+    "sample_heights": 405,
+    "sampling": {
+     "latitudes": 405,
+     "longitudes": 808,
+     "latitude_step": 0.0077762194395786955,
+     "equator_longitude_step": 0.0077762194395786955
+    },
+    "boxmapdata_index": false,
+    "boxmapdata_bins_per_dim": null,
+    "unique_enclosures": 128,
+    "cells_with_data": 128,
+    "cells_without_data": 0
+   },
+   "graph": {
+    "morse_nodes": 5,
+    "morse_edges": [
+     [
+      1,
+      0
+     ],
+     [
+      2,
+      1
+     ],
+     [
+      3,
+      0
+     ],
+     [
+      4,
+      3
+     ]
+    ],
+    "morse_set_sizes": [
+     2,
+     1,
+     2,
+     1,
+     2
+    ],
+    "annotations": {
+     "0": [
+      "x-1",
+      "0"
+     ],
+     "1": [
+      "0",
+      "0"
+     ],
+     "2": [
+      "0",
+      "0"
+     ],
+     "3": [
+      "0",
+      "0"
+     ],
+     "4": [
+      "0",
+      "0"
+     ]
+    },
+    "final_cells": 128
+   },
+   "peak_rss_bytes": 72040448,
+   "load_average": [
+    6.32373046875,
+    6.29150390625,
+    5.9619140625
+   ],
+   "stage_samples": {
+    "S0_samples": [
+     8.112500654533505e-05
+    ],
+    "S1_enc": [
+     0.0022777510166633874
+    ],
+    "S2": [
+     0.0004772079992108047
+    ],
+    "S1_cover": [
+     0.00017070802277885377
+    ],
+    "S3": [
+     5.291702109389007e-05
+    ],
+    "S1_enc_misses": [
+     0.0
+    ],
+    "S2_graph": [
+     0.0003064999764319509
+    ]
+   }
+  }
+ ],
+ "findings": [
+  "Load threshold bypassed for this run; measurements include background activity.",
+  "S0_samples: timing spread exceeds 10% of the median.",
+  "S1_enc: timing spread exceeds 10% of the median.",
+  "S2: timing spread exceeds 10% of the median.",
+  "S1_cover: timing spread exceeds 10% of the median.",
+  "S3: timing spread exceeds 10% of the median.",
+  "S2_graph: timing spread exceeds 10% of the median.",
+  "At least one stage has CPU/wall time below 0.95.",
+  "Quotient Morse-node count differs from the reference."
+ ],
+ "peak_rss_bytes": 76775424,
+ "interpretation": "Native indices of the computed multivalued map; physical index transfer is not certified."
+}

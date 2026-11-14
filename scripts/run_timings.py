@@ -5,9 +5,9 @@ From the repository root:
     python scripts/run_timings.py smoke
     python scripts/run_timings.py all
 
-The first command runs the two quotient rows and uniform grids with 2^12
-(sphere) and 2^11 (O(3)) cells. These are validation records only.
-The second runs all six published rows, taking about 40 minutes. It refuses
+The first command runs the three quotient rows and uniform grids with 2^12
+(sphere and attitude) and 2^11 (O(3)) cells. These are validation records only.
+The second runs all six rows, taking about 30 minutes. It refuses
 to start unless the one-minute load average is below 2 and 16 GB of memory
 is available. The same check applies before each benchmark row. --allow-busy
 bypasses only the load threshold and labels the records as measurements with
@@ -33,10 +33,9 @@ from morsegraphs import timing  # noqa: E402
 
 
 def selected_rows(selection):
-    if selection == "all":
-        return ["sphere-quotient", "o3-quotient", "sphere-uniform", "o3-uniform"]
-    if selection == "smoke":
-        return ["sphere-quotient", "o3-quotient", "sphere-uniform", "o3-uniform"]
+    if selection in ("all", "smoke"):
+        return ["sphere-quotient", "o3-quotient", "attitude-quotient",
+                "sphere-uniform", "o3-uniform", "attitude-uniform"]
     return [selection]
 
 
