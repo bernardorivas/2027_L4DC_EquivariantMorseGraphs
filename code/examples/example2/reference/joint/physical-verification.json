@@ -1,9 +1,0 @@
-{
-  "independent_method": "DOP853 on the four-dimensional vector field",
-  "starts": 64,
-  "maximum_state_error_one_step": 6.159416369459306e-13,
-  "maximum_state_error_ten_steps": 1.49148289710155e-10,
-  "composition_maximum": 3.3306690738754696e-16,
-  "time_step": 1.0986122886681098,
-  "passed": true
-}
