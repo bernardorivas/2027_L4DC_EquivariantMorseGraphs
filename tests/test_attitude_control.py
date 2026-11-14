@@ -2,11 +2,15 @@
 the equivariance of the networks, and a short training run."""
 import importlib
 import json
+from pathlib import Path
+import tempfile
 
 import numpy as np
 import pytest
 
 from morsegraphs import grids, training
+
+ROOT = Path(__file__).resolve().parents[1]
 
 
 @pytest.fixture(autouse=True)
@@ -180,3 +184,80 @@ def test_training_smoke(ac, tmp_path):
     assert all(np.array_equal(a, b) for group_a, group_b in zip(loaded.params, model.params)
                for a, b in zip(group_a, group_b))
     assert config["best_validation"] == min(row["validation"]["objective"] for row in history)
+
+
+@pytest.mark.parametrize("policy", ["nominal", "coning"])
+def test_names_and_indices_in_X_of_the_reference(ac, policy):
+    graph = ac.reference_graph(policy)
+    names = ac.node_names(graph)
+    assert sorted(names.values()) == (["-e3", "e3"] if policy == "nominal" else ["-e3", "C", "e3"])
+    rows = ac.indices_in_X(graph)
+    assert all(row["quotient"] == row["cmgdb"] for row in rows)
+    assert {row["name"]: row["in_X"] for row in rows} == ac.PROVED[policy]
+    assert ac.compare_graphs(graph, graph) == dict(order=True, indices=True, cells=True)
+
+
+def test_names_of_an_extra_morse_set_and_its_index_in_X(ac):
+    graph = coning_like(ac, {11: [.3, .45]})
+    names = ac.node_names(graph)
+    assert sorted(names.values()) == ["-e3", "A", "C", "e3"]
+    extra = next(row for row in ac.indices_in_X(graph) if row["name"] == "A")
+    assert extra["in_X"] == ["0", "0", "0"] and extra["N_P_cells"] == 0
+    merged = ac.prescribed_merge(graph, "coning")
+    assert {row["name"]: row["in_X"] for row in ac.indices_in_X(merged)} == ac.PROVED["coning"]
+    raw, reference = ac.describe(graph), ac.describe(merged)
+    assert raw["indices"]["A"] == ["0", "0"] and reference["order"] == [["-e3", "C"], ["e3", "C"]]
+    assert ac.compare_graphs(graph, merged)["order"] is False
+
+
+def test_differences_of_records(ac):
+    saved = dict(versions=dict(jax="0"), a=[1, 2.0, "x-1"], b=dict(c=0.1, d=True, e=None))
+    count, found = ac.differences(dict(versions=dict(jax="1"), a=[1, 2.0 * (1 + 1e-12), "x-1"],
+                                       b=dict(c=0.1, d=True, e=None)), saved)
+    assert count == 3 and found == []
+    _, found = ac.differences(dict(versions={}, a=[1, 2.0 * (1 + 1e-8), "0"], b=dict(c=0.1, d=1, e=None)), saved)
+    assert len(found) == 3  # a number beyond 1e-9, a string, and a bool against an int
+    _, found = ac.differences(dict(versions={}, a=[1, 2.0], b=dict(c=0.1)), saved)
+    assert len(found) == 2  # a shorter list and missing entries
+
+
+def test_bands_join_cells_of_one_color_and_split_tall_bands(ac):
+    heights = np.linspace(-1., 1., 9)
+    result = ac.bands(heights, ["a", "b", "b", "b", "b", "b", "b", "c"])
+    assert [color for _, _, color in result] == sorted(color for _, _, color in result)
+    for color, (lo, hi) in (("a", (-1., -.75)), ("b", (-.75, .75)), ("c", (.75, 1.))):
+        pieces = [band for band in result if band[2] == color]
+        assert pieces[0][0] == lo and pieces[-1][1] == hi
+        assert all(a[1] == b[0] for a, b in zip(pieces[:-1], pieces[1:]))
+    assert all(hi - lo <= ac.BAND + 1e-12 for lo, hi, _ in result)
+    assert ac.bands(np.array([-1., 0., 1.]), ["x", "x"])[0][0] == -1.
+
+
+def test_reference_record_agrees_with_the_proved_indices():
+    record = json.loads((ROOT / "data/ex3_attitude_control/reference/results.json").read_text())
+    assert set(record) == {"example", "versions", "system", "nominal", "coning"}
+    proved = {"nominal": {"-e3": ["0", "0", "x-1"], "e3": ["x-1", "0", "0"]},
+              "coning": {"-e3": ["0", "0", "x-1"], "e3": ["0", "0", "x-1"], "C": ["x-1", "x-1", "0"]}}
+    for policy in ("nominal", "coning"):
+        entry = record[policy]
+        assert set(entry["graphs"]) == {"learned_raw", "learned_merged", "reference_z", "reference_z_merged",
+                                        "reference_psi", "reference_psi_merged"}
+        for key in ("reference_z", "reference_psi", "learned"):
+            assert {row["name"]: row["in_X"] for row in entry["indices"][key]} == proved[policy]
+        assert entry["regions"]["merged"]["rows"][0]["passed"]
+        assert entry["comparison"]["reference_z"]["order"] and entry["comparison"]["reference_z"]["indices"]
+
+
+def test_notebook_structure():
+    notebook = json.loads((ROOT / "ex3_attitude_control.ipynb").read_text())
+    cells = [cell for cell in notebook["cells"] if cell["cell_type"] == "code"]
+    first = "".join(cells[0]["source"])
+    assert 'MODE = "replay"' in first and "OUT = None" in first
+    assert not any("MODE =" in "".join(cell["source"]) for cell in cells[1:])
+    for cell in cells:
+        assert len(cell["outputs"]) == 1, "".join(cell["source"])
+        output = cell["outputs"][0]
+        assert output["output_type"] in ("execute_result", "display_data")
+        text = "".join("".join(value) for key, value in output.get("data", {}).items() if key.startswith("text/"))
+        for local in (ROOT, Path.home(), Path(tempfile.gettempdir()).resolve()):
+            assert str(local) not in text  # no output names a local folder
