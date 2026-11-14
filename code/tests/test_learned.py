@@ -1,8 +1,9 @@
 import numpy as np
 import pytest
-import torch
 
-from latent_equivariance.learned import (
+torch = pytest.importorskip("torch")
+
+from latent_equivariance.learned import (  # noqa: E402
     EquivariantMLP, NetworkEnclosure, ball_samples, representatives, sine_signs,
 )
 

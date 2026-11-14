@@ -2,7 +2,7 @@
 
 Construct a nominal upright controller and an autonomous coning controller, learn an equivariant sphere model and its interval quotient, and compute native Conley--Morse graphs on 128 interval cells. The encoder is calibrated toward the thrust axis using full-plant trajectories on the invariant sphere subsystem. Three learned seeds per controller and their checked numerical references are supplied.
 
-[Read the concise presentation and view the SVG panels](https://github.com/bernardorivas/latent-equivariant/tree/main/code/examples/example3/presentation).
+[Read the concise presentation and view the SVG panels](presentation/README.md).
 
 Use the [shared Python setup](../../README.md#setup) and run these commands from `code/`:
 
