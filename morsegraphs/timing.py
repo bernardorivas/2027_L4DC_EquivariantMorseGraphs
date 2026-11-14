@@ -1038,9 +1038,9 @@ def notebook_plant_estimate():
     for row in record["rows"]:
         seconds = row["projected_map_plus_morse_s"]
         years = row["projected_map_plus_morse_years"]
-        duration = f"{seconds / 86400:.2g} days" if years < 1 else f"{years:.2g} years"
+        duration = (f"{seconds / 86400:.2g} days" if years < 1 else f"{years:.2g} years") + " (est.)"
         rows.append([format_cells(row["intervals_per_axis"]), format_cells(row["cells"]),
-                     f'{row["hull_table_bytes"]:.3g} bytes', duration])
+                     f'{row["hull_table_bytes"]:.3g} bytes (est.)', duration])
     return _html_table(["Intervals per axis", "Cells", "Image-hull table only", "Projected map + Morse"],
                        rows, "Full 12-dimensional plant: arithmetic projection only, never run")
 

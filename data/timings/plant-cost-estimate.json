@@ -24,42 +24,6 @@
  "seconds_per_year": 31557600.0,
  "rows": [
   {
-   "ell": 3,
-   "intervals_per_axis": 8,
-   "cell_count_exponent": 36,
-   "cells": 68719476736,
-   "hull_table_bytes": 13194139533312,
-   "projected_map_plus_morse_s": 167356.12159061432,
-   "projected_map_plus_morse_years": 0.0053031954771786925
-  },
-  {
-   "ell": 4,
-   "intervals_per_axis": 16,
-   "cell_count_exponent": 48,
-   "cells": 281474976710656,
-   "hull_table_bytes": 54043195528445952,
-   "projected_map_plus_morse_s": 685490674.0351562,
-   "projected_map_plus_morse_years": 21.721888674523925
-  },
-  {
-   "ell": 5,
-   "intervals_per_axis": 32,
-   "cell_count_exponent": 60,
-   "cells": 1152921504606846976,
-   "hull_table_bytes": 221360928884514619392,
-   "projected_map_plus_morse_s": 2807769800848.0,
-   "projected_map_plus_morse_years": 88972.85601085
-  },
-  {
-   "ell": 6,
-   "intervals_per_axis": 64,
-   "cell_count_exponent": 72,
-   "cells": 4722366482869645213696,
-   "hull_table_bytes": 906694364710971881029632,
-   "projected_map_plus_morse_s": 1.1500625104273408e+16,
-   "projected_map_plus_morse_years": 364432818.2204416
-  },
-  {
    "ell": 7,
    "intervals_per_axis": 128,
    "cell_count_exponent": 84,
