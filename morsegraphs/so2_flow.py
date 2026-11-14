@@ -12,19 +12,33 @@ Morse graph of f^10 on 2^7 cells of [-1, 1] from sampled image hulls, and that o
 from explicit enclosures. Both ends of [-1, 1] are faces of the orbit space (the
 poles). Everything here runs in float64 on the CPU unless `device.configure` chose
 otherwise before JAX started.
+
+The last sections hold the panels of the figures of Section 5.1 and its appendix, the
+record of every result that the notebook `ex1_so2_flow.ipynb` checks, and the steps of
+that notebook, each of which returns one table, one line or the saved panels of a figure.
 """
 import copy
+from dataclasses import dataclass
+from datetime import datetime
 from fractions import Fraction
 from functools import lru_cache
 import hashlib
+from html import escape
 from importlib.metadata import version
+import json
+import logging
 import os
 from pathlib import Path
 import time
+import warnings
 import zipfile
 
 os.environ.setdefault("JAX_PLATFORMS", "cpu")  # no effect once JAX has started
 os.environ.setdefault("JAX_PLATFORM_NAME", "cpu")
+# tqdm, which EMLP imports, warns in a notebook that progress bars need ipywidgets; none is shown.
+warnings.filterwarnings("ignore", message="IProgress not found")
+# fontTools logs a warning about font timestamps when Matplotlib embeds fonts in a PDF.
+logging.getLogger("fontTools").setLevel(logging.ERROR)
 
 import jax
 jax.config.update("jax_enable_x64", True)
@@ -37,7 +51,7 @@ from emlp.reps import T, V
 from scipy.integrate import solve_ivp
 from scipy.optimize import brentq
 
-from . import grids, regions, training
+from . import grids, homology, plotting, regions, training
 
 LOWER, UPPER = [-1.], [1.]
 FACES = np.array([[True, True]])  # z = -1 and z = 1 are the poles, faces of the orbit space
@@ -714,3 +728,829 @@ def attracting_regions(model, graph, settings=DEFAULTS):
         rows += [dict(row, map_time=float(analysis["time_map_iterates"])) for row in part]
     return rows, dict(labels=labels, theta=theta, codes=codes, predicted=predicted,
                       encoded_image=encoded_image, residuals=residuals)
+
+
+# Roles, comparison with the reference, and indices in S^2.
+
+ORDER = ("S", "A-", "C", "A+", "N")
+NAMES = {"S": "-e3", "A-": "A-", "C": "C", "A+": "A+", "N": "e3"}  # as the text of Section 5.1 names them
+TEX = {"S": "$S$", "A-": "$A_-$", "C": "$C$", "A+": "$A_+$", "N": "$N$"}
+POLES = [(0, "lower"), (0, "upper")]  # P/G = {-1, 1}, the facets of [-1, 1] that the poles form
+# The indices in S^2 proved on explicit index pairs (Appendix supp:sphere-pairs), as CMGDB shift
+# classes in degrees 0, 1, 2: x-1 is the field F_5 with the identity map, 0 the zero group.
+PROVED = {"S": ["0", "0", "x-1"], "A-": ["x-1", "x-1", "0"], "C": ["0", "x-1", "x-1"],
+          "A+": ["x-1", "x-1", "0"], "N": ["0", "0", "x-1"]}
+
+
+def reference_roles(graph):
+    """The reference invariant set whose height lies in the cells of each Morse set.
+
+    For the reference graph each Morse set contains exactly one of the heights of
+    REFERENCE_HEIGHTS; ValueError otherwise. Returns {node: role}.
+    """
+    result = {}
+    for row in graph.nodes:
+        lo, hi = row["hull"]
+        inside = [name for name, height in REFERENCE_HEIGHTS.items() if lo <= height <= hi]
+        if len(inside) != 1:
+            raise ValueError(f"The Morse set {row['node']} contains the reference sets {inside}.")
+        result[row["node"]] = inside[0]
+    if sorted(result.values()) != sorted(REFERENCE_HEIGHTS):
+        raise ValueError("The reference graph does not have one Morse set for each reference set.")
+    return result
+
+
+def node_roles(graph):
+    """{node: role}: the roles carried by a learned graph, or those of `reference_roles`."""
+    if all("role" in row for row in graph.nodes):
+        return {row["node"]: row["role"] for row in graph.nodes}
+    return reference_roles(graph)
+
+
+def _unique_roles(graph):
+    roles = node_roles(graph)
+    if None in roles.values() or len(set(roles.values())) != len(roles):
+        raise ValueError("Each Morse set needs its own role; use the merged graph.")
+    return roles
+
+
+def role_edges(graph):
+    """The edges of a Morse graph as pairs of roles, in the order of ORDER."""
+    roles = node_roles(graph)
+    return sorted(([roles[a], roles[b]] for a, b in graph.edges), key=lambda e: (ORDER.index(e[0]), ORDER.index(e[1])))
+
+
+def compare_graphs(reference, learned):
+    """Compare the learned Morse graph with the reference graph role by role.
+
+    The graphs agree when they have the same roles, the same annotations at each role and
+    the same edges between roles.
+    """
+    ref_roles, learned_roles = _unique_roles(reference), _unique_roles(learned)
+    ref = {ref_roles[row["node"]]: row for row in reference.nodes}
+    new = {learned_roles[row["node"]]: row for row in learned.nodes}
+    rows = []
+    for role in ORDER:
+        a, b = ref.get(role), new.get(role)
+        rows.append(dict(role=role, reference_cells=a["cell_ids"] if a else None,
+                         reference_annotations=a["annotations"] if a else None,
+                         learned_cells=b["cell_ids"] if b else None,
+                         learned_annotations=b["annotations"] if b else None,
+                         learned_morse_sets=(b.get("original_nodes", [b["node"]]) if b else None),
+                         agree=bool(a and b and a["annotations"] == b["annotations"])))
+    edges_agree = role_edges(reference) == role_edges(learned)
+    return dict(nodes=rows, reference_edges=role_edges(reference), learned_edges=role_edges(learned),
+                edges_agree=edges_agree, agree=bool(edges_agree and all(row["agree"] for row in rows)))
+
+
+def reconstructed_indices(graphs):
+    """The Conley indices in S^2 of the Morse sets of each graph, by Theorem thm:sphere-reconstruction.
+
+    `graphs` maps a name to a MorseGraph on the grid of [-1, 1]. For each Morse set,
+    `homology.reconstructed_index` evaluates the theorem on the index pair (|M u F(M)|,
+    |F(M) minus M|) of the outer approximation F, with P/G = {-1, 1}, m = 1 (the orbits are
+    circles) and degree 1. The quotient index it computes is checked against CMGDB's
+    annotation. Returns {name: {role: record}} with the shift classes of the quotient index,
+    of the index relative to N_P/G, and of the index in S^2.
+    """
+    result = {}
+    for name, graph in graphs.items():
+        roles = _unique_roles(graph)
+        grid = homology.Grid((len(graph.boxes),))
+        outer = homology.BoxMap.from_relation(grid, graph.offsets, graph.targets)
+        result[name] = {}
+        for row in sorted(graph.nodes, key=lambda row: ORDER.index(roles[row["node"]])):
+            answer = homology.reconstructed_index(outer, row["cell_ids"], fixed=POLES, m=1)
+            quotient = answer.quotient.shift_class()
+            if quotient != list(row["annotations"]):
+                raise RuntimeError(f"{name} {roles[row['node']]}: the quotient index {quotient} differs from "
+                                   f"CMGDB's annotation {row['annotations']}.")
+            result[name][roles[row["node"]]] = dict(
+                cells=list(row["cell_ids"]), index_pair_cells=grid.ids(answer.N),
+                exit_cells=grid.ids(answer.L), fixed_point_cells=len(answer.N_P), quotient=quotient,
+                relative=answer.relative.shift_class(), in_X=answer.lifted.shift_class(),
+                proved=PROVED[roles[row["node"]]],
+                agree=answer.lifted.shift_class() == PROVED[roles[row["node"]]])
+    return result
+
+
+def homology_degrees(index):
+    """The degrees in which a shift class is nonzero, as in 'H_1 = H_2 = F'."""
+    degrees = [str(k) for k, value in enumerate(index) if value != "0"]
+    return " = ".join(f"H_{k}" for k in degrees) + " = F" if degrees else "trivial"
+
+
+# Figures.
+
+def _view(elevation=8., azimuth=-60.):
+    """The view direction and the screen axes of `plotting.sphere_bands`."""
+    elevation, azimuth = np.deg2rad(elevation), np.deg2rad(azimuth)
+    direction = np.array([np.cos(elevation) * np.cos(azimuth), np.cos(elevation) * np.sin(azimuth),
+                          np.sin(elevation)])
+    horizontal = np.array([-np.sin(azimuth), np.cos(azimuth), 0.])
+    return direction, horizontal, np.cross(direction, horizontal)
+
+
+def _limb(z):
+    """The screen position of the right end of the circle of latitude of height z."""
+    direction, horizontal, vertical = _view()
+    phi = np.arctan2(horizontal[1], horizontal[0])
+    point = np.array([np.sqrt(1 - z * z) * np.cos(phi), np.sqrt(1 - z * z) * np.sin(phi), z])
+    return float(point @ horizontal), float(point @ vertical)
+
+
+def morse_bands(graph, boundaries):
+    """Bands of latitude (z_lower, z_upper, role) covered by the Morse sets of a graph.
+
+    `boundaries` are the heights of the cell boundaries: the grid itself for the reference
+    graph, the encoder preimages of `lifted_grid` for a learned graph. Adjacent cells of one
+    Morse set form one band.
+    """
+    roles, boundaries, bands = node_roles(graph), np.asarray(boundaries, float), []
+    for row in graph.nodes:
+        ids = sorted(row["cell_ids"])
+        start = ids[0]
+        for a, b in zip(ids, ids[1:] + [None]):
+            if b != a + 1:
+                bands.append((float(boundaries[start]), float(boundaries[a + 1]), roles[row["node"]]))
+                start = b
+    return bands
+
+
+def sphere_panel(bands, path):
+    """The bands on the sphere in the colors of their roles, with the latitudes labeled."""
+    plt = plotting.style()
+    fig, ax = plt.subplots(figsize=(2.3, 2.5))
+    plotting.sphere_bands(ax, [(lo, hi, plotting.color(role)) for lo, hi, role in bands])
+    for role in ("A-", "C", "A+"):
+        heights = [(lo + hi) / 2 for lo, hi, name in bands if name == role]
+        if heights:
+            x, y = _limb(float(np.mean(heights)))
+            ax.text(x + .07, y, TEX[role], color=plotting.color(role), ha="left", va="center")
+    path = plotting.save_panel(fig, path)
+    plt.close(fig)
+    return path
+
+
+def graph_panel(graph, annotations, path):
+    """The Morse graph with a label `role: (index)` at each node, the nodes in order of height."""
+    roles = node_roles(graph)
+    ordered = sorted(graph.nodes, key=lambda row: row["hull"][0])
+    nodes = {row["node"]: (plotting.label(roles[row["node"]], annotations[roles[row["node"]]]), roles[row["node"]])
+             for row in ordered}
+    return plotting.graph(nodes, graph.edges, path)
+
+
+def interval_panel(graph, xlabel, path):
+    """The cells of the Morse sets in the interval, labeled by role."""
+    plt = plotting.style()
+    roles = node_roles(graph)
+    fig, ax = plt.subplots(figsize=(4.6, .8))
+    plotting.interval_strip(ax, graph.boxes, roles, xlabel, graph.membership)
+    for row in graph.nodes:
+        role = roles[row["node"]]
+        ax.text(float(np.mean(row["hull"])), .24, TEX[role], color=plotting.color(role), ha="center", va="bottom")
+    ax.set_xticks([-1, 0, 1])
+    path = plotting.save_panel(fig, path)
+    plt.close(fig)
+    return path
+
+
+def learned_height_curve(model, graph):
+    """The curve z -> d(f^10(E(p_z))), p_z the point of height z on a meridian, and its fixed points.
+
+    The curve is sampled at 1,601 equally spaced heights and 200 heights toward each pole,
+    1 - |z| = 10^-s with s equally spaced in [1, 12]. Its fixed points are the poles and the
+    roots of the curve minus the identity at its sign changes (Brent, to 1e-14). Each fixed
+    point carries its slope (central difference 1e-6, one-sided at the poles) and the role of
+    the Morse set of `graph` whose cells contain its code E(p_z), or None.
+    """
+    maps = functions(model)
+    curve = lambda z: maps["decode"](maps["time_ten"](maps["height_map"](np.asarray(z, float))))  # noqa: E731
+    near = 1 - 10.**-np.linspace(1, 12, 200)
+    z = np.unique(np.r_[np.linspace(-1, 1, 1601), near, -near])
+    values = curve(z)
+    excess = values - z
+    roots = [-1., 1.]
+    for i in np.flatnonzero(excess[:-1] * excess[1:] < 0):
+        roots.append(float(brentq(lambda x: float(curve(np.array([x]))[0]) - x, z[i], z[i + 1], xtol=1e-14)))
+    index = grids.CellIndex(graph.boxes[:, :1], graph.boxes[:, 1:])
+    roles, h = node_roles(graph), 1e-6
+    fixed = []
+    for root in sorted(roots):
+        lo, hi = max(-1., root - h), min(1., root + h)
+        slope = float((curve(np.array([hi]))[0] - curve(np.array([lo]))[0]) / (hi - lo))
+        code = float(maps["height_map"](np.array([root]))[0])
+        cells = [c for c in index.containing(np.array([[code]]), slack=0)[0] if c >= 0]
+        nodes = {int(graph.membership[c]) for c in cells} - {-1}
+        fixed.append(dict(height=root, code=code, slope=slope,
+                          role=roles[nodes.pop()] if len(nodes) == 1 else None))
+    return dict(height=z, value=values, fixed_points=fixed)
+
+
+def _fixed_point_marks(ax, points):
+    for point in points:
+        ink = plotting.color(point["role"])
+        ax.plot(point["height"], point["height"], "o", ms=4.2, mec=ink, mew=1.,
+                mfc=ink if point["slope"] < 1 else plotting.WHITE, zorder=3, clip_on=False)
+
+
+def height_map_panel(model, graph, path):
+    """The learned height map d(f^10(E(p_z))) against z, with its fixed points.
+
+    A fixed point is drawn in the color of the Morse set whose cells contain its code,
+    filled where the slope is below one (attracting) and open otherwise.
+    """
+    plt = plotting.style()
+    curve = learned_height_curve(model, graph)
+    fig, ax = plt.subplots(figsize=(2.35, 2.2))
+    ax.plot([-1, 1], [-1, 1], color=plotting.LIGHT, lw=1)
+    ax.plot(curve["height"], curve["value"], color=plotting.INK, lw=1)
+    _fixed_point_marks(ax, curve["fixed_points"])
+    ax.set(xlim=(-1.08, 1.08), ylim=(-1.08, 1.08), xticks=[-1, 0, 1], yticks=[-1, 0, 1], aspect="equal",
+           xlabel="$z$", ylabel="$d(f^{10}(E(p_z)))$")
+    path = plotting.save_panel(fig, path)
+    plt.close(fig)
+    return path
+
+
+def height_flow(z, duration):
+    """h_t(z), the flow of z' = z (0.4^2 - z^2)(1 - z^2) at time `duration`, integrated in arctanh(z)."""
+    z = np.asarray(z, float)
+    out = z.copy()
+    inside = np.abs(z) < 1
+    out[inside] = np.tanh(_flow(np.arctanh(z[inside]), float(duration))[:, -1])
+    return out
+
+
+def physical_height_panel(path, duration=3.):
+    """The physical height map h_3 against z, with the fixed heights of the reference sets."""
+    plt = plotting.style()
+    near = 1 - 10.**-np.linspace(1, 12, 100)
+    z = np.unique(np.r_[np.linspace(-1, 1, 1401), near, -near])
+    fig, ax = plt.subplots(figsize=(2.35, 2.2))
+    ax.plot([-1, 1], [-1, 1], color=plotting.LIGHT, lw=1)
+    ax.plot(z, height_flow(z, duration), color=plotting.INK, lw=1)
+    _fixed_point_marks(ax, [dict(height=height, role=role, slope=.5 if role in ("A-", "A+") else 2.)
+                            for role, height in REFERENCE_HEIGHTS.items()])
+    ax.set(xlim=(-1.08, 1.08), ylim=(-1.08, 1.08), xticks=[-1, -.4, 0, .4, 1], yticks=[-1, 0, 1],
+           xticklabels=["$-1$", "$-0.4$", "$0$", "$0.4$", "$1$"], aspect="equal", xlabel="$z$",
+           ylabel=f"$h_{{{duration:g}}}(z)$")
+    path = plotting.save_panel(fig, path)
+    plt.close(fig)
+    return path
+
+
+TRAJECTORY_STARTS = ((-.93, .5), (-.72, 2.5), (-.12, 4.), (.12, 1.), (.72, 3.), (.93, 5.))
+
+
+def trajectories_panel(path, duration=18., samples=1201):
+    """Six trajectories of V on the visible hemisphere, with the latitudes z = -0.4, 0, 0.4.
+
+    Each trajectory starts at a height z0 and a longitude phi0 of TRAJECTORY_STARTS; its
+    height follows h_t and its longitude turns at rate 0.6. A dot marks the start and an
+    arrow the direction of motion at t = 3.
+    """
+    plt = plotting.style()
+    direction, horizontal, vertical = _view()
+    fig, ax = plt.subplots(figsize=(2.3, 2.5))
+    plotting.sphere_bands(ax, [])
+    times = np.linspace(0., duration, samples)
+    starts = np.array(TRAJECTORY_STARTS)
+    w = _flow(np.arctanh(starts[:, 0]), duration, t_eval=times)
+    for latitude, phi0 in zip(w, starts[:, 1], strict=True):
+        phi = phi0 + .6 * times
+        points = np.column_stack((np.cos(phi) / np.cosh(latitude), np.sin(phi) / np.cosh(latitude), np.tanh(latitude)))
+        visible = points @ direction > 0
+        x, y = points @ horizontal, points @ vertical
+        ax.plot(np.where(visible, x, np.nan), np.where(visible, y, np.nan), color=plotting.GRAY, lw=.7)
+        if visible[0]:
+            ax.plot(x[0], y[0], "o", color=plotting.INK, ms=2.5)
+        arrow = next((i for i in range(samples // 6, samples - 1) if visible[i] and visible[i + 1]), None)
+        if arrow is not None:
+            ax.annotate("", xy=(x[arrow + 1], y[arrow + 1]), xytext=(x[arrow], y[arrow]),
+                        arrowprops=dict(arrowstyle="-|>", color=plotting.GRAY, lw=.7, mutation_scale=7))
+    phi = np.linspace(0, 2 * np.pi, 721)
+    for role in ("A-", "C", "A+"):
+        z = REFERENCE_HEIGHTS[role]
+        circle = np.column_stack((np.sqrt(1 - z * z) * np.cos(phi), np.sqrt(1 - z * z) * np.sin(phi), np.full_like(phi, z)))
+        visible = circle @ direction > 0
+        ax.plot(np.where(visible, circle @ horizontal, np.nan), np.where(visible, circle @ vertical, np.nan),
+                color=plotting.color(role), lw=1.3, ls="--" if role == "C" else "-")
+        x, y = _limb(z)
+        ax.text(x + .07, y, TEX[role], color=plotting.color(role), ha="left", va="center")
+    path = plotting.save_panel(fig, path)
+    plt.close(fig)
+    return path
+
+
+def _panels(paths, folder):
+    """{manuscript name: PDF path} for panels saved under `folder`."""
+    return {path.relative_to(folder).with_suffix("").as_posix(): path for path in paths}
+
+
+def figure_sphere_computation(model, merged, folder):
+    """fig:sphere-computation: the learned height map and the Morse graph of f^10 in [-1, 1].
+
+    Returns {panel name: PDF path}, the names those of the manuscript's panel files.
+    """
+    folder = Path(folder)
+    annotations = {row["role"]: row["annotations"] for row in merged.nodes}
+    return _panels([height_map_panel(model, merged, folder / "dynamics/learned-height-map"),
+                    graph_panel(merged, annotations, folder / "sphere/learned-conley-morse-interval")], folder)
+
+
+def figure_sphere_reconstruction(model, merged, indices, folder):
+    """fig:sphere-reconstruction: E^{-1}(|M|) in S^2 and the reconstructed Conley-Morse graph in S^2.
+
+    The bands are the preimages of the cells of the merged Morse sets under the encoder, by
+    inversion along a meridian (`lifted_grid`); the indices are those of `reconstructed_indices`.
+    """
+    folder = Path(folder)
+    boundaries = lifted_grid(model)["physical_boundaries"]
+    in_x = {role: row["in_X"] for role, row in indices["learned"].items()}
+    return _panels([sphere_panel(morse_bands(merged, boundaries), folder / "sphere/learned-sphere"),
+                    graph_panel(merged, in_x, folder / "sphere/learned-conley-morse-sphere")], folder)
+
+
+def figure_sphere_height(folder):
+    """fig:appendix-sphere-height: trajectories on the sphere and the physical height map h_3."""
+    folder = Path(folder)
+    return _panels([trajectories_panel(folder / "dynamics/sphere-trajectories"),
+                    physical_height_panel(folder / "dynamics/sphere-height-map")], folder)
+
+
+def figure_sphere_comparison(model, reference, merged, indices, folder):
+    """fig:appendix-sphere-comparison: the reference (left) and the learned map (right).
+
+    The rows are the preimages of the Morse sets on the sphere, their cells in the interval,
+    the Morse graphs with their indices in [-1, 1], and the Morse graphs with the indices in
+    S^2 reconstructed from them.
+    """
+    folder = Path(folder)
+    grid_heights = np.linspace(-1, 1, len(reference.boxes) + 1)
+    learned_heights = lifted_grid(model)["physical_boundaries"]
+    paths = [sphere_panel(morse_bands(reference, grid_heights), folder / "sphere/analytical-sphere"),
+             sphere_panel(morse_bands(merged, learned_heights), folder / "sphere/learned-sphere"),
+             interval_panel(reference, "$z$", folder / "sphere/analytical-interval"),
+             interval_panel(merged, "$u$", folder / "sphere/learned-interval")]
+    for kind, key in (("quotient", "quotient"), ("reconstructed", "in_X")):
+        for name, graph in (("analytical", reference), ("learned", merged)):
+            source = "reference" if name == "analytical" else "learned"
+            labels = {role: row[key] for role, row in indices[source].items()}
+            paths.append(graph_panel(graph, labels, folder / f"sphere/{name}-{kind}"))
+    return _panels(paths, folder)
+
+
+# The record of the results checked in replay.
+
+def weights_digest(path):
+    """SHA-256 of the arrays of a weights file in their order, independent of the archive bytes."""
+    digest = hashlib.sha256()
+    with np.load(path, allow_pickle=False) as saved:
+        for key in sorted(saved.files, key=int):
+            value = np.ascontiguousarray(saved[key])
+            digest.update(f"{key}:{value.dtype.str}:{value.shape}".encode())
+            digest.update(value.tobytes())
+    return digest.hexdigest()
+
+
+def _graph_record(graph):
+    roles = node_roles(graph)
+    record = graph.record()
+    for row in record["nodes"]:
+        row["role"] = roles[row["node"]]
+    return record
+
+
+def record_of(fit, metrics, reference, raw, merged, rows, details, indices):
+    """The JSON-ready record of every result the notebook checks, from computed parts.
+
+    `fit` names the fit and the digest of its weights, `metrics` is `diagnostics`, the
+    graphs come from `reference_graph` and `learned_graph`, `rows` and `details` from
+    `attracting_regions` and `indices` from `reconstructed_indices`.
+    """
+    return dict(
+        example="ex1_so2_flow", fit=dict(fit), diagnostics=metrics,
+        graphs=dict(reference=_graph_record(reference), raw=_graph_record(raw), merged=_graph_record(merged)),
+        comparison=compare_graphs(reference, merged),
+        regions=dict(rows=rows, meridian_samples=int(len(details["theta"])),
+                     labels=[int(v) for v in details["labels"]]),
+        indices=indices)
+
+
+EXACT = ("fit", "graphs", "comparison", "indices")  # compared exactly; other numbers to a relative tolerance
+
+
+def compare_records(new, saved, rtol=1e-9, exact=EXACT):
+    """Compare two records: the parts named in `exact` exactly, the other numbers to `rtol`.
+
+    Returns the number of compared values and a list of differences, each a path and both values.
+    """
+    differences, count = [], 0
+
+    def walk(a, b, path, strict):
+        nonlocal count
+        if isinstance(a, dict) and isinstance(b, dict):
+            for key in sorted(set(a) | set(b)):
+                if key not in a or key not in b:
+                    differences.append((f"{path}/{key}", a.get(key, "missing"), b.get(key, "missing")))
+                else:
+                    walk(a[key], b[key], f"{path}/{key}", strict or (path == "" and key in exact))
+        elif isinstance(a, (list, tuple)) and isinstance(b, (list, tuple)):
+            if len(a) != len(b):
+                differences.append((path, f"{len(a)} entries", f"{len(b)} entries"))
+            else:
+                for i, (x, y) in enumerate(zip(a, b)):
+                    walk(x, y, f"{path}/{i}", strict)
+        else:
+            count += 1
+            numbers = all(isinstance(v, (int, float)) and not isinstance(v, bool) for v in (a, b))
+            if numbers and not strict and (isinstance(a, float) or isinstance(b, float)):
+                same = a == b or abs(a - b) <= rtol * max(abs(a), abs(b))
+            else:
+                same = type(a) is type(b) and a == b
+            if not same:
+                differences.append((path, a, b))
+
+    walk(json.loads(json.dumps(new)), json.loads(json.dumps(saved)), "", False)
+    return count, differences
+
+
+def selected_run(folder):
+    """The name of the selected fit in `<folder>/selection.json`."""
+    return training.read(Path(folder) / "selection.json")["all"]["selected"]
+
+
+def reference_record(folder):
+    """The record of the selected fit of the data folder `folder`, for `scripts/record_reference.py`."""
+    folder = Path(folder)
+    settings = training.read(folder / "config.json")
+    run = selected_run(folder)
+    model, data = load(folder / "models" / run), load_data(folder)
+    reference = reference_graph(settings)
+    raw, merged = learned_graph(model, settings)
+    rows, details = attracting_regions(model, raw, settings)
+    indices = reconstructed_indices(dict(reference=reference, learned=merged))
+    fit = dict(run=run, weights_sha256=weights_digest(folder / "models" / run / "weights.npz"))
+    return record_of(fit, diagnostics(model, data), reference, raw, merged, rows, details, indices)
+
+
+# Steps of the notebook ex1_so2_flow.ipynb.
+
+ROOT = Path(__file__).resolve().parents[1]
+EXAMPLE = "ex1_so2_flow"
+
+
+class Table:
+    """A table shown by a notebook cell: HTML in Jupyter, aligned text otherwise."""
+
+    def __init__(self, header, rows, caption=None):
+        self.header, self.rows, self.caption = [str(h) for h in header], [[str(c) for c in r] for r in rows], caption
+
+    def _repr_html_(self):
+        head = "".join(f"<th style='text-align:left'>{escape(h)}</th>" for h in self.header)
+        body = "".join("<tr>" + "".join(f"<td style='text-align:left'>{escape(c)}</td>" for c in row) + "</tr>"
+                       for row in self.rows)
+        title = f"<caption style='text-align:left'>{escape(self.caption)}</caption>" if self.caption else ""
+        return f"<table>{title}<thead><tr>{head}</tr></thead><tbody>{body}</tbody></table>"
+
+    def __repr__(self):
+        widths = [max(len(r[i]) for r in [self.header] + self.rows) for i in range(len(self.header))]
+        lines = ([self.caption] if self.caption else []) + [
+            "  ".join(c.ljust(w) for c, w in zip(row, widths)) for row in [self.header] + self.rows]
+        return "\n".join(lines)
+
+
+class Line:
+    """A one-line result shown by a notebook cell."""
+
+    def __init__(self, text, passed=True, **values):
+        self.text, self.passed, self.values = text, passed, values
+
+    def _repr_html_(self):
+        return f"<p>{escape(self.text)}</p>"
+
+    def __repr__(self):
+        return self.text
+
+
+def _fmt(value, digits=4):
+    return "none" if value is None else f"{value:.{digits}g}"
+
+
+def _relative(path):
+    path = Path(path).resolve()
+    return str(path.relative_to(ROOT)) if path.is_relative_to(ROOT) else path.name
+
+
+def _tuple(annotations):
+    return "(" + ", ".join(annotations) + ")"
+
+
+def _role_name(role):
+    return "none" if role is None else (f"{role} ({NAMES[role]})" if NAMES[role] != role else role)
+
+
+@dataclass
+class Run:
+    """The mode, the data folder, the selected fit, the settings and the output folder of a notebook run."""
+    mode: str
+    data: Path
+    selected: str
+    settings: dict
+    out: Path
+
+    @property
+    def figures(self):
+        return self.out / "figures"
+
+    @property
+    def fit(self):
+        """The fit used: its name and the digest of its weights, stored (replay) or retrained (train)."""
+        folder = self.out if self.mode == "train" else self.data / "models"
+        return dict(run=self.selected, weights_sha256=weights_digest(folder / self.selected / "weights.npz"))
+
+    def table(self):
+        analysis = self.settings["analysis"]
+        return Table(["Setting", "Value"], [
+            ["Mode", "replay of the selected fit" if self.mode == "replay"
+             else "retraining of the selected seed with config.json"],
+            ["Selected fit", f"{self.selected}, lowest validation objective ({_relative(self.data / 'selection.json')})"],
+            ["Grid", f"2^{int(np.log2(analysis['cells']))} cells of [-1, 1]"],
+            ["Map of the Morse graph", f"f^{analysis['time_map_iterates']}, for the learned time-one map f"],
+            ["Image hulls", f"{analysis['image_samples']} samples per cell, padding {analysis['image_padding']:g}"],
+            ["Output folder", _relative(self.out)]])
+
+    def _repr_html_(self):
+        return self.table()._repr_html_()
+
+    def __repr__(self):
+        return repr(self.table())
+
+
+def start(mode="replay", out=None):
+    """Check the mode, read the selection and settings, and make a new output folder.
+
+    `out` None makes `outputs/notebooks/ex1_so2_flow-<mode>-<time>`; a relative `out` is taken
+    from the repository root. The folder must not exist yet.
+    """
+    if mode not in ("replay", "train"):
+        raise ValueError('MODE is "replay" or "train".')
+    data = ROOT / "data" / EXAMPLE
+    if out is None:
+        out = ROOT / "outputs" / "notebooks" / f"{EXAMPLE}-{mode}-{datetime.now().strftime('%Y%m%d-%H%M%S')}"
+    out = Path(out) if Path(out).is_absolute() else ROOT / out
+    if out.exists():
+        raise FileExistsError(f"{_relative(out)} exists; choose a new OUT.")
+    (out / "figures").mkdir(parents=True)
+    return Run(mode, data, selected_run(data), training.read(data / "config.json"), out)
+
+
+def system_table():
+    """Sampled checks of the system and the explicit enclosures of the reference quotient map."""
+    rng = np.random.default_rng(0)
+    p = rng.normal(size=(1000, 3))
+    p /= np.linalg.norm(p, axis=1, keepdims=True)
+    equivariance = max(float(np.max(np.abs(vector_field(rotate(p, a)) - rotate(vector_field(p), a))))
+                       for a in (.3, 1.7, 4.))
+    rate = float(vector_field(np.array([np.sqrt(.75), 0., .5]))[2])
+    boundaries = np.linspace(-1, 1, DEFAULTS["analysis"]["cells"] + 1)
+    widths = [hi - lo for lo, hi in map(time_ten, boundaries)]
+    exact = all(time_ten(z) == (z, z) for z in (-1., 0., 1.))
+    return Table(["Check", "Value"], [
+        ["Equivariance of V: max |V(R p) - R V(p)| over 1,000 points and 3 rotations", _fmt(equivariance, 3)],
+        ["Height rate z(0.4^2 - z^2)(1 - z^2) at z = 1/2", _fmt(rate, 6)],
+        ["Widest enclosure of h_10 at the 129 cell boundaries of the grid", _fmt(max(widths), 3)],
+        ["h_10 fixes -1, 0 and 1 exactly", "yes" if exact else "no"]],
+        "The reference quotient map h_10 is enclosed by bisection, in exact rational arithmetic, on "
+        "Q(z) = w^21 (1 - w)^4 / |w - 4/25|^25, w = z^2, which satisfies Q(h_t(z)) = exp(168 t/25) Q(z).")
+
+
+def graph_table(graph, coordinate, caption=None):
+    """The Morse sets of a graph: cells, interval, Conley index annotation, role and edges."""
+    roles = node_roles(graph)
+    successors = {}
+    for a, b in graph.edges:
+        successors.setdefault(a, []).append(f"{b} ({roles[b]})")
+    rows = []
+    for row in sorted(graph.nodes, key=lambda row: row["hull"][0]):
+        cells = row["cell_ids"]
+        rows.append([row["node"], _role_name(roles[row["node"]]),
+                     ", ".join(map(str, row.get("original_nodes", []))) or "",
+                     ", ".join(map(str, cells)), f"[{row['hull'][0]:.6g}, {row['hull'][1]:.6g}]",
+                     _tuple(row["annotations"]), ", ".join(sorted(successors.get(row["node"], []))) or "none"])
+    header = ["Morse set", "Role", "Merged Morse sets", "Cells", f"Interval in {coordinate}", "Conley index", "Edges to"]
+    if not any(r[2] for r in rows):
+        header.pop(2)
+        rows = [r[:2] + r[3:] for r in rows]
+    return Table(header, rows, caption)
+
+
+def data_table(data, folder):
+    """The splits of the data: starts, the share near the poles, and the times."""
+    metadata = training.read(Path(folder) / "metadata.json")
+    rows = []
+    for split in SPLITS:
+        z = data[f"{split}_p0"][:, 2]
+        rows.append([split, len(z), f"{np.mean(1 - np.abs(z) <= 1e-2):.3f}",
+                     ", ".join(f"{t:g}" for t in metadata["times"])])
+    return Table(["Split", "Starts", "Share within 0.01 of a pole", "Times"], rows,
+                 f"Generated by {metadata['generator']}; every array matches its SHA-256 checksum in "
+                 f"{_relative(Path(folder) / 'metadata.json')}.")
+
+
+def seeds_table(run):
+    """All fits of the sweep, ranked by validation objective, with their stored held-out errors."""
+    selection = training.read(run.data / "selection.json")["all"]
+    rows = []
+    for rank, entry in enumerate(selection["ranking"], 1):
+        folder = run.data / "models" / entry["run"]
+        config, metrics = training.read(folder / "config.json"), training.read(folder / "metrics.json")
+        rows.append([rank, entry["run"] + (" (selected)" if entry["run"] == selection["selected"] else ""),
+                     _fmt(entry["validation"]), config["best_step"],
+                     _fmt(metrics["forecasts"]["1"]["orbit_chordal_rms"]),
+                     _fmt(metrics["forecasts"]["10"]["orbit_chordal_rms"]),
+                     "yes" if metrics["sampled_encoder_increasing"] else "no",
+                     _fmt(metrics["minimum_sampled_encoder_derivative"], 3),
+                     len(metrics["observed_sign_change_fixed_points"])])
+    return Table(["Rank", "Fit", "Validation objective", "Selected step", "One-step orbit RMS",
+                  "Ten-step orbit RMS", "E increasing", "Least slope of E", "Fixed points of f"], rows,
+                 f"Selection by {selection['criterion']}. Held-out errors on the test starts, from the stored "
+                 "metrics of each fit.")
+
+
+def selected_fit(run, data):
+    """The selected fit: loaded from `data/ex1_so2_flow/models` in replay, retrained in train mode.
+
+    Retraining uses the seed of the selected fit and `config.json`, on the CPU, and writes
+    into `<out>/<fit>`. Returns the model and a line that reports the fit.
+    """
+    stored = run.data / "models" / run.selected
+    config = training.read(stored / "config.json")
+    if run.mode == "replay":
+        model = load(stored)
+        return model, Line(f"Loaded {run.selected} from {_relative(stored)}: selected at step {config['best_step']:,} "
+                           f"with validation objective {config['best_validation']:.6g}; weights digest "
+                           f"{weights_digest(stored / 'weights.npz')[:16]}.")
+    folder = run.out / run.selected
+    model = train(folder, data, config["seed"], run.settings)
+    new = training.read(folder / "config.json")
+    same = weights_digest(folder / "weights.npz") == weights_digest(stored / "weights.npz")
+    with np.load(folder / "weights.npz") as a, np.load(stored / "weights.npz") as b:
+        gap = max(float(np.max(np.abs(a[k] - b[k]), initial=0.)) for k in a.files)
+    return model, Line(f"Trained seed {config['seed']} for {run.settings['training']['steps']:,} updates in "
+                       f"{new['seconds']:.0f} s; selected at step {new['best_step']:,} with validation objective "
+                       f"{new['best_validation']:.6g}. The weights " +
+                       ("equal those of the stored fit bitwise." if same else
+                        f"differ from those of the stored fit by at most {gap:.3g}."), passed=same)
+
+
+def diagnostics_table(metrics):
+    """The held-out orbit errors and the sampled checks of the encoder and the latent map."""
+    forecasts = metrics["forecasts"]
+    rows = [[f"Orbit RMS of d(f^{h}(E(p))) against the orbit at time {h}", _fmt(forecasts[h]["orbit_chordal_rms"]),
+             _fmt(forecasts[h]["height_rms"]), _fmt(forecasts[h]["height_maximum"])] for h in ("0", "1", "10")]
+    rows += [["Invariance of E: max |E(R p) - E(p)|, 3 rotations", _fmt(metrics["sampled_encoder_invariance_error"], 3), "", ""],
+             ["E increasing along a meridian; least slope", "yes" if metrics["sampled_encoder_increasing"] else "no",
+              _fmt(metrics["minimum_sampled_encoder_derivative"], 3), ""],
+             ["f increasing; least slope", "yes" if metrics["sampled_time_map_increasing"] else "no",
+              _fmt(metrics["minimum_sampled_time_map_derivative"], 3), ""],
+             ["Residual |f^10(E(p)) - E(F(p))|: RMS and maximum on the test starts",
+              _fmt(metrics["sampled_time_ten_residual_rms"]), _fmt(metrics["sampled_time_ten_residual_maximum"]), ""]]
+    fixed = ", ".join(f"{row['physical_height']:.4f}" for row in metrics["observed_sign_change_fixed_points"])
+    rows.append(["Heights z with E(p_z) a fixed point of f", fixed, "", ""])
+    return Table(["Quantity", "Orbit or value", "Height RMS", "Height maximum"], rows,
+                 "Test split, 4,096 starts. The manuscript quotes the ten-step orbit RMS.")
+
+
+def comparison_table(comparison):
+    """The learned Morse graph against the reference, role by role, and the order."""
+    rows = []
+    for row in comparison["nodes"]:
+        rows.append([_role_name(row["role"]), ", ".join(map(str, row["reference_cells"] or [])),
+                     _tuple(row["reference_annotations"] or []),
+                     ", ".join(map(str, row["learned_cells"] or [])),
+                     ", ".join(map(str, row["learned_morse_sets"] or [])),
+                     _tuple(row["learned_annotations"] or []), "yes" if row["agree"] else "no"])
+    order = lambda edges: ", ".join(f"{NAMES[a]} -> {NAMES[b]}" for a, b in edges)  # noqa: E731
+    rows.append(["Order", order(comparison["reference_edges"]), "", order(comparison["learned_edges"]), "", "",
+                 "yes" if comparison["edges_agree"] else "no"])
+    return Table(["Role", "Reference cells", "Reference index", "Learned cells", "Raw Morse sets",
+                  "Learned index", "Agree"], rows,
+                 "The graphs agree" if comparison["agree"] else "The graphs differ")
+
+
+def regions_table(rows, graph):
+    """Tolerances of the attracting regions and the sampled residuals modulo G."""
+    roles = node_roles(graph)
+    body = []
+    for row in rows:
+        body.append([row["metric"], _role_name(roles[row["node"]]), row["cells"],
+                     f"[{row['hull'][0]:.6g}, {row['hull'][1]:.6g}]", f"{row['samples']:,}",
+                     _fmt(row["max_residual"]), _fmt(row["tolerance"]), "yes" if row["passed"] else "no"])
+    return Table(["Metric", "Minimal Morse set", "Cells of A", "|A| in u", "Samples in E^-1(N)",
+                  "Largest residual", "Tolerance", "Residual below tolerance"], body,
+                 "Euclidean rows: the metric of the learned interval, the values of Section 5.1. Chordal rows: the "
+                 "metric of the sphere heights. Sampled residuals and hulls, binary64, not validated.")
+
+
+def indices_table(indices):
+    """The indices in S^2 reconstructed for the reference and the learned graph, against the proved ones."""
+    rows = []
+    for role in ORDER:
+        ref, new = indices["reference"][role], indices["learned"][role]
+        rows.append([_role_name(role), _tuple(PROVED[role]), homology_degrees(PROVED[role]),
+                     _tuple(ref["quotient"]), _tuple(ref["in_X"]), _tuple(new["quotient"]), _tuple(new["in_X"]),
+                     "yes" if ref["agree"] and new["agree"] else "no"])
+    return Table(["Role", "Proved in S^2", "Nonzero groups", "Reference in [-1, 1]", "Reference in S^2",
+                  "Learned in [-1, 1]", "Learned in S^2", "Agree"], rows,
+                 "Shift classes over F_5 in degrees 0, 1, 2. The quotient indices computed here equal CMGDB's "
+                 "annotations. The reference reconstruction uses the enclosures of h_10; the learned one uses "
+                 "sampled hulls, so its indices are observed.")
+
+
+def check_record(run, record):
+    """Compare the record with `data/ex1_so2_flow/reference/results.json`.
+
+    The record is written to `<out>/record.json`. In replay any difference raises
+    AssertionError; in train mode the differences are reported.
+    """
+    path = run.data / "reference" / "results.json"
+    training.write(run.out / "record.json", record)
+    count, differences = compare_records(record, training.read(path))
+    text = (f"The record matches {_relative(path)}: {count:,} values, graphs and indices exactly, "
+            f"other numbers to relative 1e-9." if not differences else
+            f"The record differs from {_relative(path)} in {len(differences)} of {count:,} values, first at "
+            f"{differences[0][0]}.")
+    if differences and run.mode == "replay":
+        raise AssertionError(text + " " + "; ".join(f"{p}: {a!r} != {b!r}" for p, a, b in differences[:10]))
+    return Line(text, passed=not differences, compared=count, differences=differences)
+
+
+def _pair(rows, role, metric):
+    return next(row for row in rows if row["role"] == role and row["metric"] == metric)
+
+
+def summary(run, record, check):
+    """Every quantity of Section 5.1 and its appendix, computed and as the manuscript states it.
+
+    The manuscript values describe the fit of its current text; the computed values come from
+    the selected fit of this repository. Writes `<out>/verification.json`, which also lists the
+    saved panels, and returns the table.
+    """
+    roles = {row["node"]: row["role"] for row in record["graphs"]["raw"]["nodes"]}
+    regions_rows = [dict(row, role=roles[row["node"]]) for row in record["regions"]["rows"]]
+    ten = record["diagnostics"]["forecasts"]["10"]["orbit_chordal_rms"]
+    comparison, indices = record["comparison"], record["indices"]
+    raw, merged = record["graphs"]["raw"], record["graphs"]["merged"]
+    order = lambda edges: ", ".join(f"{NAMES[a]} -> {NAMES[b]}" for a, b in edges)  # noqa: E731
+    settings = run.settings
+    rows = [
+        ["Section 5.1", "Ten-step orbit RMS on held-out data", "0.016", _fmt(ten, 3)],
+        ["Section 5.1", "Morse graphs of f^10 and h_10 on 2^7 cells agree", "agree",
+         ("agree" if comparison["agree"] else "differ") +
+         f" after the prescribed merge ({len(raw['nodes'])} raw Morse sets, {len(merged['nodes'])} merged)"],
+        ["Section 5.1", "Order", "-e3 -> A-, C -> A-, C -> A+, e3 -> A+", order(comparison["learned_edges"])],
+        ["Section 5.1", "Conley indices in [-1, 1] match the reference", "yes",
+         "yes" if all(row["agree"] for row in comparison["nodes"]) else "no"]]
+    for role, residual, tolerance in (("A-", "0.026", "0.036"), ("A+", "0.033", "0.043")):
+        row = _pair(regions_rows, role, "euclidean")
+        rows.append(["Section 5.1", f"{NAMES[role]}: largest sampled residual of f^10 against the tolerance",
+                     f"{residual} < {tolerance}", f"{_fmt(row['max_residual'], 3)} < {_fmt(row['tolerance'], 3)}"
+                     if row["passed"] else f"{_fmt(row['max_residual'], 3)} >= {_fmt(row['tolerance'], 3)}"])
+    reconstructed = all(indices[name][role]["agree"] for name in indices for role in indices[name])
+    rows += [
+        ["Section 5.1", "Indices in S^2: H_2 = F at the poles, H_1 = H_2 = F at C, H_0 = H_1 = F at A-+",
+         "proved; reconstruction agrees", "reconstruction agrees for the reference and the learned graph"
+         if reconstructed else "reconstruction differs"],
+        ["supp:sphere-walkthrough", "Height derivative at z = 1/2", "-0.03375",
+         _fmt(float(vector_field(np.array([np.sqrt(.75), 0., .5]))[2]), 6)],
+        ["supp:sphere-computation", "Cells of the two attracting regions",
+         "41 and 84", " and ".join(str(_pair(regions_rows, r, "euclidean")["cells"]) for r in ("A-", "A+"))],
+        ["supp:sphere-computation", "Meridian samples", "69,537", f"{record['regions']['meridian_samples']:,}"]]
+    for metric, values in (("euclidean", ("(0.0363731, 0.0255590)", "(0.0433473, 0.0333390)")),
+                           ("chordal", ("(0.0390196, 0.0299066)", "(0.0455395, 0.0335467)"))):
+        for role, value in zip(("A-", "A+"), values):
+            row = _pair(regions_rows, role, metric)
+            rows.append(["supp:sphere-computation", f"{NAMES[role]}, {metric} metric: (tolerance, residual)", value,
+                         f"({row['tolerance']:.6g}, {row['max_residual']:.6g})"])
+    training_settings, sizes = settings["training"], settings["data"]["sizes"]
+    rows += [
+        ["Saved notebook configurations", "Training starts, updates, batch",
+         "4096, 8000, 256", f"{sizes['train']}, {training_settings['steps']}, {training_settings['batch']}"],
+        ["Saved notebook configurations", "Learning rate",
+         "1e-3 to 2e-5", f"{training_settings['learning_rate_start']:g} to {training_settings['learning_rate_end']:g}"],
+        ["fig:appendix-sphere-height", "Trajectories: count, times, angular speed", "6, 0 <= t <= 18, 0.6",
+         f"{len(TRAJECTORY_STARTS)}, 0 <= t <= 18, 0.6"],
+        ["Replay", "Record against the stored reference", "", "matches" if check.passed else "differs"]]
+    verification = dict(example=EXAMPLE, mode=run.mode, fit=record["fit"], record_matches_reference=check.passed,
+                        compared_values=check.values.get("compared"),
+                        differences=[list(map(str, d)) for d in check.values.get("differences", [])],
+                        summary=[dict(zip(("where", "statement", "manuscript", "computed"), row)) for row in rows],
+                        figures=sorted(str(p.relative_to(run.figures)) for p in run.figures.rglob("*.pdf")),
+                        versions={p: version(p) for p in VERSIONS})
+    training.write(run.out / "verification.json", verification)
+    return Table(["Where", "Statement", "Manuscript", "Computed"], rows,
+                 f"Written to {_relative(run.out / 'verification.json')}. The manuscript values describe the fit "
+                 "of its current text.")
