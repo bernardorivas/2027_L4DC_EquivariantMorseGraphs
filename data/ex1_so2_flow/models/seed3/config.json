@@ -1,0 +1,97 @@
+{
+  "seed": 3,
+  "best_step": 19900,
+  "best_validation": 0.00037823960045636957,
+  "seconds": 99.68899191601668,
+  "training": "joint orbit reconstruction, orbit prediction, and latent consistency",
+  "weights_format": "numeric-ordered-v1",
+  "parameter_changes": {
+    "encoder": 1.4685843969621082,
+    "decoder": 3.0501983945701374,
+    "dynamics": 4.078393358428366
+  },
+  "parameters": {
+    "encoder": 1217,
+    "decoder": 1153,
+    "dynamics": 1153
+  },
+  "settings": {
+    "experiment": "joint-interval-v1",
+    "seeds": [
+      0,
+      1,
+      2,
+      3,
+      4
+    ],
+    "data": {
+      "generator_seed": 20261112,
+      "sizes": {
+        "train": 16384,
+        "validation": 4096,
+        "test": 4096
+      },
+      "times": [
+        0,
+        1,
+        10
+      ],
+      "polar_fraction": 0.25,
+      "polar_distance_log10_range": [
+        -10,
+        -2
+      ],
+      "integration": {
+        "variable": "w=arctanh(z)",
+        "method": "DOP853",
+        "rtol": 2e-13,
+        "atol": 2e-14
+      }
+    },
+    "training": {
+      "width": 32,
+      "layers": 2,
+      "hidden": "scalar",
+      "steps": 20000,
+      "batch": 512,
+      "learning_rate_start": 0.002,
+      "learning_rate_end": 0.0001,
+      "validate_every": 100
+    },
+    "recipe": {
+      "encoder": "calibrated",
+      "encoder_shift_bound": 0.35,
+      "decoder_shift_bound": 0.35,
+      "time_shift_bound": 1.4,
+      "orbit_log_weight": 0.03,
+      "consistency_log_weight": 0.08,
+      "ordering_weight": 0.1,
+      "ordering_minimum_slope": 0.2,
+      "ordering_points": 65,
+      "ordering_domain": [
+        -0.999,
+        0.999
+      ]
+    },
+    "analysis": {
+      "cells": 128,
+      "image_samples": 65,
+      "time_map_iterates": 10,
+      "image_padding": 1e-10,
+      "region_samples": 65537,
+      "pole_samples_per_end": 2000,
+      "pole_angle_range": [
+        1e-09,
+        0.01
+      ]
+    }
+  },
+  "versions": {
+    "emlp": "1.0.3",
+    "objax": "1.8.0",
+    "jax": "0.4.38",
+    "numpy": "2.3.5",
+    "scipy": "1.15.3",
+    "cmgdb": "1.5.3+fork.7"
+  }
+}

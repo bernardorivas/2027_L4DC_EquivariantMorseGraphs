@@ -1,0 +1,191 @@
+{
+  "experiment": "joint-interval-v1",
+  "generator": "numpy.random.default_rng(20261112)",
+  "generator_seed": 20261112,
+  "sizes": {
+    "train": 16384,
+    "validation": 4096,
+    "test": 4096
+  },
+  "times": [
+    0,
+    1,
+    10
+  ],
+  "state_order": [
+    "x",
+    "y",
+    "z"
+  ],
+  "fields": {
+    "p": "states on S^2 at time t, shape (count, 3)",
+    "w": "log latitude arctanh(z) at time t, shape (count,)"
+  },
+  "initial_distribution": {
+    "uniform_height_fraction": 0.75,
+    "polar_fraction": 0.25,
+    "polar_distance_log10_range": [
+      -10,
+      -2
+    ],
+    "longitude": "uniform in [0, 2 pi)"
+  },
+  "flow": {
+    "height_rate": "z*(0.16-z*z)*(1-z*z)",
+    "longitude_rate": 0.6,
+    "log_latitude_rate": "tanh(w)*(0.16-tanh(w)**2)"
+  },
+  "integration": {
+    "variable": "w=arctanh(z)",
+    "method": "DOP853",
+    "rtol": 2e-13,
+    "atol": 2e-14
+  },
+  "training_pairs": [
+    "train_p0",
+    "train_p1"
+  ],
+  "auxiliary_fields": [
+    "train_w0",
+    "train_w1"
+  ],
+  "arrays": {
+    "train_p0": {
+      "shape": [
+        16384,
+        3
+      ],
+      "dtype": "float64",
+      "sha256": "b01f344499ea8b6bae5e349be6d39f611f90e3d6fe54720c5eae21cf555c9e42"
+    },
+    "train_w0": {
+      "shape": [
+        16384
+      ],
+      "dtype": "float64",
+      "sha256": "daf17c678b979bdef6037bd4bb32a223cf79b3b63c9fb74c33d667650c0a7c8d"
+    },
+    "train_p1": {
+      "shape": [
+        16384,
+        3
+      ],
+      "dtype": "float64",
+      "sha256": "a8eb7f4bd925bc618eff6c06881ffeb6b73276bc3e06929aba19044f515392f7"
+    },
+    "train_w1": {
+      "shape": [
+        16384
+      ],
+      "dtype": "float64",
+      "sha256": "fc4463a03dd086d47bcb2f7e11cbd5fbec40a24f9f74a907111c4204a1cf8fda"
+    },
+    "train_p10": {
+      "shape": [
+        16384,
+        3
+      ],
+      "dtype": "float64",
+      "sha256": "114470a717fbe1f2c20ab467b8672e75e6a74644ce149bb5938840293e084a86"
+    },
+    "train_w10": {
+      "shape": [
+        16384
+      ],
+      "dtype": "float64",
+      "sha256": "c2b5440655fb56a85fc8523355f87fc42b40759121ebd78a8d47c10654b68d89"
+    },
+    "validation_p0": {
+      "shape": [
+        4096,
+        3
+      ],
+      "dtype": "float64",
+      "sha256": "8836084b8537c769fea2038e99998e569927efdd1457416601fb64aedca4cf8b"
+    },
+    "validation_w0": {
+      "shape": [
+        4096
+      ],
+      "dtype": "float64",
+      "sha256": "ec0a94c2086ca10c3a37ac53927bd5cf937b2cf6d812055b7c34b673d17a304b"
+    },
+    "validation_p1": {
+      "shape": [
+        4096,
+        3
+      ],
+      "dtype": "float64",
+      "sha256": "0e82f0948d1c2138395c7601b9dd303c1531390558ef76c2e147998f0c60bc83"
+    },
+    "validation_w1": {
+      "shape": [
+        4096
+      ],
+      "dtype": "float64",
+      "sha256": "0df6f4a37e6b417c15ac3dc21601881d7986954aa567ceb596e61ceaf0aeb450"
+    },
+    "validation_p10": {
+      "shape": [
+        4096,
+        3
+      ],
+      "dtype": "float64",
+      "sha256": "3c0e6c7642b8f60c7b65ee4754b14d79bdf4154bf09f993873d1a75a31e7f178"
+    },
+    "validation_w10": {
+      "shape": [
+        4096
+      ],
+      "dtype": "float64",
+      "sha256": "f01fbf4b8164f8c034d77ded14d25b8537face18d949ba594376028a3ccc39cd"
+    },
+    "test_p0": {
+      "shape": [
+        4096,
+        3
+      ],
+      "dtype": "float64",
+      "sha256": "bba5538c52990a197c717c7904b3851c3b9dad88005cd12b60159f605b9fbb0e"
+    },
+    "test_w0": {
+      "shape": [
+        4096
+      ],
+      "dtype": "float64",
+      "sha256": "d6189c489b5ee4652496959b96d0ac545827d4a0c98f898db15ce460480c127c"
+    },
+    "test_p1": {
+      "shape": [
+        4096,
+        3
+      ],
+      "dtype": "float64",
+      "sha256": "f44629b330932b623f5a99e2aff9199fc575aaaf1f4f0a0dc2296a445423471d"
+    },
+    "test_w1": {
+      "shape": [
+        4096
+      ],
+      "dtype": "float64",
+      "sha256": "9356fcffee329bbaa3d18d9403af5e8743eb2a2f93ca7101b5dec63d9ffcf2b3"
+    },
+    "test_p10": {
+      "shape": [
+        4096,
+        3
+      ],
+      "dtype": "float64",
+      "sha256": "1a8c289b7468c771a561acc9c477db433116885cdc83421cb7a59a79812df091"
+    },
+    "test_w10": {
+      "shape": [
+        4096
+      ],
+      "dtype": "float64",
+      "sha256": "40c1e2bbb3413322f679870c97ec20f8587d031338aee3a8f26e25500d98a058"
+    }
+  },
+  "file": "trajectories.npz",
+  "sha256": "f8b38b285b988c684dd6edb017ed14946d525a175cb4ef24626010a15118406a"
+}

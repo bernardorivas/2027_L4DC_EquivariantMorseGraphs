@@ -1,0 +1,44 @@
+{
+  "sizes": [
+    16384,
+    4096,
+    4096
+  ],
+  "split_seeds": [
+    20261112,
+    20261113,
+    20261114
+  ],
+  "coordinates": [
+    "a",
+    "v1",
+    "v2",
+    "v3"
+  ],
+  "time_step": 1.0986122886681098,
+  "horizons": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10
+  ],
+  "training_horizons": [
+    0,
+    1
+  ],
+  "formula": "closed-form time-log(3) map of the vector field",
+  "sampling": "uniform a, r and direction; one eighth near a = 0, one eighth near r = 0, one quarter near the four equilibrium orbits, starts on the axes, and the four equilibrium orbits last",
+  "sha256": "cb49409551a55d500e70f1b88b5e5f75a628b3f2a52cace36801455b180522ed",
+  "array_sha256": {
+    "train_x": "29b1c6ed3e9c0e1838d41f50e62be28cbba2b4b6930a7560beac18af6aef10a6",
+    "validation_x": "1da5ff3f887b8367a8eb2c15381224c2d951ff6ded4516765460c0980399c0bf",
+    "test_x": "a54d683d3d03811de41389e26664255b2b5f846e183196079326d34a27ea5c9c"
+  }
+}

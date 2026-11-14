@@ -1,0 +1,158 @@
+{
+  "forecasts": {
+    "0": {
+      "orbit_rms": 0.00011664612821344139,
+      "orbit_maximum": 0.0007882916440238494
+    },
+    "1": {
+      "orbit_rms": 0.006467977599028016,
+      "orbit_maximum": 0.028034845638156877
+    },
+    "2": {
+      "orbit_rms": 0.0073390772760874,
+      "orbit_maximum": 0.04363580816180912
+    },
+    "3": {
+      "orbit_rms": 0.008409224463440161,
+      "orbit_maximum": 0.0592514461597573
+    },
+    "4": {
+      "orbit_rms": 0.010130864135880067,
+      "orbit_maximum": 0.08840471402678442
+    },
+    "5": {
+      "orbit_rms": 0.012149658386292669,
+      "orbit_maximum": 0.12076140524405374
+    },
+    "6": {
+      "orbit_rms": 0.015453933766282839,
+      "orbit_maximum": 0.15721334843618484
+    },
+    "7": {
+      "orbit_rms": 0.016998776326189156,
+      "orbit_maximum": 0.1957928024424143
+    },
+    "8": {
+      "orbit_rms": 0.016199565111692155,
+      "orbit_maximum": 0.2314568235325494
+    },
+    "9": {
+      "orbit_rms": 0.018881055225919346,
+      "orbit_maximum": 0.27157833544260923
+    },
+    "10": {
+      "orbit_rms": 0.01919716873405326,
+      "orbit_maximum": 0.30604452469276416
+    }
+  },
+  "sampled_encoder_invariance_error": 6.661338147750939e-16,
+  "invariance_by_rotation_and_reflection": [
+    6.661338147750939e-16,
+    4.440892098500626e-16
+  ],
+  "residual_rms": 0.005421391765665659,
+  "residual_maximum": 0.02288789083562939,
+  "minimum_sampled_encoder_singular_value": 0.8188141537937779,
+  "minimum_sampled_encoder_jacobian_determinant": 0.9997633683272893,
+  "maximum_sampled_encoder_jacobian_determinant": 0.9999469536020883,
+  "physical_anchor_names": [
+    "O",
+    "C",
+    "A-",
+    "A+"
+  ],
+  "encoded_anchors": [
+    [
+      0.0,
+      0.0
+    ],
+    [
+      0.0,
+      0.8188510350335467
+    ],
+    [
+      -1.2209794180409892,
+      0.0
+    ],
+    [
+      1.2210935747412897,
+      0.0
+    ]
+  ],
+  "anchor_time_residuals": [
+    0.0,
+    0.002502264357285733,
+    0.0003138718238264726,
+    0.0009957975179062384
+  ],
+  "observed_axis_fixed_points": [
+    {
+      "kind": "O",
+      "latent": [
+        0.0,
+        0.0
+      ],
+      "decoded_orbit": [
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "kind": "scalar",
+      "latent": [
+        -1.221335081160712,
+        0.0
+      ],
+      "decoded_orbit": [
+        -1.000235230977033,
+        0.0
+      ]
+    },
+    {
+      "kind": "scalar",
+      "latent": [
+        1.2222220076444814,
+        0.0
+      ],
+      "decoded_orbit": [
+        1.00089657989685,
+        0.0
+      ]
+    },
+    {
+      "kind": "radial",
+      "latent": [
+        0.0,
+        0.8215807340242754
+      ],
+      "decoded_orbit": [
+        0.0,
+        1.003376554190634
+      ]
+    }
+  ],
+  "support_code_range": [
+    [
+      -1.8314315816227096,
+      0.0
+    ],
+    [
+      1.8314745566235664,
+      1.2281503239626506
+    ]
+  ],
+  "support_source": "encoded training and validation trajectories, horizons 0 through 10",
+  "support_samples": 225280,
+  "test_code_covariance": [
+    [
+      0.8848511792367578,
+      0.005816705030697116
+    ],
+    [
+      0.005816705030697116,
+      0.16769096733204505
+    ]
+  ],
+  "validation_objective": 7.714736079988325e-05,
+  "evidence_status": "sampled numerical diagnostics; no global injectivity or transfer certificate"
+}

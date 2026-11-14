@@ -1,0 +1,64 @@
+{
+  "forecasts": {
+    "0": {
+      "height_rms": 0.00039468026170850584,
+      "orbit_chordal_rms": 0.00046878724903749936,
+      "height_maximum": 0.0007528908738024809
+    },
+    "1": {
+      "height_rms": 0.0028949199307010875,
+      "orbit_chordal_rms": 0.004298702221176671,
+      "height_maximum": 0.009727879514195514
+    },
+    "10": {
+      "height_rms": 0.010018616884146006,
+      "orbit_chordal_rms": 0.013824430186783676,
+      "height_maximum": 0.041408258859576
+    }
+  },
+  "sampled_encoder_invariance_error": 0.0,
+  "sampled_residual_rms": 0.002803085264510098,
+  "sampled_residual_maximum": 0.011138510674771118,
+  "sampled_time_ten_residual_rms": 0.010198637264670973,
+  "sampled_time_ten_residual_maximum": 0.04233192969001452,
+  "minimum_sampled_encoder_derivative": 0.5729242930554018,
+  "minimum_sampled_time_map_derivative": 0.6462900933839449,
+  "encoder_endpoints": [
+    -1.0,
+    1.0
+  ],
+  "time_map_endpoints": [
+    -1.0,
+    1.0
+  ],
+  "sampled_encoder_increasing": true,
+  "sampled_time_map_increasing": true,
+  "observed_sign_change_fixed_points": [
+    {
+      "latent": -1.0,
+      "physical_height": -1.0,
+      "decoded_height": -1.0
+    },
+    {
+      "latent": -0.5994217725553783,
+      "physical_height": -0.40002023580164886,
+      "decoded_height": -0.4003784553468947
+    },
+    {
+      "latent": -0.2628664075491034,
+      "physical_height": -0.00811602047618179,
+      "decoded_height": -0.008817309590979022
+    },
+    {
+      "latent": 0.1628657302205929,
+      "physical_height": 0.3944216002464026,
+      "decoded_height": 0.39480533021268294
+    },
+    {
+      "latent": 1.0,
+      "physical_height": 1.0,
+      "decoded_height": 1.0
+    }
+  ],
+  "evidence_status": "sampled diagnostics; no uniform residual certificate"
+}

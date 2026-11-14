@@ -1,0 +1,110 @@
+{
+  "seed": 0,
+  "policy": "coning",
+  "best_step": 6000,
+  "best_validation": 7.18928317656294e-06,
+  "seconds": 157.87413504198776,
+  "parameters": 20795,
+  "parameter_changes": {
+    "encoder": 4.818687915802002,
+    "axis_decoder": 4.7885565757751465,
+    "time_heads": 1.530128836631775,
+    "coordinate": 2.0267233848571777,
+    "orbit_decoder": 1.9245781898498535
+  },
+  "weights_sha256": "682f8d162c1c4b3b94da9095fa30f2a63c82af139f1452ebac02d2ccd31767e0",
+  "loss_names": [
+    "axis_reconstruction",
+    "axis_prediction",
+    "axis_calibration",
+    "physical_closure",
+    "orbit_reconstruction",
+    "orbit_prediction",
+    "quotient_consistency"
+  ],
+  "dtype": "float32",
+  "settings": {
+    "policies": [
+      "nominal",
+      "coning"
+    ],
+    "trajectories": {
+      "train": 8192,
+      "validation": 2048,
+      "test": 4096
+    },
+    "data_seeds": {
+      "train": 2026111311,
+      "validation": 2026111312,
+      "test": 2026111323
+    },
+    "intervals": 32,
+    "spacing": 0.1,
+    "integration_step": 0.002,
+    "width": 64,
+    "layers": 2,
+    "scalar_width": 24,
+    "knots": 33,
+    "boost_bound": 0.5,
+    "angle_bound": 1.0,
+    "coordinate_log_bound": 0.35,
+    "steps": 6000,
+    "warmup_steps": 1000,
+    "batch": 256,
+    "learning_rate_start": 0.002,
+    "learning_rate_end": 5e-05,
+    "validate_every": 250,
+    "weight_decay": 1e-06,
+    "gradient_clip": 1.0,
+    "horizons": [
+      0,
+      1,
+      4,
+      10
+    ],
+    "loss_weights": [
+      1.0,
+      3.0,
+      2.0,
+      0.5,
+      0.5,
+      0.5,
+      0.1
+    ],
+    "warmup_loss_weights": [
+      1.0,
+      0.0,
+      4.0,
+      0.0,
+      0.5,
+      0.0,
+      0.0
+    ],
+    "batch_seed": 10900,
+    "validation_window_seed": 8181,
+    "test_window_seed": 9191,
+    "cells": 128,
+    "iterates": 10,
+    "samples_per_cell": 257,
+    "padding": 2e-06,
+    "fresh_trajectories": 4096,
+    "fresh_seed": 2026111341,
+    "seeds": [
+      0,
+      1,
+      2,
+      3,
+      4
+    ]
+  },
+  "versions": {
+    "emlp": "1.0.3",
+    "objax": "1.8.0",
+    "jax": "0.4.38",
+    "jaxlib": "0.4.38",
+    "optax": "0.2.4",
+    "numpy": "2.3.5",
+    "scipy": "1.15.3",
+    "cmgdb": "1.5.3+fork.7"
+  }
+}

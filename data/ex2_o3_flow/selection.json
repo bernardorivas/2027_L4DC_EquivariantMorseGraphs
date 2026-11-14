@@ -1,0 +1,29 @@
+{
+  "all": {
+    "criterion": "lowest validation objective, before any CMGDB computation",
+    "selected": "seed1",
+    "ranking": [
+      {
+        "run": "seed1",
+        "validation": 5.3541442189061356e-05
+      },
+      {
+        "run": "seed0",
+        "validation": 5.9913462095417236e-05
+      },
+      {
+        "run": "seed4",
+        "validation": 7.09648315981386e-05
+      },
+      {
+        "run": "seed3",
+        "validation": 7.714736079988325e-05
+      },
+      {
+        "run": "seed2",
+        "validation": 0.00010134052425748436
+      }
+    ]
+  },
+  "failed": []
+}

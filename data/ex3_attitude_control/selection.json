@@ -1,0 +1,55 @@
+{
+  "nominal": {
+    "criterion": "lowest validation objective, before any CMGDB computation",
+    "selected": "nominal-seed0",
+    "ranking": [
+      {
+        "run": "nominal-seed0",
+        "validation": 2.029131039570247e-06
+      },
+      {
+        "run": "nominal-seed4",
+        "validation": 3.2348233245583885e-06
+      },
+      {
+        "run": "nominal-seed2",
+        "validation": 3.8030202930922623e-06
+      },
+      {
+        "run": "nominal-seed1",
+        "validation": 3.957353749581785e-06
+      },
+      {
+        "run": "nominal-seed3",
+        "validation": 5.265168778238897e-06
+      }
+    ]
+  },
+  "coning": {
+    "criterion": "lowest validation objective, before any CMGDB computation",
+    "selected": "coning-seed0",
+    "ranking": [
+      {
+        "run": "coning-seed0",
+        "validation": 7.18928317656294e-06
+      },
+      {
+        "run": "coning-seed3",
+        "validation": 8.35950955814097e-06
+      },
+      {
+        "run": "coning-seed2",
+        "validation": 9.32044475579849e-06
+      },
+      {
+        "run": "coning-seed1",
+        "validation": 9.825129784900686e-06
+      },
+      {
+        "run": "coning-seed4",
+        "validation": 0.8672508317133633
+      }
+    ]
+  },
+  "failed": []
+}

@@ -1,0 +1,136 @@
+{
+  "generator": "morsegraphs.attitude_control.generate_data",
+  "settings": {
+    "policies": [
+      "nominal",
+      "coning"
+    ],
+    "trajectories": {
+      "train": 8192,
+      "validation": 2048,
+      "test": 4096
+    },
+    "data_seeds": {
+      "train": 2026111311,
+      "validation": 2026111312,
+      "test": 2026111323
+    },
+    "intervals": 32,
+    "spacing": 0.1,
+    "integration_step": 0.002
+  },
+  "initialization": "eta = 0 with independent translation and heading; a quarter of the heights near the poles",
+  "integration": "fourth-order Runge-Kutta with quaternion normalization",
+  "observations": "p, v, the columns of R, Omega; the thrust axis is columns 12:15",
+  "split_rule": "independent complete trajectories",
+  "files": {
+    "nominal-train.npz": {
+      "policy": "nominal",
+      "split": "train",
+      "seed": 2026111311,
+      "trajectories": 8192,
+      "shape": [
+        8192,
+        33,
+        18
+      ],
+      "bytes": 38223193,
+      "sha256": "0605d9b527cf9e0e21cd3ba827d861971744039350a051513264ab169b22abfb",
+      "arrays": {
+        "observations": "36406e2735e684dbbbf3f979875cf2ac372a89a16f159e613a4d503ce0eb77c3",
+        "initial_state": "10d7fc0f34a3a60adffee60c822c1c4890431333afe7254b7ebe6394e566afe5",
+        "times": "320365808fa360b21a409b36282ae216462ae1c8bed6b6f6914c467ef87868c4"
+      }
+    },
+    "nominal-validation.npz": {
+      "policy": "nominal",
+      "split": "validation",
+      "seed": 2026111312,
+      "trajectories": 2048,
+      "shape": [
+        2048,
+        33,
+        18
+      ],
+      "bytes": 9552418,
+      "sha256": "5ffea67d149ac62458d2e6a078db75ad9b2ba079637de2993ff79f50f31758eb",
+      "arrays": {
+        "observations": "e207c0145d32d15d44855340656a14c28d7a9b7e622b072be494db355fdc20ad",
+        "initial_state": "6d453c621fb0b71d4565fed645341bdc61e66894cd881b3780daec697257e70e",
+        "times": "320365808fa360b21a409b36282ae216462ae1c8bed6b6f6914c467ef87868c4"
+      }
+    },
+    "nominal-test.npz": {
+      "policy": "nominal",
+      "split": "test",
+      "seed": 2026111323,
+      "trajectories": 4096,
+      "shape": [
+        4096,
+        33,
+        18
+      ],
+      "bytes": 19108865,
+      "sha256": "5d72f2ebe100334a7455007e09dc34ab552b261d31994f9d76ade31effebea25",
+      "arrays": {
+        "observations": "52519272b4ac0c786c040fdd69cbf9abaa45cfdda4a05154fae5f4f84fe34dea",
+        "initial_state": "53dd01660686c314ff5ceb2d8e30fb341baaac15bc6f0de35372eaf1b66522e0",
+        "times": "320365808fa360b21a409b36282ae216462ae1c8bed6b6f6914c467ef87868c4"
+      }
+    },
+    "coning-train.npz": {
+      "policy": "coning",
+      "split": "train",
+      "seed": 2026111311,
+      "trajectories": 8192,
+      "shape": [
+        8192,
+        33,
+        18
+      ],
+      "bytes": 38435299,
+      "sha256": "4ece231f0ee491681fc6a9281ac8939fe024f04cbacb1cb56eed6be26886c277",
+      "arrays": {
+        "observations": "87f8dad4d7ded71b151437b70f863b82bf5f5c4e462cbbf31d49df9bd29068d7",
+        "initial_state": "567f17969f79240534b6214a30ee187641791989e72ca8a12d0b2759e03461d6",
+        "times": "320365808fa360b21a409b36282ae216462ae1c8bed6b6f6914c467ef87868c4"
+      }
+    },
+    "coning-validation.npz": {
+      "policy": "coning",
+      "split": "validation",
+      "seed": 2026111312,
+      "trajectories": 2048,
+      "shape": [
+        2048,
+        33,
+        18
+      ],
+      "bytes": 9606573,
+      "sha256": "816e5300fb27b72d5a6d58dc0e2e36cc6829046f31a0e14ac5409dbdb3defdbd",
+      "arrays": {
+        "observations": "94dd7ca99453b29ba3a0ee58a651009ca215500a523b30a9ec909676616dc839",
+        "initial_state": "6649fa06bb659183c5caab32dc8f667059066476c5bb530a7842362d10f526c7",
+        "times": "320365808fa360b21a409b36282ae216462ae1c8bed6b6f6914c467ef87868c4"
+      }
+    },
+    "coning-test.npz": {
+      "policy": "coning",
+      "split": "test",
+      "seed": 2026111323,
+      "trajectories": 4096,
+      "shape": [
+        4096,
+        33,
+        18
+      ],
+      "bytes": 19215078,
+      "sha256": "80202008e63764f7df2229ebb153ecbbb71d7ecd3e7621d5796cb38d6d5eba57",
+      "arrays": {
+        "observations": "84e1125eeec8c9dc47dab914398260aaccd8dbd4608caad9b43c4652efcada2b",
+        "initial_state": "394601f72ad812dba9c6a00ca2d7741eead43e30d0ed84929f95fca167c36ce2",
+        "times": "320365808fa360b21a409b36282ae216462ae1c8bed6b6f6914c467ef87868c4"
+      }
+    }
+  }
+}
