@@ -228,135 +228,6 @@ def _plot_prediction(output, arrays):
         plt.close(fig)
 
 
-def _plot_blocks(output, arrays, checks, aggregate):
-    import matplotlib.pyplot as plt
-    from matplotlib.patches import Patch
-
-    colors = {"A-": "#0072B2", "A+": "#009E73"}
-    group_for_label = {"A-": 1, "A+": 3}
-    reverse_group = {
-        int(native): int(group)
-        for group, members in aggregate["groups"].items()
-        for native in members
-    }
-    native_rows = np.loadtxt(
-        output / "graph" / "rectangle-128-cells.csv", delimiter=",", ndmin=2
-    )
-    morse_intervals = {"A-": [], "A+": []}
-    for q_lo, q_hi, native_node in native_rows:
-        group = reverse_group[int(native_node)]
-        for label, target_group in group_for_label.items():
-            if group == target_group:
-                morse_intervals[label].append((float(q_lo), float(q_hi)))
-
-    with plt.rc_context(
-        {"font.family": "serif", "mathtext.fontset": "cm", "font.size": 12}
-    ):
-        fig, axes = plt.subplots(1, 2, figsize=(8.8, 3.5), layout="constrained")
-        axis = axes[0]
-        z_grid = np.linspace(-1, 1, 1201)
-        sphere_width = np.sqrt(np.maximum(0, 1 - z_grid**2))
-        for label, check in checks.items():
-            lo, hi = check["interval"]
-            z_lo, z_hi = sorted((_inverse_height(lo, arrays), _inverse_height(hi, arrays)))
-            mask = (z_grid >= z_lo) & (z_grid <= z_hi)
-            axis.fill_betweenx(
-                z_grid[mask],
-                -sphere_width[mask],
-                sphere_width[mask],
-                color=colors[label],
-                alpha=0.13,
-                linewidth=0,
-            )
-
-            for q_morse_lo, q_morse_hi in morse_intervals[label]:
-                z_morse_lo, z_morse_hi = sorted(
-                    (
-                        _inverse_height(q_morse_lo, arrays),
-                        _inverse_height(q_morse_hi, arrays),
-                    )
-                )
-                morse_mask = (z_grid >= z_morse_lo) & (z_grid <= z_morse_hi)
-                axis.fill_betweenx(
-                    z_grid[morse_mask],
-                    -sphere_width[morse_mask],
-                    sphere_width[morse_mask],
-                    color=colors[label],
-                    alpha=0.72,
-                    linewidth=0,
-                )
-                z_mid = (z_morse_lo + z_morse_hi) / 2
-                x_mid = float(np.sqrt(max(0, 1 - z_mid**2)))
-                latex_label = r"$A_{-}$" if label == "A-" else r"$A_{+}$"
-                axis.annotate(
-                    latex_label,
-                    xy=(x_mid * 0.92, z_mid),
-                    xytext=(1.13, z_mid + (-0.14 if label == "A-" else 0.14)),
-                    color=colors[label],
-                    ha="left",
-                    va="center",
-                    arrowprops={
-                        "arrowstyle": "->",
-                        "color": colors[label],
-                        "linewidth": 1.0,
-                        "connectionstyle": "arc3,rad=0.18",
-                    },
-                )
-
-        axis.add_patch(
-            plt.Circle((0, 0), 1, fill=False, edgecolor="0.58", linewidth=1.1)
-        )
-        axis.set(xlim=(-1.25, 1.25), ylim=(-1.08, 1.08), aspect="equal")
-        axis.axis("off")
-        axis.set_title(r"Preimages in $S^2$")
-
-        axis = axes[1]
-        axis.axhline(0, color="0.65", linewidth=1)
-        for label, check in checks.items():
-            lo, hi = check["interval"]
-            axis.fill_between([lo, hi], -0.10, 0.10, color=colors[label], alpha=0.16)
-            for q_morse_lo, q_morse_hi in morse_intervals[label]:
-                axis.plot(
-                    [q_morse_lo, q_morse_hi],
-                    [0, 0],
-                    color=colors[label],
-                    linewidth=6,
-                    solid_capstyle="butt",
-                )
-            latex_label = r"$A_{-}$" if label == "A-" else r"$A_{+}$"
-            axis.text(
-                np.mean(morse_intervals[label]),
-                0.16,
-                latex_label,
-                ha="center",
-                color=colors[label],
-            )
-        axis.set(
-            xlim=(-1.03, 1.03),
-            ylim=(-0.18, 0.30),
-            xticks=[-1, 0, 1],
-            yticks=[],
-            xlabel="$q$",
-        )
-        axis.set_title("Learned interval")
-        for side in ("left", "right", "top"):
-            axis.spines[side].set_visible(False)
-        axis.legend(
-            handles=[
-                Patch(facecolor="0.55", alpha=0.16, label="attracting block"),
-                Patch(facecolor="0.35", alpha=0.72, label="Morse set"),
-            ],
-            loc="lower center",
-            bbox_to_anchor=(0.5, -0.43),
-            frameon=False,
-            ncol=2,
-            fontsize=10,
-        )
-        for extension in ("png", "pdf", "svg"):
-            fig.savefig(output / f"pullback-blocks.{extension}", dpi=220, bbox_inches="tight")
-        plt.close(fig)
-
-
 def _inverse_height(q, arrays):
     """Invert the released monotone encoder along the reference meridian."""
     encoded = arrays["plot_encoded"]
@@ -634,7 +505,6 @@ def replay(checkpoint=DEFAULT_CHECKPOINT, output=DEFAULT_OUTPUT):
     )
     _write_json(output / "verification.json", verification)
     _plot_prediction(output, arrays)
-    _plot_blocks(output, arrays, checks, aggregate)
     _plot_reconstruction(output, arrays, aggregate)
     return verification
 
@@ -649,11 +519,8 @@ def show_dynamics(output=DEFAULT_OUTPUT):
 
 
 def show_pullback_check(verification, output=DEFAULT_OUTPUT):
-    """Display the two learned blocks and their residual--tolerance check."""
-    from IPython.display import HTML, Image, display
-
-    output = Path(output)
-    display(Image(filename=str(output / "pullback-blocks.png")))
+    """Display the sampled residual--tolerance comparison for both blocks."""
+    from IPython.display import HTML, display
     rows = []
     for label in ("A-", "A+"):
         check = verification["blocks"][label]
