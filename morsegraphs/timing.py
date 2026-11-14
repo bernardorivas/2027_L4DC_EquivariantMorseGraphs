@@ -1040,21 +1040,6 @@ def notebook_discussion(session):
     return _html_table(["Computation", "Section 6", "Measured", "Status"], rows, "Times quoted in Section 6")
 
 
-def notebook_plant_estimate():
-    """Display the arithmetic cost projection without evaluating any plant dynamics."""
-    path = REPOSITORY / "data/timings/plant-cost-estimate.json"
-    record = json.loads(path.read_text())
-    rows = []
-    for row in record["rows"]:
-        seconds = row["projected_map_plus_morse_s"]
-        years = row["projected_map_plus_morse_years"]
-        duration = (f"{seconds / 86400:.2g} days" if years < 1 else f"{years:.2g} years") + " (est.)"
-        face_count = f'{2 * row["intervals_per_axis"] + 1}^{record["intrinsic_dimension"]}'
-        rows.append([format_cells(row["intervals_per_axis"]), format_cells(row["cells"]), face_count,
-                     f'{row["hull_table_bytes"]:.3g} bytes (est.)', duration])
-    return _html_table(["Intervals per axis", "Top-dimensional cells V", "Full grid including faces C",
-                       "Image-hull table only", "Projected map + Morse"],
-                       rows, "Full 12-dimensional plant: arithmetic projection only, never run")
 
 
 def notebook_table(session):
