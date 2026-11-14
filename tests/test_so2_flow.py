@@ -1,5 +1,7 @@
 """Section 5.1: the reference map and its graph, the data generator, the networks and training."""
 import copy
+from pathlib import Path
+import json
 
 import numpy as np
 import objax
@@ -21,6 +23,16 @@ def model():
     objax.random.DEFAULT_GENERATOR.seed(0)
     options = so2_flow.DEFAULTS["training"]
     return so2_flow.SphereInterval(options["width"], options["layers"], options["hidden"])
+
+
+@pytest.fixture(scope="module")
+def fitted():
+    """The selected fit of data/ex1_so2_flow, whose encoder is increasing."""
+    folder = Path(__file__).resolve().parents[1] / "data/ex1_so2_flow"
+    if not (folder / "selection.json").exists():
+        pytest.skip("no stored fit")
+    selected = json.loads((folder / "selection.json").read_text())["all"]["selected"]
+    return so2_flow.load(folder / "models" / selected)
 
 
 def height_flow(z, duration):
@@ -107,18 +119,20 @@ def test_networks_are_invariant_and_fix_the_poles(model):
     code = maps["encode"](p)
     for angle in (.3, 2.1, -1.4):
         assert np.allclose(maps["encode"](so2_flow.rotate(p, angle)), code, rtol=0, atol=1e-12)
-    assert np.all(np.abs(code) < 1)
-    assert maps["encode"](np.array([[0., 0., -1.], [0., 0., 1.]])).tolist() == [-1., 1.]
+    assert np.allclose(maps["encode"](np.array([[0., 0., -1.], [0., 0., 1.]])), [-1., 1.], rtol=0, atol=1e-15)
     for name in ("decode", "advance", "time_ten"):
         assert maps[name](np.array([-1., 1.])).tolist() == [-1., 1.]
     assert np.allclose(maps["height_map"](p[:, 2]), maps["encode"](so2_flow.meridian(p[:, 2])))
 
 
-def test_learned_graph_and_regions_run(model):
+def test_learned_graph_and_regions_run(fitted):
+    model = fitted
     settings = copy.deepcopy(so2_flow.DEFAULTS)
     settings["analysis"].update(cells=16, image_samples=5, region_samples=129, pole_samples_per_end=8)
     graph, merged = so2_flow.learned_graph(model, settings)
-    assert merged is None and len(graph.boxes) == 16 and np.all(np.abs(graph.images) <= 1)
+    assert len(graph.boxes) == 16 and np.all(np.abs(graph.images) <= 1)
+    if merged is not None:
+        assert {row["role"] for row in merged.nodes} == set(so2_flow.REFERENCE_HEIGHTS)
     rows, details = so2_flow.attracting_regions(model, graph, settings)
     assert [row["metric"] for row in rows] == ["euclidean"] * len(graph.minimal) + ["chordal"] * len(graph.minimal)
     assert details["labels"].shape == (16,) and len(details["codes"]) == 129 + 16

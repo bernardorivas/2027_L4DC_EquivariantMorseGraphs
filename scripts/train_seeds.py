@@ -25,8 +25,8 @@ EXAMPLES = {"ex1_so2_flow": ("so2_flow", "float64"),
 VARIANTS = {"ex3_attitude_control": ("policy", ("nominal", "coning"))}
 
 
-def settings_of(example, module):
-    path = ROOT / "data" / example / "config.json"
+def settings_of(example, module, config=None):
+    path = Path(config) if config else ROOT / "data" / example / "config.json"
     return json.loads(path.read_text()) if path.exists() else module.DEFAULTS
 
 
@@ -54,7 +54,7 @@ def child(args):
     name, precision = EXAMPLES[args.example]
     choice = device.configure(precision, args.device)
     module = importlib.import_module(f"morsegraphs.{name}")
-    settings = settings_of(args.example, module)
+    settings = settings_of(args.example, module, args.config)
     options = settings.get("training", settings)  # Section 5.3 keeps its training settings at the top level
     if args.steps is not None:
         options["steps"] = args.steps
@@ -78,6 +78,7 @@ def main():
     parser.add_argument("--steps", type=int, help="training updates; the default is the example's config")
     parser.add_argument("--device", choices=("cuda", "cpu"), help="the default tries MPS, CUDA, then CPU")
     parser.add_argument("--out", type=Path)
+    parser.add_argument("--config", type=Path, help="settings to use instead of data/<example>/config.json")
     parser.add_argument("--child", action="store_true", help=argparse.SUPPRESS)
     parser.add_argument("--run", help=argparse.SUPPRESS)
     args = parser.parse_args()
@@ -100,6 +101,8 @@ def main():
                 command += ["--steps", str(args.steps)]
             if args.device is not None:
                 command += ["--device", args.device]
+            if args.config is not None:
+                command += ["--config", str(args.config.resolve())]
             log = open(args.out / f"{run['name']}.log", "w")
             active.append((run, subprocess.Popen(command, stdout=log, stderr=subprocess.STDOUT), log))
         time.sleep(2)

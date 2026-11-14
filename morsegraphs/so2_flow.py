@@ -66,6 +66,7 @@ DEFAULTS = {
         "validate_every": 100,
     },
     "recipe": {
+        "encoder": "calibrated",
         "encoder_shift_bound": 0.35,
         "decoder_shift_bound": 0.35,
         "time_shift_bound": 1.4,
@@ -340,35 +341,65 @@ class SphereInterval(objax.Module):
     def encoder_shift(self, p):
         return self.recipe["encoder_shift_bound"] * jnp.tanh(self.encoder(p)[..., 0])
 
+    def calibrated(self):
+        return self.recipe.get("encoder", "height_shift") == "calibrated"
+
+    def _eta(self, p):
+        """The invariant network with values in (-1, 1), and its values at the poles."""
+        eta = jnp.tanh(self.encoder(p)[..., 0])
+        top, bottom = jnp.tanh(self.encoder(jnp.array([[0., 0., 1.], [0., 0., -1.]]))[..., 0])
+        return eta, top, bottom
+
     def encode(self, p):
+        if self.calibrated():
+            # E = (eta - c)/b sends the poles, the points fixed by the group, to -1 and 1.
+            eta, top, bottom = self._eta(p)
+            return 2 * (eta - bottom) / (top - bottom) - 1
         return move(p[..., 2], self.encoder_shift(p))
 
+    def encoded_log_latitude(self, p, w):
+        """arctanh(E(p)), for a state p of log latitude w = arctanh(z)."""
+        if self.calibrated():
+            # Before training the network need not increase with the height, so E can leave
+            # (-1, 1); the floor keeps the objective finite until the ordering penalty acts.
+            eta, top, bottom = self._eta(p)
+            floor, sign = 1e-12, jnp.sign(top - bottom)  # (1 + E)/(1 - E) = (eta - bottom)/(top - eta)
+            return .5 * (jnp.log(jnp.maximum(sign * (eta - bottom), floor))
+                         - jnp.log(jnp.maximum(sign * (top - eta), floor)))
+        return w + self.encoder_shift(p)
+
     def decoder_shift(self, u):
-        return self.recipe["decoder_shift_bound"] * jnp.tanh(self.decoder(u[..., None])[..., 0])
+        raw = self.decoder(u[..., None])[..., 0]
+        bound = self.recipe["decoder_shift_bound"]
+        return raw if bound is None else bound * jnp.tanh(raw)  # None: no bound
 
     def decode(self, u):
         return move(u, self.decoder_shift(u))
 
     def time_shift(self, u):
-        return self.recipe["time_shift_bound"] * jnp.tanh(self.dynamics(u[..., None])[..., 0])
+        raw = self.dynamics(u[..., None])[..., 0]
+        bound = self.recipe["time_shift_bound"]
+        return raw if bound is None else bound * jnp.tanh(raw)  # None: no bound
 
     def advance(self, u):
         return move(u, self.time_shift(u))
 
 
 def objective(model, p0, p1, w0, w1):
-    """Orbit reconstruction, orbit prediction and latent consistency, with an ordering penalty.
+    """Orbit reconstruction, orbit prediction and consistency, with an ordering penalty.
 
     The orbit distance is that of the circles of latitude, (z - z*)^2 + (r - r*)^2,
     plus a multiple of the squared error in log latitude; the losses are evaluated in
-    log latitude before returning to heights.
+    log latitude before returning to heights. The recipe's `consistency_metric` measures
+    consistency between f(E(x)) and E(F(x)) in the latent coordinate ("latent") or,
+    after decoding, in the orbit metric ("orbit").
     """
-    e0 = w0 + model.encoder_shift(p0)
+    e0 = model.encoded_log_latitude(p0, w0)
     u0 = jnp.tanh(e0)
     reconstructed = e0 + model.decoder_shift(u0)
     predicted = e0 + model.time_shift(u0)
     decoded_prediction = predicted + model.decoder_shift(jnp.tanh(predicted))
-    e1 = w1 + model.encoder_shift(p1)
+    e1 = model.encoded_log_latitude(p1, w1)
 
     def orbit_error(a, b):
         return jnp.mean((jnp.tanh(a) - jnp.tanh(b))**2 +
@@ -376,8 +407,13 @@ def objective(model, p0, p1, w0, w1):
 
     reconstruction = orbit_error(reconstructed, w0)
     prediction = orbit_error(decoded_prediction, w1)
-    consistency = jnp.mean((jnp.tanh(predicted) - jnp.tanh(e1))**2
-                           + model.recipe["consistency_log_weight"] * (predicted - e1)**2)
+    if model.recipe.get("consistency_metric", "latent") == "orbit":
+        # Compare f(E(x)) with E(F(x)) after decoding, in the orbit metric: the objective
+        # then does not depend on how E parametrizes the interval.
+        consistency = orbit_error(decoded_prediction, e1 + model.decoder_shift(jnp.tanh(e1)))
+    else:
+        consistency = jnp.mean((jnp.tanh(predicted) - jnp.tanh(e1))**2
+                               + model.recipe["consistency_log_weight"] * (predicted - e1)**2)
     # An increasing encoder is a condition for using the learned interval as orbit coordinates.
     z = jnp.linspace(*model.recipe["ordering_domain"], model.recipe["ordering_points"])
     differences = jnp.diff(model.encode(meridian(z))) / jnp.diff(z)
@@ -587,19 +623,57 @@ def diagnostics(model, data):
 
 # Morse graphs and attracting regions.
 
+REFERENCE_HEIGHTS = {"S": -1., "A-": -.4, "C": 0., "A+": .4, "N": 1.}
+
+
+def roles(model, graph, radius=4):
+    """Give each Morse set the reference invariant set it lies next to.
+
+    The reference sets are the poles S and N, the attracting latitudes A- and A+ and the
+    equator C, at the heights of REFERENCE_HEIGHTS, whose codes are E of those latitudes. A
+    Morse set takes the role of the nearest code when all its cells lie within `radius`
+    cells of it, and None otherwise. Returns {node: role}.
+    """
+    height_map = functions(model)["height_map"]
+    codes = {name: float(np.asarray(height_map(np.array([height]))).ravel()[0])
+             for name, height in REFERENCE_HEIGHTS.items()}
+    side = float(graph.boxes[0, 1] - graph.boxes[0, 0])
+    result = {}
+    for row in graph.nodes:
+        centers = graph.boxes[row["cell_ids"]].mean(axis=1)
+        distance = {name: np.abs(centers - code).max() / side for name, code in codes.items()}
+        name = min(distance, key=distance.get)
+        result[row["node"]] = name if distance[name] < radius else None
+    return result
+
+
 def learned_graph(model, settings=DEFAULTS):
-    """The Morse graph of f^10 on the grid of the paper, from sampled image hulls.
+    """The Morse graph of f^10 on the grid of the paper, from sampled image hulls, and its
+    merged graph.
 
     Each hull contains the images of `image_samples` equally spaced points of the cell,
-    its endpoints included, padded by `image_padding` and cut at the poles. Section 5.1
-    prescribes no merging, so the second value is None.
+    its endpoints included, padded by `image_padding` and cut at the poles. The Morse sets
+    that lie next to the same reference invariant set (`roles`) are merged with all cells
+    on paths between them, and CMGDB recomputes the index of the merged set; the merged
+    graph is None when a Morse set lies next to no reference set or a reference set has
+    no Morse set. Each node of the merged graph carries its role.
     """
     analysis = settings["analysis"]
     time_map = functions(model, analysis["time_map_iterates"])["time_ten"]
     boxes = grids.cells(analysis["cells"], LOWER, UPPER)
     images = grids.sampled_hulls(lambda u: _batched(time_map, u[:, 0])[:, None], boxes,
                                  analysis["image_samples"], analysis["image_padding"], LOWER, UPPER)
-    return grids.morse_graph(boxes, images), None
+    raw = grids.morse_graph(boxes, images)
+    role = roles(model, raw)
+    for row in raw.nodes:
+        row["role"] = role[row["node"]]
+    if None in role.values() or set(role.values()) != set(REFERENCE_HEIGHTS):
+        return raw, None
+    groups = [[node for node, name in role.items() if name == reference] for reference in REFERENCE_HEIGHTS]
+    merged = grids.merge(raw, groups)
+    for row in merged.nodes:
+        row["role"] = role[row["original_nodes"][0]]
+    return raw, merged
 
 
 def lifted_grid(model, settings=DEFAULTS):
