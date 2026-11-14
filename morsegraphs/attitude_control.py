@@ -1167,8 +1167,8 @@ def attracting_regions(model, graph, data=None, metric="chordal", samples=None):
 # Names, colors and indices in X.
 
 EXAMPLE = "ex3_attitude_control"
-DISPLAY = {"-e3": "−e₃", "e3": "e₃"}
-MATH = {"-e3": "$-e_3$", "e3": "$e_3$"}
+DISPLAY = {"-e3": "S", "e3": "N"}  # the poles -e3 and e3, labeled as on the sphere
+MATH = {"-e3": "$S$", "e3": "$N$"}
 # Colors follow the dynamical role of a Morse set through the keys of `plotting.ROLE`: the attractor
 # (e3 for the nominal gain, the latitude C for the coning gain) is green like an attracting latitude,
 # the repelling poles are vermilion (-e3) and orange (e3 for the coning gain), and any other Morse set
@@ -1434,6 +1434,9 @@ def reference_record(folder):
     return example_record(system_record(), selected_analyses(folder))
 
 
+RELATIVE_TOLERANCE = 1e-6
+
+
 def differences(computed, saved, rel=1e-9, skip=("versions",)):
     """Compare two records: numbers to relative tolerance `rel`, everything else exactly.
 
@@ -1612,19 +1615,6 @@ def figure_attitude(analysis, folder):
     return [graph_panel(graph, policy, annotations, target / "learned-quotient"),
             sphere_panel(bands(analysis.latent_heights(graph), colors), target / "learned-sphere", SPHERE_MAIN),
             graph_panel(graph, policy, in_X, target / "learned-reconstructed")]
-
-
-def figure_raw_region(analysis, folder):
-    """Panels outside the manuscript: the raw learned Morse graph of a gain with CMGDB's indices
-    (`attitude/<gain>/learned-raw-quotient`) and, on the latent sphere, its Morse sets with the
-    attracting region of its minimal Morse set (`learned-raw-sphere`). For the coning gain this is
-    the region of the minimal Morse set C alone, without the merge. Returns the two PDF paths."""
-    policy, graph = analysis.policy, analysis.raw
-    target = Path(folder) / "attitude" / policy
-    colors = cell_colors(graph, policy, analysis.raw_regions["labels"])
-    return [graph_panel(graph, policy, {row["node"]: row["annotations"] for row in graph.nodes},
-                        target / "learned-raw-quotient"),
-            sphere_panel(bands(analysis.latent_heights(graph), colors), target / "learned-raw-sphere", SPHERE_MAIN)]
 
 
 def figure_appendix_spheres(analysis, folder):
@@ -2004,11 +1994,6 @@ class Notebook:
         self._show(figure_attitude(self._analysis("coning"), self.out / "figures"),
                    ["(a) Computed in [−1, 1]", "(b) Pullback of attracting blocks", "(c) Reconstructed in S²"])
 
-    def figure_coning_raw(self):
-        """The raw coning graph and the attracting region of its minimal Morse set C, outside the manuscript."""
-        self._show(figure_raw_region(self._analysis("coning"), self.out / "figures"),
-                   ["Raw graph, computed in [−1, 1]", "Region of the minimal Morse set C of the raw graph"], width=7.)
-
     def figure_appendix_spheres(self):
         """fig:appendix-notebook-attitude."""
         self._show([figure_appendix_spheres(self._analysis(policy), self.out / "figures") for policy in POLICIES],
@@ -2035,10 +2020,11 @@ class Notebook:
         record = self.record()
         training.write(self.out / "results.json", record)
         reference = self.folder / "reference" / "results.json"
-        count, found = differences(record, training.read(reference))
+        # float32 results agree to about 1e-7 across platforms, not to the last digit
+        count, found = differences(record, training.read(reference), rel=RELATIVE_TOLERANCE)
         graphs = sum(len(record[policy]["graphs"]) for policy in POLICIES)
         self._check = dict(mode=self.mode, reference=self.rel(reference), numbers=count, graphs=graphs,
-                           relative_tolerance=1e-9, differences=len(found), first_differences=found[:20],
+                           relative_tolerance=RELATIVE_TOLERANCE, differences=len(found), first_differences=found[:20],
                            passed=not found)
         if found and self.mode == "replay":
             raise AssertionError(f"The replay differs from {self.rel(reference)} in {len(found)} places: {found[:5]}")
@@ -2046,7 +2032,7 @@ class Notebook:
             return Line(f"Train mode: {len(found)} of the values differ from {self.rel(reference)} (informational; "
                         f"this run's record is {self.rel(self.out / 'results.json')}).")
         return Line(f"{self.mode.capitalize()} check passed: {count} numbers and {graphs} Morse graphs agree with "
-                    f"{self.rel(reference)} (graphs exactly, numbers to relative tolerance 1e-9).")
+                    f"{self.rel(reference)} (graphs exactly, numbers to relative tolerance {RELATIVE_TOLERANCE:g}).")
 
     def summary(self):
         """Every quantity that the manuscript states for Section 5.3, computed, next to its current value."""

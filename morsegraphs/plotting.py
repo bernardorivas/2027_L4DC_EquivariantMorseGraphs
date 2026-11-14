@@ -5,11 +5,15 @@ titles or legends, which the manuscript sets in LaTeX. A Morse set is colored by
 in the example (an attractor, a repeller, a saddle orbit), through the map `ROLE`, so the
 same invariant set keeps its color in every figure whatever its number in a computed graph.
 """
+import logging
 from pathlib import Path
 import subprocess
 import tempfile
 
 import numpy as np
+
+# fontTools logs a warning about font timestamps whenever Matplotlib embeds a font in a PDF.
+logging.getLogger("fontTools").setLevel(logging.ERROR)
 
 INK, GRAPHITE, GRAY, LIGHT, WHITE = "#1a1a1a", "#4d4d4d", "#8c8c8c", "#d9d9d9", "#ffffff"
 BLUE, VERMILION, GREEN, PURPLE, ORANGE, SKY, OCHRE = (
@@ -87,7 +91,7 @@ def graph(nodes, edges, path, scale=0.55):
     """
     path = Path(path).with_suffix(".pdf")
     path.parent.mkdir(parents=True, exist_ok=True)
-    lines = ['digraph {', '  graph [margin="0", pad="0.04", ranksep="0.3", nodesep="0.25"];',
+    lines = ['digraph {', '  graph [margin="0", pad="0.04", ranksep="0.3", nodesep="0.12"];',
              f'  node [shape=ellipse, style=filled, fontname="Times-Roman", fontsize=14, fontcolor="{INK}", '
              f'penwidth="{NODE_STROKE_PT / scale:.3f}"];',
              f'  edge [color="{GRAPHITE}", penwidth="{EDGE_STROKE_PT / scale:.3f}", arrowsize=0.7];']
