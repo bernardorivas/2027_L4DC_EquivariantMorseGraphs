@@ -30,7 +30,30 @@
    "cells": 19342813113834066795298816,
    "hull_table_bytes": 3713820117856140824697372672,
    "projected_map_plus_morse_s": 4.710656042710388e+19,
-   "projected_map_plus_morse_years": 1492716823430.9287
+   "projected_map_plus_morse_years": 1492716823430.9287,
+   "full_grid_cells_all_dimensions": 83022819845310162051379891201
   }
- ]
+ ],
+ "cell_count_interpretation": "The cells field counts top-dimensional grid cubes, which are the vertices of the full grid graph. Lower-dimensional faces are counted separately for a cubical chain complex.",
+ "complexity": {
+  "scc": "Tarjan SCC extraction is O(V+E) for a supplied directed graph with V vertices and E edges. Graph construction and the further reachability calculations are separate costs.",
+  "ordinary_homology": "Over the fixed field F_5, classical dense boundary-matrix elimination has an O(C^3) arithmetic bound, with C the number of explicitly represented cells across all dimensions. This is not a complexity bound for the whole CMGDB Conley-index pipeline.",
+  "full_grid_cells_formula": "V=m^d top-dimensional cells; C=(2*m+1)^d cells including all faces of the full nonperiodic box grid. Actual index pairs can be smaller.",
+  "dimension_growth": "For fixed m, these cell counts and the classical cubic algebraic bound grow singly exponentially in d.",
+  "double_exponential_scope": "Double-exponential configuration growth concerns the AS3 precomputed lookup tables in the cited coreduction paper, not generic cubical homology.",
+  "sources": [
+   {
+    "title": "Depth-First Search and Linear Graph Algorithms",
+    "url": "https://epubs.siam.org/doi/10.1137/0201010"
+   },
+   {
+    "title": "Computing Homology",
+    "url": "https://math.uchicago.edu/~shmuel/AAT-readings/Data%20Analysis%20/Mischaikow,%20computing%20homology....pdf"
+   },
+   {
+    "title": "Coreduction Homology Algorithm",
+    "url": "https://ww2.ii.uj.edu.pl/~mrozek/papers/coreduction-homology-algorithm-3.pdf"
+   }
+  ]
+ }
 }
